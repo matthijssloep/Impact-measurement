@@ -65,3 +65,13 @@ def test_overton_identifiers_prefer_doi_then_pmid():
     ids = overton_identifiers(table)
     assert ids.identifier.tolist() == ["10.1/a", "2"]
     assert ids.identifier_type.tolist() == ["DOI", "PMID"]
+
+
+def test_overton_identifiers_avoid_brackets():
+    from impact.export import overton_identifiers
+    table = pd.DataFrame({"doi": ["10.1016/s1470-2045(09)70353-5", "10.1016/s0140-6736(10)1"],
+                          "pmid": ["19000001", None], "source": ["KWF"] * 2, "year": [2010] * 2,
+                          "goals": ["", ""], "openalex_id": ["W1", "W2"], "title": ["a", "b"]})
+    ids = overton_identifiers(table)
+    assert ids.identifier.tolist() == ["19000001", "10.1016/s0140-6736(10)1"]
+    assert ids.identifier_type.tolist() == ["PMID", "DOI"]

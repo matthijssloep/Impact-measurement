@@ -100,7 +100,7 @@ identifier,identifier_type,source,year,goals,openalex_id,title
 10.1016/j.vaccine.2010.04.033,DOI,KWF,2010,,W2037975543,Role of T cell competition in the induction of cytotoxic T lymphocyte activity during viral vector-based immunization regimens
 10.1016/j.vetmic.2010.02.017,DOI,KWF,2010,,W2023450134,Herpesviruses and immunity: The art of evasion
 10.1016/s1359-6349(10)70555-3,DOI,IKNL,2010,G11,W2084628226,534 Individualized breast cancer follow-up; cost-effectiveness of various scenarios
-10.1016/s1470-2045(09)70353-5,DOI,KWF,2010,G09,W2156074429,PET-CT for response assessment and treatment adaptation in head and neck cancer
+20226735,PMID,KWF,2010,G09,W2156074429,PET-CT for response assessment and treatment adaptation in head and neck cancer
 10.1021/ac100448p,DOI,KWF,2010,,W1975903162,In Vivo Bladder Cancer Diagnosis by High-Volume Raman Spectroscopy
 10.1021/bc900465y,DOI,KWF,2010,,W2095757045,Stabilized111In-Labeled sCCK8 Analogues for Targeting CCK2-Receptor Positive Tumors: Synthesis and Evaluation
 10.1037/a0017806,DOI,KWF,2010,G10;G15,W2149094071,Identification and prediction of distress trajectories in the first year after a breast cancer diagnosis.
@@ -413,8 +413,8 @@ identifier,identifier_type,source,year,goals,openalex_id,title
 10.1016/j.virol.2011.11.006,DOI,KWF,2011,,W1997612801,Methylation status of the E2 binding sites of HPV16 in cervical lesions determined with the Luminex® xMAP™ system
 10.1016/j.ydbio.2011.10.029,DOI,KWF,2011,,W2058357258,The thrombospondin repeat containing protein MIG-21 controls a left–right asymmetric Wnt signaling response in migrating C. elegans neuroblasts
 10.1016/j.ygyno.2011.06.015,DOI,KWF,2011,,W1984910916,Promoter methylation analysis of WNT/β-catenin signaling pathway regulators to detect adenocarcinoma or its precursor lesion of the cervix
-10.1016/s1470-2045(11)70045-6,DOI,KWF,2011,G10;G13,W2141257680,Efficacy and safety of palliative chemotherapy for patients with advanced breast cancer pretreated with anthracyclines and taxanes: a systematic review
-10.1016/s1470-2045(11)70097-3,DOI,KWF,2011,G10,W2106014206,"Preoperative radiotherapy combined with total mesorectal excision for resectable rectal cancer: 12-year follow-up of the multicentre, randomised controlled TME trial"
+21621462,PMID,KWF,2011,G10;G13,W2141257680,Efficacy and safety of palliative chemotherapy for patients with advanced breast cancer pretreated with anthracyclines and taxanes: a systematic review
+21596621,PMID,KWF,2011,G10,W2106014206,"Preoperative radiotherapy combined with total mesorectal excision for resectable rectal cancer: 12-year follow-up of the multicentre, randomised controlled TME trial"
 10.1021/jm200310q,DOI,KWF,2011,,W2001104096,Structure-Based Design of Novel Boronic Acid-Based Inhibitors of Autotaxin
 10.1021/mp200014h,DOI,KWF,2011,G09,W1970447441,99mTechnetium-HYNIC(tricine/TPPTS)-Aca-Bombesin(7–14) as a Targeted Imaging Agent with MicroSPECT in a PC-3 Prostate Cancer Xenograft Model
 10.1037/a0021536,DOI,KWF,2011,,W1998950600,The tenacious goal pursuit and flexible goal adjustment scales: A validation study.
@@ -700,7 +700,7 @@ identifier,identifier_type,source,year,goals,openalex_id,title
 10.1016/j.ymeth.2012.05.005,DOI,KWF,2012,,W2126242846,The challenge of gene expression profiling in heterogeneous clinical samples
 10.1016/s0959-8049(12)70053-9,DOI,KWF,2012,G10,W1968896632,E2. Controversial issues in the surgical management of the elderly breast cancer patient
 10.1016/s0959-8049(12)70371-4,DOI,IKNL,2012,G10,W2328429830,305 A Validated Web-based Nomogram for Predicting Positive Surgical Margins in Breast-conserving Therapy
-10.1016/s1470-2045(12)70395-9,DOI,KWF,2012,,W2140377768,Novel diagnostic modalities for assessment of the clinically node-negative neck in oral squamous-cell carcinoma
+23182196,PMID,KWF,2012,,W2140377768,Novel diagnostic modalities for assessment of the clinically node-negative neck in oral squamous-cell carcinoma
 10.1017/s0031182012001576,DOI,KWF,2012,,W2132039494,"Intestinal schistosomiasis in chimpanzees on Ngamba Island, Uganda: observations on liver fibrosis, schistosome genetic diversity and praziquantel treatment"
 10.1021/mp2004143,DOI,KWF,2012,,W2321752808,Probing the Specificity and Activity Profiles of the Proteasome Inhibitors Bortezomib and Delanzomib
 10.1021/mp300108c,DOI,KWF,2012,,W2323482778,Organic Anion-Transporting Polypeptides 1a/1b Control the Hepatic Uptake of Pravastatin in Mice
@@ -1028,7 +1028,7 @@ identifier,identifier_type,source,year,goals,openalex_id,title
 10.1016/j.rmed.2013.08.014,DOI,KWF,2013,G01,W1965951419,Discriminating dominant computed tomography phenotypes in smokers without or with mild COPD
 10.1016/j.stem.2013.08.001,DOI,KWF,2013,,W2153618863,Continuous Clonal Labeling Reveals Small Numbers of Functional Stem Cells in Intestinal Crypts and Adenomas
 10.1016/j.ygyno.2013.09.007,DOI,KWF,2013,G10;G12,W2106619772,Multimodal surgical guidance towards the sentinel node in vulvar cancer
-10.1016/s1470-2045(13)70292-4,DOI,KWF,2013,G09,W2165946747,PET imaging of oestrogen receptors in patients with breast cancer
+24079874,PMID,KWF,2013,G09,W2165946747,PET imaging of oestrogen receptors in patients with breast cancer
 10.1017/s1368980013002966,DOI,KWF,2013,G06;G02,W2110790684,Adherence to the Dutch Guidelines for a Healthy Diet and cancer risk in the European Prospective Investigation into Cancer and Nutrition–Netherlands (EPIC-NL) cohort
 10.1021/ac401798v,DOI,KWF,2013,G08,W2171695015,Multiplex Blood Reporters for Simultaneous Monitoring of Cellular Processes
 10.1038/bcj.2013.28,DOI,KWF,2013,,W2095737226,High prevalence of oncogenic MYD88 and CD79B mutations in diffuse large B-cell lymphomas presenting at immune-privileged sites
@@ -1362,8 +1362,8 @@ identifier,identifier_type,source,year,goals,openalex_id,title
 10.1016/j.ygyno.2014.08.005,DOI,KWF,2014,G10,W2045181039,Real-time near-infrared fluorescence guided surgery in gynecologic oncology: A review of the current state of the art
 10.1016/j.ygyno.2014.09.016,DOI,IKNL+KWF,2014,G15;G10,W1997441321,Chemotherapy-induced peripheral neuropathy and its impact on health-related quality of life among ovarian cancer survivors: Results from the population-based PROFILES registry
 10.1016/j.ymeth.2014.05.003,DOI,KWF,2014,,W2091442434,Biallelic targeting of expressed genes in mouse embryonic stem cells using the Cas9 system
-10.1016/s0140-6736(14)61085-0,DOI,IKNL+KWF,2014,G10,W2154323253,Use of thoracic radiotherapy for extensive stage small-cell lung cancer: a phase 3 randomised controlled trial
-10.1016/s1470-2045(14)70314-6,DOI,KWF,2014,,W2165772224,Single-agent bevacizumab or lomustine versus a combination of bevacizumab plus lomustine in patients with recurrent glioblastoma (BELOB trial): a randomised controlled phase 2 trial
+25230595,PMID,IKNL+KWF,2014,G10,W2154323253,Use of thoracic radiotherapy for extensive stage small-cell lung cancer: a phase 3 randomised controlled trial
+25035291,PMID,KWF,2014,,W2165772224,Single-agent bevacizumab or lomustine versus a combination of bevacizumab plus lomustine in patients with recurrent glioblastoma (BELOB trial): a randomised controlled phase 2 trial
 10.1021/cb500455g,DOI,KWF,2014,,W2132295492,Polymer-Based Synthetic Dendritic Cells for Tailoring Robust and Multifunctional T Cell Responses
 10.1038/bcj.2014.5,DOI,KWF,2014,,W2018101137,Interference with pre-B-cell receptor signaling offers a therapeutic option for TCF3-rearranged childhood acute lymphoblastic leukemia
 10.1038/bjc.2013.769,DOI,KWF,2014,,W1964176895,FGF receptor genes and breast cancer susceptibility: results from the Breast Cancer Association Consortium
@@ -1809,9 +1809,9 @@ identifier,identifier_type,source,year,goals,openalex_id,title
 10.1016/j.ygyno.2015.04.034,DOI,KWF,2015,G10;G15,W1901056508,No clinical utility of KRAS variant rs61764370 for ovarian or breast cancer
 10.1016/j.ygyno.2015.06.032,DOI,KWF,2015,,W2097743093,Hormone receptors as a marker of poor survival in epithelial ovarian cancer
 10.1016/j.ygyno.2015.09.003,DOI,IKNL,2015,G10,W2129749252,Effects of surgical volumes on the survival of endometrial carcinoma
-10.1016/s0140-6736(14)62004-3,DOI,IKNL,2015,,W2137417501,Maintenance treatment with capecitabine and bevacizumab in metastatic colorectal cancer (CAIRO3): a phase 3 randomised controlled trial of the Dutch Colorectal Cancer Group
-10.1016/s0140-6736(15)60679-1,DOI,IKNL,2015,G10,W1979932133,Radiotherapy for extensive stage small-cell lung cancer – Authors' reply
-10.1016/s1470-2045(15)70236-6,DOI,IKNL,2015,G15,W1559731801,Controversies in defining cancer survivorship
+25862517,PMID,IKNL,2015,,W2137417501,Maintenance treatment with capecitabine and bevacizumab in metastatic colorectal cancer (CAIRO3): a phase 3 randomised controlled trial of the Dutch Colorectal Cancer Group
+25890910,PMID,IKNL,2015,G10,W1979932133,Radiotherapy for extensive stage small-cell lung cancer – Authors' reply
+26065599,PMID,IKNL,2015,G15,W1559731801,Controversies in defining cancer survivorship
 10.1016/s1878-7649(15)30293-x,DOI,IKNL,2015,G15,W2519331983,P-195: Treatment-related differences in health related quality of life and disease specific symptoms among colon cancer survivors: Results from the population-based PROFILES registry
 10.1017/s0007114515001798,DOI,KWF,2015,G15;G06;G14,W2169191907,"Dietary changes and dietary supplement use, and underlying motives for these habits reported by colorectal cancer survivors of the Patient Reported Outcomes Following Initial Treatment and Long-Term Evaluation of Survivorship (PROFILES) registry"
 10.1017/s1355617715000788,DOI,KWF,2015,G10;G15,W2275815036,Executive Dysfunction 25 Years after Treatment with Cranial Radiotherapy for Pediatric Lymphoid Malignancies
@@ -2378,9 +2378,9 @@ identifier,identifier_type,source,year,goals,openalex_id,title
 10.1016/j.ygyno.2016.04.021,DOI,IKNL,2016,,W2464413182,"Rare vulvar malignancies; incidence, treatment and survival in the Netherlands"
 10.1016/j.ygyno.2016.10.019,DOI,IKNL,2016,,W2560636362,The histology of ovarian cancer: worldwide distribution and implications for international survival comparisons (CONCORD-2)
 10.1016/j.ygyno.2016.11.048,DOI,KWF,2016,G08,W2560155803,Risk of cervical intra-epithelial neoplasia and invasive cancer of the cervix in DES daughters
-10.1016/s1470-2045(15)00567-7,DOI,KWF,2016,G10;G15,W2033942571,"Hypofractionated versus conventionally fractionated radiotherapy for patients with prostate cancer (HYPRO): late toxicity results from a randomised, non-inferiority, phase 3 trial"
-10.1016/s1470-2045(16)30067-5,DOI,IKNL,2016,G10,W2467949803,10 year survival after breast-conserving surgery plus radiotherapy compared with mastectomy in early breast cancer in the Netherlands: a population-based study
-10.1016/s1470-2045(16)30120-6,DOI,KWF,2016,G10;G15,W2468311487,"Toxicity and quality of life after adjuvant chemoradiotherapy versus radiotherapy alone for women with high-risk endometrial cancer (PORTEC-3): an open-label, multicentre, randomised, phase 3 trial"
+26968359,PMID,KWF,2016,G10;G15,W2033942571,"Hypofractionated versus conventionally fractionated radiotherapy for patients with prostate cancer (HYPRO): late toxicity results from a randomised, non-inferiority, phase 3 trial"
+27344114,PMID,IKNL,2016,G10,W2467949803,10 year survival after breast-conserving surgery plus radiotherapy compared with mastectomy in early breast cancer in the Netherlands: a population-based study
+27397040,PMID,KWF,2016,G10;G15,W2468311487,"Toxicity and quality of life after adjuvant chemoradiotherapy versus radiotherapy alone for women with high-risk endometrial cancer (PORTEC-3): an open-label, multicentre, randomised, phase 3 trial"
 10.1017/s1478951516000936,DOI,KWF,2016,,W2565378233,Modes of relating to contingency: An exploration of experiences in advanced cancer patients
 10.1021/acs.bioconjchem.6b00093,DOI,KWF,2016,,W2340872664,Tailoring Fluorescent Dyes To Optimize a Hybrid RGD-Tracer
 10.1021/acs.jmedchem.6b00623,DOI,KWF,2016,,W2473678340,Synthesis and in Vivo Biological Evaluation of 68Ga-Labeled Carbonic Anhydrase IX Targeting Small Molecules for Positron Emission Tomography
@@ -2990,9 +2990,9 @@ identifier,identifier_type,source,year,goals,openalex_id,title
 10.1016/s0959-8049(17)30093-x,DOI,IKNL,2017,,W2587656585,"Breast conserving therapy and mastectomy revisited: Breast cancer-specific survival and the influence of prognostic factors in 129,692 patients"
 10.1016/s0959-8049(17)30312-x,DOI,IKNL,2017,G10,W2586691701,Nationwide outcomes in patients undergoing surgical exploration without resection for pancreatic cancer
 10.1016/s0959-8049(17)30365-9,DOI,IKNL,2017,G10,W2587130320,Nationwide trends in chemotherapy use and survival of elderly patients with metastatic pancreatic cancer
-10.1016/s1470-2045(17)30445-x,DOI,IKNL,2017,G12,W2729284305,Burden and centralised treatment in Europe of rare tumours: results of RARECAREnet—a population-based study
-10.1016/s1470-2045(17)30600-9,DOI,IKNL,2017,G10,W2761190519,"Extended adjuvant aromatase inhibition after sequential endocrine therapy (DATA): a randomised, phase 3 trial"
-10.1016/s2352-4642(17)30091-3,DOI,KWF,2017,,W2756768226,Effects of cancer treatment during pregnancy on fetal and child development
+28687376,PMID,IKNL,2017,G12,W2729284305,Burden and centralised treatment in Europe of rare tumours: results of RARECAREnet—a population-based study
+29031778,PMID,IKNL,2017,G10,W2761190519,"Extended adjuvant aromatase inhibition after sequential endocrine therapy (DATA): a randomised, phase 3 trial"
+30169185,PMID,KWF,2017,,W2756768226,Effects of cancer treatment during pregnancy on fetal and child development
 10.1017/s0033291717002471,DOI,IKNL+KWF,2017,,W2755747649,Leukocyte telomere length and personality: associations with the Big Five and Type D personality traits
 10.1021/acs.bioconjchem.7b00224,DOI,KWF,2017,,W2665412116,Metabolic Oligosaccharide Engineering with Alkyne Sialic Acids Confers Neuraminidase Resistance and Inhibits Influenza Reproduction
 10.1021/acs.bioconjchem.7b00398,DOI,KWF,2017,,W2745816924,Affinity-Based Purification of Polyisocyanopeptide Bioconjugates
@@ -3687,14 +3687,14 @@ identifier,identifier_type,source,year,goals,openalex_id,title
 10.1016/j.ygyno.2018.07.020,DOI,KWF,2018,G10;G08,W2885205220,Molecular-integrated risk profile to determine adjuvant radiotherapy in endometrial cancer: Evaluation of the pilot phase of the PORTEC-4a trial
 10.1016/j.ygyno.2018.10.024,DOI,KWF,2018,,W2898400136,Blood steroids are associated with prognosis and fat distribution in endometrial cancer
 10.1016/j.ymeth.2018.04.004,DOI,KWF,2018,G09,W2802836810,Tumor classification with MALDI-MSI data of tissue microarrays: A case study
-10.1016/s0140-6736(17)33326-3,DOI,IKNL,2018,G08,W2787553551,Global surveillance of trends in cancer survival 2000–14 (CONCORD-3): analysis of individual records for 37 513 025 patients diagnosed with one of 18 cancers from 322 population-based registries in 71 countries
-10.1016/s1470-2045(18)30098-6,DOI,KWF,2018,,W2790216155,Consensus statement on mandatory measurements in pancreatic cancer trials (COMM-PACT) for systemic treatment of unresectable disease
-10.1016/s1470-2045(18)30132-3,DOI,KWF,2018,G10,W2797145364,"Chemotherapy versus chemoradiotherapy after surgery and preoperative chemotherapy for resectable gastric cancer (CRITICS): an international, open-label, randomised phase 3 trial"
-10.1016/s1470-2045(18)30436-4,DOI,KWF,2018,G10,W2810956226,Adjuvant therapy in resectable gastric cancer—the CRITICS trial – Authors' reply
-10.1016/s1470-2045(18)30515-1,DOI,KWF,2018,G10;G15,W2896709590,Quality of life after postmastectomy radiotherapy in patients with intermediate-risk breast cancer (SUPREMO): 2-year follow-up results of a randomised controlled trial
-10.1016/s1470-2045(18)30686-7,DOI,KWF,2018,,W2896913847,DPYD genotype-guided dose individualisation of fluoropyrimidine therapy in patients with cancer: a prospective safety analysis
-10.1016/s2352-3026(18)30038-3,DOI,IKNL,2018,,W2796748061,Exposure to Coxiella burnetii and risk of non-Hodgkin lymphoma: a retrospective population-based analysis in the Netherlands
-10.1016/s2468-2667(18)30185-3,DOI,KWF,2018,G01;G17,W2897206114,Effect of a workplace-based group training programme combined with financial incentives on smoking cessation: a cluster-randomised controlled trial
+29395269,PMID,IKNL,2018,G08,W2787553551,Global surveillance of trends in cancer survival 2000–14 (CONCORD-3): analysis of individual records for 37 513 025 patients diagnosed with one of 18 cancers from 322 population-based registries in 71 countries
+29508762,PMID,KWF,2018,,W2790216155,Consensus statement on mandatory measurements in pancreatic cancer trials (COMM-PACT) for systemic treatment of unresectable disease
+29650363,PMID,KWF,2018,G10,W2797145364,"Chemotherapy versus chemoradiotherapy after surgery and preoperative chemotherapy for resectable gastric cancer (CRITICS): an international, open-label, randomised phase 3 trial"
+30084374,PMID,KWF,2018,G10,W2810956226,Adjuvant therapy in resectable gastric cancer—the CRITICS trial – Authors' reply
+30337220,PMID,KWF,2018,G10;G15,W2896709590,Quality of life after postmastectomy radiotherapy in patients with intermediate-risk breast cancer (SUPREMO): 2-year follow-up results of a randomised controlled trial
+30348537,PMID,KWF,2018,,W2896913847,DPYD genotype-guided dose individualisation of fluoropyrimidine therapy in patients with cancer: a prospective safety analysis
+29650493,PMID,IKNL,2018,,W2796748061,Exposure to Coxiella burnetii and risk of non-Hodgkin lymphoma: a retrospective population-based analysis in the Netherlands
+30342875,PMID,KWF,2018,G01;G17,W2897206114,Effect of a workplace-based group training programme combined with financial incentives on smoking cessation: a cluster-randomised controlled trial
 10.1017/s0007114518000661,DOI,KWF,2018,G15;G14;G06,W2800007702,Colorectal cancers survivors’ adherence to lifestyle recommendations and cross-sectional associations with health-related quality of life
 10.1021/acs.jmedchem.8b01757,DOI,KWF,2018,,W2905213054,Potent Metabolic Sialylation Inhibitors Based on C-5-Modified Fluorinated Sialic Acids
 10.1021/acs.jproteome.7b00890,DOI,KWF,2018,G09,W2786600572,Development of a Targeted Mass-Spectrometry Serum Assay To Quantify M-Protein in the Presence of Therapeutic Monoclonal Antibodies
@@ -4569,13 +4569,13 @@ identifier,identifier_type,source,year,goals,openalex_id,title
 10.1016/j.ymthe.2019.10.001,DOI,KWF,2019,,W2977599741,Simultaneous Deletion of Endogenous TCRαβ for TCR Gene Therapy Creates an Improved and Safe Cellular Therapeutic
 10.1016/j.ymthe.2019.11.030,DOI,KWF,2019,,W2996130480,TEG001 Insert Integrity from Vector Producer Cells until Medicinal Product
 10.1016/s0959-8049(19)30533-7,DOI,KWF,2019,,W2976044430,Whole-genome analysis uncovers recurrent IKZF1 inactivation and aberrant cell adhesion in blastic plasmacytoid dendritic cell neoplasm
-10.1016/s1470-2045(18)30747-2,DOI,KWF,2019,,W2906764941,"Rituximab in patients with primary CNS lymphoma (HOVON 105/ALLG NHL 24): a randomised, open-label, phase 3 intergroup study"
-10.1016/s1470-2045(19)30275-x,DOI,KWF,2019,G08;G09,W2949999402,"MRI versus mammography for breast cancer screening in women with familial risk (FaMRIsc): a multicentre, randomised, controlled trial"
-10.1016/s1470-2045(19)30317-1,DOI,KWF,2019,G10,W2955213391,Latest developments in molecular tracers for fluorescence image-guided cancer surgery
-10.1016/s1470-2045(19)30395-x,DOI,KWF,2019,G10,W2963015093,Adjuvant chemoradiotherapy versus radiotherapy alone in women with high-risk endometrial cancer (PORTEC-3): patterns of recurrence and post-hoc survival analysis of a randomised phase 3 trial
-10.1016/s1470-2045(19)30675-8,DOI,IKNL,2019,G15,W2995196726,"Role of eHealth application Oncokompas in supporting self-management of symptoms and health-related quality of life in cancer survivors: a randomised, controlled trial"
-10.1016/s2468-1253(19)30004-4,DOI,IKNL,2019,,W2911422898,"Laparoscopic versus open pancreatoduodenectomy for pancreatic or periampullary tumours (LEOPARD-2): a multicentre, patient-blinded, randomised controlled phase 2/3 trial"
-10.1016/s2468-1253(19)30239-0,DOI,KWF,2019,G10,W2964855288,"Adjuvant hyperthermic intraperitoneal chemotherapy in patients with locally advanced colon cancer (COLOPEC): a multicentre, open-label, randomised trial"
+30630772,PMID,KWF,2019,,W2906764941,"Rituximab in patients with primary CNS lymphoma (HOVON 105/ALLG NHL 24): a randomised, open-label, phase 3 intergroup study"
+31221620,PMID,KWF,2019,G08;G09,W2949999402,"MRI versus mammography for breast cancer screening in women with familial risk (FaMRIsc): a multicentre, randomised, controlled trial"
+31267970,PMID,KWF,2019,G10,W2955213391,Latest developments in molecular tracers for fluorescence image-guided cancer surgery
+31345626,PMID,KWF,2019,G10,W2963015093,Adjuvant chemoradiotherapy versus radiotherapy alone in women with high-risk endometrial cancer (PORTEC-3): patterns of recurrence and post-hoc survival analysis of a randomised phase 3 trial
+31838009,PMID,IKNL,2019,G15,W2995196726,"Role of eHealth application Oncokompas in supporting self-management of symptoms and health-related quality of life in cancer survivors: a randomised, controlled trial"
+30685489,PMID,IKNL,2019,,W2911422898,"Laparoscopic versus open pancreatoduodenectomy for pancreatic or periampullary tumours (LEOPARD-2): a multicentre, patient-blinded, randomised controlled phase 2/3 trial"
+31371228,PMID,KWF,2019,G10,W2964855288,"Adjuvant hyperthermic intraperitoneal chemotherapy in patients with locally advanced colon cancer (COLOPEC): a multicentre, open-label, randomised trial"
 10.1017/s1368980019001824,DOI,KWF,2019,G06,W2966134804,Are our diets getting healthier and more sustainable? Insights from the European Prospective Investigation into Cancer and Nutrition – Netherlands (EPIC-NL) cohort
 10.1021/acs.bioconjchem.9b00087,DOI,KWF,2019,,W2922264895,Dual Synthetic Peptide Conjugate Vaccine Simultaneously Triggers TLR2 and NOD2 and Activates Human Dendritic Cells
 10.1021/acs.biomac.9b00385,DOI,KWF,2019,,W2947377085,Synthetic Semiflexible and Bioactive Brushes
@@ -5562,13 +5562,13 @@ identifier,identifier_type,source,year,goals,openalex_id,title
 10.1016/s0959-8049(20)30767-x,DOI,IKNL,2020,G08,W3091960732,Diagnostic work-up in women suspect for breast cancer in the Netherlands
 10.1016/s0959-8049(20)30790-5,DOI,IKNL,2020,,W3092566137,Clinical prediction models for patients diagnosed with breast cancer: A systematic review
 10.1016/s0959-8049(20)30794-2,DOI,IKNL,2020,G08,W3092017685,Patterns of treatment and outcome of ductal carcinoma in situ for population-based screened women
-10.1016/s1470-2045(19)30739-9,DOI,KWF,2020,,W2999091210,Automated deep-learning system for Gleason grading of prostate cancer using biopsies: a diagnostic study
-10.1016/s1470-2045(20)30085-1,DOI,KWF,2020,G10;G15,W3011900353,"Quality of life after breast-conserving therapy and adjuvant radiotherapy for non-low-risk ductal carcinoma in situ (BIG 3-07/TROG 07.01): 2-year results of a randomised, controlled, phase 3 trial"
-10.1016/s1470-2045(20)30265-5,DOI,IKNL,2020,,W3023041338,Fewer cancer diagnoses during the COVID-19 epidemic in the Netherlands
-10.1016/s1470-2045(20)30472-1,DOI,KWF,2020,,W3097739674,"Internal mammary and medial supraclavicular lymph node chain irradiation in stage I–III breast cancer (EORTC 22922/10925): 15-year results of a randomised, phase 3 trial"
-10.1016/s1470-2045(20)30555-6,DOI,KWF,2020,G10,W3111308000,"Short-course radiotherapy followed by chemotherapy before total mesorectal excision (TME) versus preoperative chemoradiotherapy, TME, and optional adjuvant chemotherapy in locally advanced rectal cancer (RAPIDO): a randomised, open-label, phase 3 trial"
-10.1016/s1470-2045(20)30557-x,DOI,KWF,2020,G10,W3111488816,"Conditional recurrence-free survival of clinical complete responders managed by watch and wait after neoadjuvant chemoradiotherapy for rectal cancer in the International Watch & Wait Database: a retrospective, international, multicentre registry study"
-10.1016/s2352-3026(20)30353-7,DOI,KWF,2020,G10,W3114280211,"Outcomes of paediatric patients with B-cell acute lymphocytic leukaemia with ABL-class fusion in the pre-tyrosine-kinase inhibitor era: a multicentre, retrospective, cohort study"
+31926805,PMID,KWF,2020,,W2999091210,Automated deep-learning system for Gleason grading of prostate cancer using biopsies: a diagnostic study
+32203696,PMID,KWF,2020,G10;G15,W3011900353,"Quality of life after breast-conserving therapy and adjuvant radiotherapy for non-low-risk ductal carcinoma in situ (BIG 3-07/TROG 07.01): 2-year results of a randomised, controlled, phase 3 trial"
+32359403,PMID,IKNL,2020,,W3023041338,Fewer cancer diagnoses during the COVID-19 epidemic in the Netherlands
+33152277,PMID,KWF,2020,,W3097739674,"Internal mammary and medial supraclavicular lymph node chain irradiation in stage I–III breast cancer (EORTC 22922/10925): 15-year results of a randomised, phase 3 trial"
+33301740,PMID,KWF,2020,G10,W3111308000,"Short-course radiotherapy followed by chemotherapy before total mesorectal excision (TME) versus preoperative chemoradiotherapy, TME, and optional adjuvant chemotherapy in locally advanced rectal cancer (RAPIDO): a randomised, open-label, phase 3 trial"
+33316218,PMID,KWF,2020,G10,W3111488816,"Conditional recurrence-free survival of clinical complete responders managed by watch and wait after neoadjuvant chemoradiotherapy for rectal cancer in the International Watch & Wait Database: a retrospective, international, multicentre registry study"
+33357483,PMID,KWF,2020,G10,W3114280211,"Outcomes of paediatric patients with B-cell acute lymphocytic leukaemia with ABL-class fusion in the pre-tyrosine-kinase inhibitor era: a multicentre, retrospective, cohort study"
 10.1017/s0007114520002536,DOI,KWF,2020,,W3043668179,Effect of oral or intragastric delivery of the bitter tastant quinine on food intake and appetite sensations: a randomised crossover trial
 10.1017/s0007114520003487,DOI,KWF,2020,G15;G06;G02,W3094571990,Associations of the dietary World Cancer Research Fund/American Institute for Cancer Research (WCRF/AICR) recommendations with patient-reported outcomes in colorectal cancer survivors 2–10 years post-diagnosis: a cross-sectional analysis
 10.1017/s1759078720000318,DOI,KWF,2020,G10,W3017355252,Dedicated 70 MHz RF systems for hyperthermia of challenging tumor locations
@@ -6623,21 +6623,21 @@ identifier,identifier_type,source,year,goals,openalex_id,title
 10.1016/s1368-8375(21)00320-1,DOI,IKNL,2021,,W3173607165,P-32 The relation between biological age and pathological tumour characteristics in head and neck cancer patients
 10.1016/s1368-8375(21)00511-x,DOI,IKNL,2021,,W3175580359,P-228 Impact of Incidental Findings during Diagnostic Work-up for newly diagnosed Head and Neck Cancer patients on Delay in Treatment Initiation
 10.1016/s1368-8375(21)00535-2,DOI,IKNL,2021,,W3176447695,"P-252 The impact of the COVID-19 pandemic on the incidence, stage, and initial treatment of patients with head and neck cancer in the Netherlands"
-10.1016/s1470-2045(20)30600-8,DOI,KWF,2021,G09;G10,W3138429678,Real-time fluorescence imaging in intraoperative decision making for cancer surgery
-10.1016/s1470-2045(21)00087-5,DOI,KWF,2021,,W3135162317,Interpreting the RAPIDO trial: factors to consider – Authors' reply
-10.1016/s1470-2045(21)00090-5,DOI,KWF,2021,G10,W3161800158,"Adjuvant and concurrent temozolomide for 1p/19q non-co-deleted anaplastic glioma (CATNON; EORTC study 26053-22054): second interim analysis of a randomised, open-label, phase 3 study"
-10.1016/s1470-2045(21)00189-3,DOI,KWF,2021,G07,W3166415013,Variation in the risk of colorectal cancer in families with Lynch syndrome: a retrospective cohort study
-10.1016/s1470-2045(21)00199-6,DOI,IKNL,2021,G08,W3165544985,"Colorectal cancer incidence, mortality, and stage distribution in European countries in the colorectal cancer screening era: an international population-based study"
-10.1016/s1470-2045(21)00273-4,DOI,KWF,2021,G15,W3183087714,"Effect of general practitioner-led versus surgeon-led colon cancer survivorship care, with or without eHealth support, on quality of life (I CARE): an interim analysis of 1-year results of a randomised, controlled trial"
-10.1016/s1470-2045(21)00279-5,DOI,IKNL,2021,G02,W3183035192,Global burden of cancer in 2020 attributable to alcohol consumption: a population-based study
-10.1016/s1470-2045(21)00335-1,DOI,KWF,2021,G09;G10,W3174691397,Real-time fluorescence imaging for cancer surgery: a pathologist's perspective – Authors' reply
-10.1016/s1470-2045(21)00574-x,DOI,IKNL,2021,G10,W3211856196,"mRNA-1273 COVID-19 vaccination in patients receiving chemotherapy, immunotherapy, or chemoimmunotherapy for solid tumours: a prospective, multicentre, non-inferiority trial"
+33765422,PMID,KWF,2021,G09;G10,W3138429678,Real-time fluorescence imaging in intraoperative decision making for cancer surgery
+33662297,PMID,KWF,2021,,W3135162317,Interpreting the RAPIDO trial: factors to consider – Authors' reply
+34000245,PMID,KWF,2021,G10,W3161800158,"Adjuvant and concurrent temozolomide for 1p/19q non-co-deleted anaplastic glioma (CATNON; EORTC study 26053-22054): second interim analysis of a randomised, open-label, phase 3 study"
+34111421,PMID,KWF,2021,G07,W3166415013,Variation in the risk of colorectal cancer in families with Lynch syndrome: a retrospective cohort study
+34048685,PMID,IKNL,2021,G08,W3165544985,"Colorectal cancer incidence, mortality, and stage distribution in European countries in the colorectal cancer screening era: an international population-based study"
+34224671,PMID,KWF,2021,G15,W3183087714,"Effect of general practitioner-led versus surgeon-led colon cancer survivorship care, with or without eHealth support, on quality of life (I CARE): an interim analysis of 1-year results of a randomised, controlled trial"
+34270924,PMID,IKNL,2021,G02,W3183035192,Global burden of cancer in 2020 attributable to alcohol consumption: a population-based study
+34197746,PMID,KWF,2021,G09;G10,W3174691397,Real-time fluorescence imaging for cancer surgery: a pathologist's perspective – Authors' reply
+34767759,PMID,IKNL,2021,G10,W3211856196,"mRNA-1273 COVID-19 vaccination in patients receiving chemotherapy, immunotherapy, or chemoimmunotherapy for solid tumours: a prospective, multicentre, non-inferiority trial"
 10.1016/s1556-0864(21)01852-9,DOI,IKNL,2021,,W3150501647,10P Impact of the number of metastatic lymph nodes on survival in pathological stage II-N1 non-small cell lung cancer
 10.1016/s1556-0864(21)01872-4,DOI,IKNL,2021,,W3150174838,30P Trends and variations in treatment of stage I-III non-small cell lung cancer from 2008–2018: A nationwide population-based study from the Netherlands
 10.1016/s1879-4068(21)00420-3,DOI,KWF,2021,G10;G15,W4200048347,Discontinuation of adjuvant endocrine therapy and impact on quality of life and functional status in older patients with breast cancer
-10.1016/s2213-2600(20)30362-3,DOI,KWF,2021,G10;G12,W3121663099,"Switch-maintenance gemcitabine after first-line chemotherapy in patients with malignant mesothelioma (NVALT19): an investigator-initiated, randomised, open-label, phase 2 trial"
-10.1016/s2468-1253(21)00368-x,DOI,IKNL,2021,G08,W3217578193,"Colorectal cancer incidence, mortality, tumour characteristics, and treatment before and after introduction of the faecal immunochemical testing-based screening programme in the Netherlands: a population-based study"
-10.1016/s2666-7568(21)00229-4,DOI,KWF,2021,G15;G10,W3209614169,"Development and validation of the PORTRET tool to predict recurrence, overall survival, and other-cause mortality in older patients with breast cancer in the Netherlands: a population-based study"
+33515500,PMID,KWF,2021,G10;G12,W3121663099,"Switch-maintenance gemcitabine after first-line chemotherapy in patients with malignant mesothelioma (NVALT19): an investigator-initiated, randomised, open-label, phase 2 trial"
+34822762,PMID,IKNL,2021,G08,W3217578193,"Colorectal cancer incidence, mortality, tumour characteristics, and treatment before and after introduction of the faecal immunochemical testing-based screening programme in the Netherlands: a population-based study"
+36098027,PMID,KWF,2021,G15;G10,W3209614169,"Development and validation of the PORTRET tool to predict recurrence, overall survival, and other-cause mortality in older patients with breast cancer in the Netherlands: a population-based study"
 10.1017/s0950268821000285,DOI,KWF,2021,G04,W3129144969,Association betweenSalmonellainfection and colon cancer: a nationwide registry-based cohort study
 10.1017/s1431927621000507,DOI,KWF,2021,G08,W3169624132,Early Upper Aerodigestive Tract Cancer Detection Using Electron Microscopy to Reveal Chromatin Packing Alterations in Buccal Mucosa Cells
 10.1021/acs.analchem.1c01040,DOI,KWF,2021,G10,W3164887061,Simultaneous Quantification of the Concentration and Carbon Isotopologue Distribution of Polar Metabolites in a Single Analysis by Gas Chromatography and Mass Spectrometry
@@ -7769,8 +7769,8 @@ identifier,identifier_type,source,year,goals,openalex_id,title
 10.1016/j.ygyno.2022.07.017,DOI,KWF,2022,,W4295025149,Unilateral inguinofemoral lymphadenectomy in patients with early-stage vulvar squamous cell carcinoma and a unilateral metastatic sentinel lymph node is safe
 10.1016/j.ygyno.2022.08.011,DOI,IKNL,2022,G07,W4293161993,Mainstream germline genetic testing for patients with epithelial ovarian cancer leads to higher testing rates and a reduction in genetics-related healthcare costs from a healthcare payer perspective
 10.1016/j.ypmed.2022.107376,DOI,IKNL,2022,G08;G15,W4311762760,Long-term effects of the interruption of the Dutch breast cancer screening program due to COVID-19: A modelling study
-10.1016/s0140-6736(22)00182-9,DOI,KWF,2022,G10,W4225103162,"Algorithm-based care versus usual care for the early recognition and management of complications after pancreatic resection in the Netherlands: an open-label, nationwide, stepped-wedge cluster-randomised trial"
-10.1016/s0140-6736(22)01246-6,DOI,KWF,2022,,W4292954944,"Radiation doses and fractionation schedules in non-low-risk ductal carcinoma in situ in the breast (BIG 3–07/TROG 07.01): a randomised, factorial, multicentre, open-label, phase 3 study"
+35490691,PMID,KWF,2022,G10,W4225103162,"Algorithm-based care versus usual care for the early recognition and management of complications after pancreatic resection in the Netherlands: an open-label, nationwide, stepped-wedge cluster-randomised trial"
+35934006,PMID,KWF,2022,,W4292954944,"Radiation doses and fractionation schedules in non-low-risk ductal carcinoma in situ in the breast (BIG 3–07/TROG 07.01): a randomised, factorial, multicentre, open-label, phase 3 study"
 10.1016/s0959-8049(22)01350-8,DOI,IKNL,2022,G10,W4309483053,Complete response of ductal carcinoma in situ to neoadjuvant systemic therapy in HER2-positive invasive breast cancer patients: a nationwide analysis
 10.1016/s0959-8049(22)01363-6,DOI,IKNL,2022,,W4309487640,"External validation and clinical utility assessment of PREDICT v2.2 prognostic model in young, node-negative, systemic treatment-naïve breast cancer patients"
 10.1016/s0959-8049(22)01370-3,DOI,IKNL,2022,,W4309488941,Routine and interval detection of locoregional breast cancer recurrences and risk of subsequent distant metastasis: a population-based study
@@ -7781,16 +7781,16 @@ identifier,identifier_type,source,year,goals,openalex_id,title
 10.1016/s0959-8049(22)01486-1,DOI,IKNL,2022,G15;G09,W4309486521,Impact of lymphedema on health-related quality of life in early-stage breast cancer patients treated breast conserving therapy with or without sentinel lymph node biopsy: 2-year results from the randomized controlled trial BOOG2013–08
 10.1016/s0959-8049(22)01488-5,DOI,IKNL,2022,G15,W4309271529,Overview of patient preference sensitive attributes in eHealth interventions for breast cancer-related fatigue
 10.1016/s0959-8049(22)01489-7,DOI,IKNL,2022,G15,W4309482683,Who is at risk of developing breast cancer-related fatigue – a prediction study
-10.1016/s1470-2045(22)00203-0,DOI,IKNL,2022,G10,W4224718952,"Immunogenicity after second and third mRNA-1273 vaccination doses in patients receiving chemotherapy, immunotherapy, or both for solid tumours"
-10.1016/s1470-2045(22)00221-2,DOI,KWF,2022,,W4293708043,The QT interval prolongation potential of anticancer and supportive drugs: a comprehensive overview
-10.1016/s1470-2045(22)00447-8,DOI,IKNL,2022,G10,W4297102192,"European Society for Radiotherapy and Oncology and European Organisation for Research and Treatment of Cancer consensus on re-irradiation: definition, reporting, and clinical decision making"
-10.1016/s1470-2045(22)00482-x,DOI,IKNL,2022,G10,W4293861017,"De-escalation of radiotherapy after primary chemotherapy in cT1–2N1 breast cancer (RAPCHEM; BOOG 2010–03): 5-year follow-up results of a Dutch, prospective, registry study"
-10.1016/s1470-2045(22)00540-x,DOI,IKNL,2022,G08,W4309340100,European Groundshot—addressing Europe's cancer research challenges: a Lancet Oncology Commission
-10.1016/s1470-2045(22)00655-6,DOI,KWF,2022,G09,W4310769135,Brain cancer after radiation exposure from CT examinations of children and young adults: results from the EPI-CT cohort study
-10.1016/s2468-1253(22)00084-x,DOI,IKNL,2022,G08,W4280518110,"Proportion and stage distribution of screen-detected and non-screen-detected colorectal cancer in nine European countries: an international, population-based study"
-10.1016/s2468-2667(22)00112-8,DOI,KWF,2022,G01,W4283731590,Effect of comprehensive smoke-free legislation on neonatal mortality and infant mortality across 106 middle-income countries: a synthetic control study
-10.1016/s2589-7500(22)00210-2,DOI,KWF,2022,,W4310828474,Interpretable deep learning model to predict the molecular classification of endometrial cancer from haematoxylin and eosin-stained whole-slide images: a combined analysis of the PORTEC randomised trials and clinical cohorts
-10.1016/s2666-5247(22)00061-1,DOI,KWF,2022,,W4220788448,Monitoring and managing SARS-CoV-2 evolution in immunocompromised populations
+35483383,PMID,IKNL,2022,G10,W4224718952,"Immunogenicity after second and third mRNA-1273 vaccination doses in patients receiving chemotherapy, immunotherapy, or both for solid tumours"
+36055309,PMID,KWF,2022,,W4293708043,The QT interval prolongation potential of anticancer and supportive drugs: a comprehensive overview
+36174633,PMID,IKNL,2022,G10,W4297102192,"European Society for Radiotherapy and Oncology and European Organisation for Research and Treatment of Cancer consensus on re-irradiation: definition, reporting, and clinical decision making"
+35952707,PMID,IKNL,2022,G10,W4293861017,"De-escalation of radiotherapy after primary chemotherapy in cT1–2N1 breast cancer (RAPCHEM; BOOG 2010–03): 5-year follow-up results of a Dutch, prospective, registry study"
+36400101,PMID,IKNL,2022,G08,W4309340100,European Groundshot—addressing Europe's cancer research challenges: a Lancet Oncology Commission
+36493793,PMID,KWF,2022,G09,W4310769135,Brain cancer after radiation exposure from CT examinations of children and young adults: results from the EPI-CT cohort study
+35561739,PMID,IKNL,2022,G08,W4280518110,"Proportion and stage distribution of screen-detected and non-screen-detected colorectal cancer in nine European countries: an international, population-based study"
+35779544,PMID,KWF,2022,G01,W4283731590,Effect of comprehensive smoke-free legislation on neonatal mortality and infant mortality across 106 middle-income countries: a synthetic control study
+36496303,PMID,KWF,2022,,W4310828474,Interpretable deep learning model to predict the molecular classification of endometrial cancer from haematoxylin and eosin-stained whole-slide images: a combined analysis of the PORTEC randomised trials and clinical cohorts
+35309711,PMID,KWF,2022,,W4220788448,Monitoring and managing SARS-CoV-2 evolution in immunocompromised populations
 10.1017/s0007114522003051,DOI,KWF,2022,G15;G02;G06,W4297263375,"Longitudinal associations of fast foods, red and processed meat, alcohol and sugar-sweetened drinks with quality of life and symptoms in colorectal cancer survivors up to 24 months post-treatment"
 10.1017/s1478951522000980,DOI,IKNL,2022,G13,W4292373328,Clinicians’ perceptions of the emotional impact of providing palliative care: A qualitative interview study
 10.1021/acs.jmedchem.1c01806,DOI,KWF,2022,,W4229081301,Reversible Monoacylglycerol Lipase Inhibitors: Discovery of a New Class of Benzylpiperidine Derivatives
@@ -8923,20 +8923,20 @@ identifier,identifier_type,source,year,goals,openalex_id,title
 10.1016/j.ymecc.2023.100003,DOI,IKNL,2023,G10;G15,W4388626390,The HAIR-QoL measure Part 2: Validation of an instrument to measure of the severity and impact of chemotherapy-induced alopecia (CIA)
 10.1016/j.ypmed.2023.107723,DOI,IKNL,2023,G08,W4387520664,Prolonged screening interval due to the COVID-19 pandemic and its association with tumor characteristics and treatment; a register-based study from BreastScreen Norway
 10.1016/j.zefq.2023.06.003,DOI,IKNL,2023,G13;G08,W4384944782,Advance Care Planning in the Netherlands
-10.1016/s0140-6736(23)00011-9,DOI,KWF,2023,G09;G15,W4360603379,Commercial determinants of health: future directions
-10.1016/s1470-2045(23)00067-0,DOI,IKNL,2023,,W4361026261,Multinational Association of Supportive Care in Cancer (MASCC) clinical practice guidelines for the prevention and management of acute radiation dermatitis: international Delphi consensus-based recommendations
-10.1016/s1470-2045(23)00219-x,DOI,IKNL,2023,,W4380742625,"First-line systemic treatment strategies in patients with initially unresectable colorectal cancer liver metastases (CAIRO5): an open-label, multicentre, randomised, controlled, phase 3 study from the Dutch Colorectal Cancer Group"
-10.1016/s1470-2045(23)00396-0,DOI,KWF,2023,G10,W4386595817,"Cytoreductive surgery with or without hyperthermic intraperitoneal chemotherapy in patients with advanced ovarian cancer (OVHIPEC-1): final survival analysis of a randomised, controlled, phase 3 trial"
-10.1016/s1470-2045(23)00405-9,DOI,KWF,2023,,W4386781572,"Treatment of primary plasma cell leukaemia with carfilzomib and lenalidomide-based therapy (EMN12/HOVON-129): final analysis of a non-randomised, multicentre, phase 2 study"
-10.1016/s1470-2045(23)00446-1,DOI,KWF,2023,G12,W4387610512,Pembrolizumab plus lenvatinib in second-line and third-line patients with pleural mesothelioma (PEMMELA): a single-arm phase 2 study
-10.1016/s1470-2045(23)00467-9,DOI,IKNL+KWF,2023,G04;G10,W4388516493,"Optimising follow-up strategy based on cytology and human papillomavirus after fertility-sparing surgery for early stage cervical cancer: a nationwide, population-based, retrospective cohort study"
-10.1016/s1470-2045(23)00572-7,DOI,KWF,2023,G09,W4389472558,"MRI in addition to CT in patients scheduled for local therapy of colorectal liver metastases (CAMINO): an international, multicentre, prospective, diagnostic accuracy trial"
-10.1016/s1470-2045(23)00588-0,DOI,KWF,2023,G10,W4389114109,Cytoreductive surgery with or without hyperthermic intraperitoneal chemotherapy in advanced ovarian cancer – Authors' reply
+36966784,PMID,KWF,2023,G09;G15,W4360603379,Commercial determinants of health: future directions
+36990615,PMID,IKNL,2023,,W4361026261,Multinational Association of Supportive Care in Cancer (MASCC) clinical practice guidelines for the prevention and management of acute radiation dermatitis: international Delphi consensus-based recommendations
+37329889,PMID,IKNL,2023,,W4380742625,"First-line systemic treatment strategies in patients with initially unresectable colorectal cancer liver metastases (CAIRO5): an open-label, multicentre, randomised, controlled, phase 3 study from the Dutch Colorectal Cancer Group"
+37708912,PMID,KWF,2023,G10,W4386595817,"Cytoreductive surgery with or without hyperthermic intraperitoneal chemotherapy in patients with advanced ovarian cancer (OVHIPEC-1): final survival analysis of a randomised, controlled, phase 3 trial"
+37717583,PMID,KWF,2023,,W4386781572,"Treatment of primary plasma cell leukaemia with carfilzomib and lenalidomide-based therapy (EMN12/HOVON-129): final analysis of a non-randomised, multicentre, phase 2 study"
+37844598,PMID,KWF,2023,G12,W4387610512,Pembrolizumab plus lenvatinib in second-line and third-line patients with pleural mesothelioma (PEMMELA): a single-arm phase 2 study
+37952541,PMID,IKNL+KWF,2023,G04;G10,W4388516493,"Optimising follow-up strategy based on cytology and human papillomavirus after fertility-sparing surgery for early stage cervical cancer: a nationwide, population-based, retrospective cohort study"
+38081200,PMID,KWF,2023,G09,W4389472558,"MRI in addition to CT in patients scheduled for local therapy of colorectal liver metastases (CAMINO): an international, multicentre, prospective, diagnostic accuracy trial"
+38040000,PMID,KWF,2023,G10,W4389114109,Cytoreductive surgery with or without hyperthermic intraperitoneal chemotherapy in advanced ovarian cancer – Authors' reply
 10.1016/s1556-0864(23)00354-4,DOI,IKNL,2023,G10,W4362587538,99P The optimal treatment for patients with stage I non-small cell lung cancer: Minimally invasive lobectomy or stereotactic ablative radiotherapy?
 10.1016/s2152-2650(23)02104-3,DOI,IKNL,2023,,W4387058028,P-487 Adherence to patient-reported symptom monitoring and subsequent clinical interventions for patients with multiple myeloma in outpatient care: a longitudinal observational study
-10.1016/s2352-3026(23)00273-9,DOI,KWF,2023,G10,W4388109297,"10-day decitabine versus 3 + 7 chemotherapy followed by allografting in older patients with acute myeloid leukaemia: an open-label, randomised, controlled, phase 3 trial"
-10.1016/s2352-3026(23)00279-x,DOI,KWF,2023,,W4388036908,"R-CODOX-M/R-IVAC versus DA-EPOCH-R in patients with newly diagnosed Burkitt lymphoma (HOVON/SAKK): final results of a multicentre, phase 3, open-label, randomised trial"
-10.1016/s2666-7568(23)00020-x,DOI,KWF,2023,G15,W4361195513,Frailty and sarcopenia within the earliest national Dutch childhood cancer survivor cohort (DCCSS-LATER): a cross-sectional study
+37914482,PMID,KWF,2023,G10,W4388109297,"10-day decitabine versus 3 + 7 chemotherapy followed by allografting in older patients with acute myeloid leukaemia: an open-label, randomised, controlled, phase 3 trial"
+37922925,PMID,KWF,2023,,W4388036908,"R-CODOX-M/R-IVAC versus DA-EPOCH-R in patients with newly diagnosed Burkitt lymphoma (HOVON/SAKK): final results of a multicentre, phase 3, open-label, randomised trial"
+37003274,PMID,KWF,2023,G15,W4361195513,Frailty and sarcopenia within the earliest national Dutch childhood cancer survivor cohort (DCCSS-LATER): a cross-sectional study
 10.1017/s1463423622000500,DOI,IKNL,2023,G13;G15;G20,W4367320821,Clinicians’ experiences with cancer patients living longer with incurable cancer: a focus group study in the Netherlands
 10.1021/acs.jmedchem.2c01824,DOI,KWF,2023,G09;G10,W4377223843,Explaining Blood–Brain Barrier Permeability of Small Molecules by Integrated Analysis of Different Transport Mechanisms
 10.1021/acs.jmedchem.3c00254,DOI,KWF,2023,G09,W4384282371,"Design, Synthesis, and Biological Evaluation of 2-Hydroxy-4-phenylthiophene-3-carbonitrile as PD-L1 Antagonist and Its Comparison to Available Small Molecular PD-L1 Inhibitors"
@@ -10082,11 +10082,11 @@ identifier,identifier_type,source,year,goals,openalex_id,title
 10.1016/j.ygyno.2024.12.002,DOI,IKNL,2024,G09;G10,W4405312030,Prevalence and impact of vulvar lesions diagnosed prior to vulvar squamous cell carcinoma: A population-based cohort study
 10.1016/j.ygyno.2024.12.008,DOI,IKNL,2024,,W4405359522,Less is more: The benefits of reduced follow-up in gynecologic cancers
 10.1016/j.ymthe.2024.06.019,DOI,KWF,2024,G10,W4399721832,Safety concern of recombination between self-amplifying mRNA vaccines and viruses is mitigated in vivo
-10.1016/s1470-2045(23)00651-4,DOI,KWF,2024,G08,W4391676111,"The multitarget faecal immunochemical test for improving stool-based colorectal cancer screening programmes: a Dutch population-based, paired-design, intervention study"
-10.1016/s1470-2045(24)00093-7,DOI,KWF,2024,G09,W4392180677,Optimal imaging before local therapy of colorectal liver metastases – Authors' reply
-10.1016/s1470-2045(24)00141-4,DOI,IKNL,2024,,W4396536008,"Long-term survival for lymphoid neoplasms and national health expenditure (EUROCARE-6): a retrospective, population-based study"
-10.1016/s1470-2045(24)00142-6,DOI,KWF,2024,G09,W4396520760,"Prognostic impact and causality of age on oncological outcomes in women with endometrial cancer: a multimethod analysis of the randomised PORTEC-1, PORTEC-2, and PORTEC-3 trials"
-10.1016/s2352-4642(24)00075-0,DOI,KWF,2024,G10;G20,W4394860116,"Long-term neurocognitive, psychosocial, and physical outcomes after prenatal exposure to radiotherapy: a multicentre cohort study of the International Network on Cancer, Infertility, and Pregnancy"
+38346438,PMID,KWF,2024,G08,W4391676111,"The multitarget faecal immunochemical test for improving stool-based colorectal cancer screening programmes: a Dutch population-based, paired-design, intervention study"
+38423054,PMID,KWF,2024,G09,W4392180677,Optimal imaging before local therapy of colorectal liver metastases – Authors' reply
+38703784,PMID,IKNL,2024,,W4396536008,"Long-term survival for lymphoid neoplasms and national health expenditure (EUROCARE-6): a retrospective, population-based study"
+38701815,PMID,KWF,2024,G09,W4396520760,"Prognostic impact and causality of age on oncological outcomes in women with endometrial cancer: a multimethod analysis of the randomised PORTEC-1, PORTEC-2, and PORTEC-3 trials"
+38640941,PMID,KWF,2024,G10;G20,W4394860116,"Long-term neurocognitive, psychosocial, and physical outcomes after prenatal exposure to radiotherapy: a multicentre cohort study of the International Network on Cancer, Infertility, and Pregnancy"
 10.1017/dmp.2024.176,DOI,IKNL,2024,,W4403902039,"Impact of COVID-19 on Incidence, Treatment, and Survival of Patients with Hepatocellular Carcinoma in the Netherlands"
 10.1017/s0007114524001107,DOI,IKNL,2024,G15;G14;G06,W4399088631,A randomised controlled intervention trial to study the effect of a personalised lifestyle programme on cancer-related fatigue among colorectal cancer survivors: protocol for the SoFiT study
 10.1017/s0033291724000850,DOI,IKNL,2024,G02;G01,W4396223162,"The mediating role of health behaviors in the association between depression, anxiety and cancer incidence: an individual participant data meta-analysis"
@@ -11037,19 +11037,19 @@ identifier,identifier_type,source,year,goals,openalex_id,title
 10.1016/j.ygyno.2025.10.024,DOI,IKNL,2025,G15,W4415824153,Reconsidering follow-up care in gynaecologic oncology: A scoping review exploring alternative approaches
 10.1016/j.ygyno.2025.11.006,DOI,KWF,2025,G10,W4416731177,Intraperitoneal infusion of stem cell-derived natural killer cells in recurrent epithelial ovarian cancer patients: Results of the phase 1 INTRO-01 trial
 10.1016/j.ymecc.2025.100016,DOI,IKNL,2025,G08;G11,W4408309760,Perspectives of health care professionals on the value of physical examinations for early detection of breast cancer recurrences: More than just a detection method?
-10.1016/s0140-6736(25)01383-2,DOI,IKNL,2025,G09;G10;G08,W4415447820,"Global variation in patterns of care and time to initial treatment for breast, cervical, and ovarian cancer from 2015 to 2018 (VENUSCANCER): a secondary analysis of individual records for 275 792 women from 103 population-based cancer registries in 39 countries and territories"
-10.1016/s1470-2045(25)00027-0,DOI,KWF,2025,G10,W4408511506,"Neoadjuvant chemoradiotherapy followed by active surveillance versus standard surgery for oesophageal cancer (SANO trial): a multicentre, stepped-wedge, cluster-randomised, non-inferiority, phase 3 trial"
-10.1016/s1470-2045(25)00278-5,DOI,KWF,2025,,W4411848258,"RADIOSA and the management of oligorecurrent prostate cancer: a step forward, but the journey continues"
-10.1016/s1470-2045(25)00297-9,DOI,IKNL,2025,,W4412856362,Long-term survival and cure fraction estimates for paediatric central nervous system tumours in 31 European countries (EUROCARE-6): a population-based study
-10.1016/s1470-2045(25)00356-0,DOI,KWF,2025,G11,W4411847954,"SANO trial: innovations, risks, and unanswered questions – Authors' reply"
-10.1016/s1470-2045(25)00363-8,DOI,KWF,2025,G10,W4414104868,"Neoadjuvant FOLFIRINOX versus neoadjuvant gemcitabine-based chemoradiotherapy in resectable and borderline resectable pancreatic cancer (PREOPANC-2): a multicentre, open-label, phase 3 randomised trial"
-10.1016/s1470-2045(25)00379-1,DOI,KWF,2025,G10,W4414005916,Adjuvant chemoradiotherapy versus radiotherapy alone in women with high-risk endometrial cancer (PORTEC-3): 10-year clinical outcomes and post-hoc analysis by molecular classification from a randomised phase 3 trial
-10.1016/s1470-2045(25)00514-5,DOI,KWF,2025,G12,W4416589110,"Pembrolizumab plus lenvatinib as second-line treatment in patients with pleural mesothelioma (PEMMELA): cohort 2 of a single-arm, phase 2 study"
-10.1016/s1470-2045(25)00612-6,DOI,IKNL+KWF,2025,G10,W7116956343,"Molecular profile-based adjuvant treatment for women with high-intermediate risk endometrial cancer (PORTEC-4a): results of a randomised, open-label, phase 3, multicentre, non-inferiority trial"
-10.1016/s1470-2045(25)00614-x,DOI,KWF,2025,G10,W7116870583,"Concurrent and adjuvant temozolomide for 1p/19q non-co-deleted anaplastic glioma (CATNON; EORTC study 26053-22054): final and exploratory analyses of a randomised, open-label, phase 3 trial"
-10.1016/s1470-2045(25)00729-6,DOI,KWF,2025,,W7116904071,The PREOPANC-2 trial in resectable and borderline resectable pancreatic cancer – Authors' reply
-10.1016/s2468-1253(25)00209-2,DOI,KWF,2025,G10,W4414831961,Endoscopic versus surgical gastroenterostomy for palliation of malignant gastric outlet obstruction (ENDURO): a randomised controlled trial
-10.1016/s2468-2667(25)00194-x,DOI,IKNL,2025,,W4414417581,Changes in use and utilisation patterns of drugs with reported shortages between 2010 and 2024 in Europe and North America: a network cohort study
+41138738,PMID,IKNL,2025,G09;G10;G08,W4415447820,"Global variation in patterns of care and time to initial treatment for breast, cervical, and ovarian cancer from 2015 to 2018 (VENUSCANCER): a secondary analysis of individual records for 275 792 women from 103 population-based cancer registries in 39 countries and territories"
+40112851,PMID,KWF,2025,G10,W4408511506,"Neoadjuvant chemoradiotherapy followed by active surveillance versus standard surgery for oesophageal cancer (SANO trial): a multicentre, stepped-wedge, cluster-randomised, non-inferiority, phase 3 trial"
+40609575,PMID,KWF,2025,,W4411848258,"RADIOSA and the management of oligorecurrent prostate cancer: a step forward, but the journey continues"
+40744027,PMID,IKNL,2025,,W4412856362,Long-term survival and cure fraction estimates for paediatric central nervous system tumours in 31 European countries (EUROCARE-6): a population-based study
+40609580,PMID,KWF,2025,G11,W4411847954,"SANO trial: innovations, risks, and unanswered questions – Authors' reply"
+40945523,PMID,KWF,2025,G10,W4414104868,"Neoadjuvant FOLFIRINOX versus neoadjuvant gemcitabine-based chemoradiotherapy in resectable and borderline resectable pancreatic cancer (PREOPANC-2): a multicentre, open-label, phase 3 randomised trial"
+40921169,PMID,KWF,2025,G10,W4414005916,Adjuvant chemoradiotherapy versus radiotherapy alone in women with high-risk endometrial cancer (PORTEC-3): 10-year clinical outcomes and post-hoc analysis by molecular classification from a randomised phase 3 trial
+41308680,PMID,KWF,2025,G12,W4416589110,"Pembrolizumab plus lenvatinib as second-line treatment in patients with pleural mesothelioma (PEMMELA): cohort 2 of a single-arm, phase 2 study"
+41449145,PMID,IKNL+KWF,2025,G10,W7116956343,"Molecular profile-based adjuvant treatment for women with high-intermediate risk endometrial cancer (PORTEC-4a): results of a randomised, open-label, phase 3, multicentre, non-inferiority trial"
+41449147,PMID,KWF,2025,G10,W7116870583,"Concurrent and adjuvant temozolomide for 1p/19q non-co-deleted anaplastic glioma (CATNON; EORTC study 26053-22054): final and exploratory analyses of a randomised, open-label, phase 3 trial"
+41449160,PMID,KWF,2025,,W7116904071,The PREOPANC-2 trial in resectable and borderline resectable pancreatic cancer – Authors' reply
+41061719,PMID,KWF,2025,G10,W4414831961,Endoscopic versus surgical gastroenterostomy for palliation of malignant gastric outlet obstruction (ENDURO): a randomised controlled trial
+40992879,PMID,IKNL,2025,,W4414417581,Changes in use and utilisation patterns of drugs with reported shortages between 2010 and 2024 in Europe and North America: a network cohort study
 10.1017/s0007114525105862,DOI,IKNL,2025,G15;G14;G06,W4417151106,The effect of a person-centred lifestyle programme on cancer-related fatigue in colorectal cancer survivors: a randomised trial
 10.1017/s1478951525100333,DOI,IKNL,2025,G13,W4412110886,Timely integration of palliative care into standard oncology care: An interview study with clinicians and patients with incurable cancer
 10.1021/acs.inorgchem.5c01556,DOI,KWF,2025,G10;G15,W4412347968,"Organometallic Half-Sandwich Complexes of 1,10-Phenanthroline Derivatives with Improved Solubility, Albumin-Binding, and Nanoformulation Potential Targeting Drug Resistance in Cancer"
@@ -11910,18 +11910,18 @@ identifier,identifier_type,source,year,goals,openalex_id,title
 10.1016/j.ygyno.2026.01.772,DOI,IKNL,2026,G10,W7128647001,Survival benefit of platinum-based chemotherapy in non-surgically treated advanced ovarian cancer: A nationwide study
 10.1016/j.ygyno.2026.03.011,DOI,KWF,2026,G10,W7141959965,Influence of cardiophrenic lymph nodes on survival in patients receiving hyperthermic intraperitoneal chemotherapy for ovarian cancer in the OVHIPEC-1 trial
 10.1016/j.ymthe.2026.02.001,DOI,KWF,2026,,W7128168035,CAR-mediated release of IL-10 increases the function of regulatory T cells: Relevance for future clinical application
-10.1016/s1470-2045(26)00084-7,DOI,KWF,2026,G12,W7165022520,"Development and validation of artificial intelligence-assisted volumetric response criteria in pleural mesothelioma (ARTIMES): a retrospective, multicohort, multicentre study"
-10.1016/s1470-2045(26)00085-9,DOI,IKNL+KWF,2026,G10,W7166533071,"Perioperative systemic therapy versus surgery alone for resectable colorectal peritoneal-only metastases (CAIRO6): a randomised, open-label, phase 3 trial"
-10.1016/s1470-2045(26)00131-2,DOI,KWF,2026,G10,W7166567229,"Targeting homologous recombination deficiency with intensified chemotherapy versus standard chemotherapy followed by olaparib in stage III breast cancer (SUBITO): an open-label, randomised, controlled, phase 3 trial"
-10.1016/s1470-2045(26)00144-0,DOI,KWF,2026,G10,W7167664916,"Systemic therapy, gastrectomy, cytoreductive surgery, and hyperthermic intraperitoneal chemotherapy versus systemic therapy alone for gastric cancer with limited peritoneal metastases (PERISCOPE II): final results of a multicentre, randomised, controlled, phase 3 trial after an unplanned commissioned interim analysis"
-10.1016/s1470-2045(26)00216-0,DOI,IKNL+KWF,2026,G10,W7166532960,"Tailoring radiotherapy in cT1–2N1 breast cancer to nodal response on primary chemotherapy (RAPCHEM: BOOG 2010-03): 10-year follow-up results of a Dutch, prospective, registry study"
-10.1016/s1470-2045(26)00228-7,DOI,KWF,2026,G10,W7204049297,"Chemoradiotherapy versus short-course radiotherapy for response-adapted organ preservation in early-stage and intermediate-stage rectal cancer (STAR-TREC): 12-month results of an international, multicentre, open-label, parallel-group, randomised, phase 2/3 trial"
-10.1016/s1470-2045(26)00233-0,DOI,KWF,2026,,W7166579155,Internal mammary chain and medial supraclavicular lymph node irradiation in stage I-III breast cancer (EORTC trial 22922/10925): an unplanned subset analysis of 20-year outcomes in patients with node-negative breast cancer
-10.1016/s1470-2045(26)00305-0,DOI,IKNL,2026,,W7212259432,"Patient-reported symptom monitoring in patients with lung cancer (SYMPRO-Lung trial): long-term, post-hoc survival results of a multicentre, stepped-wedged, cluster-randomised clinical trial"
-10.1016/s1470-2045(26)00338-4,DOI,IKNL,2026,G10,W7212052173,Development and external validation of a new prognostic model for metastatic clear cell renal cell carcinoma: a preregistered analysis using data from randomised clinical trials in the checkpoint inhibitor era
-10.1016/s2468-1253(25)00367-x,DOI,KWF,2026,G10,W7128313440,"Long-term oncological outcomes following algorithm-based care versus usual care for the early recognition and management of complications after pancreatic resection: a post-hoc analysis of a nationwide, stepped-wedge cluster-randomised trial"
-10.1016/s2468-1253(26)00022-1,DOI,KWF,2026,,W7140072528,"Transanal total mesorectal excision versus laparoscopic total mesorectal excision for mid and low rectal cancer (COLOR III): short-term outcomes of an international, multicentre, phase 3, randomised, controlled, non-inferiority trial"
-10.1016/s2468-1253(26)00109-3,DOI,KWF,2026,G10,W7162488908,"Adjuvant chemoradiotherapy versus completion total mesorectal excision after local excision for early rectal cancer (TESAR): a multicentre, randomised, controlled, phase 3, non-inferiority trial"
+42309108,PMID,KWF,2026,G12,W7165022520,"Development and validation of artificial intelligence-assisted volumetric response criteria in pleural mesothelioma (ARTIMES): a retrospective, multicohort, multicentre study"
+42372745,PMID,IKNL+KWF,2026,G10,W7166533071,"Perioperative systemic therapy versus surgery alone for resectable colorectal peritoneal-only metastases (CAIRO6): a randomised, open-label, phase 3 trial"
+42372741,PMID,KWF,2026,G10,W7166567229,"Targeting homologous recombination deficiency with intensified chemotherapy versus standard chemotherapy followed by olaparib in stage III breast cancer (SUBITO): an open-label, randomised, controlled, phase 3 trial"
+42419336,PMID,KWF,2026,G10,W7167664916,"Systemic therapy, gastrectomy, cytoreductive surgery, and hyperthermic intraperitoneal chemotherapy versus systemic therapy alone for gastric cancer with limited peritoneal metastases (PERISCOPE II): final results of a multicentre, randomised, controlled, phase 3 trial after an unplanned commissioned interim analysis"
+42372742,PMID,IKNL+KWF,2026,G10,W7166532960,"Tailoring radiotherapy in cT1–2N1 breast cancer to nodal response on primary chemotherapy (RAPCHEM: BOOG 2010-03): 10-year follow-up results of a Dutch, prospective, registry study"
+42633754,PMID,KWF,2026,G10,W7204049297,"Chemoradiotherapy versus short-course radiotherapy for response-adapted organ preservation in early-stage and intermediate-stage rectal cancer (STAR-TREC): 12-month results of an international, multicentre, open-label, parallel-group, randomised, phase 2/3 trial"
+42372743,PMID,KWF,2026,,W7166579155,Internal mammary chain and medial supraclavicular lymph node irradiation in stage I-III breast cancer (EORTC trial 22922/10925): an unplanned subset analysis of 20-year outcomes in patients with node-negative breast cancer
+42727592,PMID,IKNL,2026,,W7212259432,"Patient-reported symptom monitoring in patients with lung cancer (SYMPRO-Lung trial): long-term, post-hoc survival results of a multicentre, stepped-wedged, cluster-randomised clinical trial"
+42716079,PMID,IKNL,2026,G10,W7212052173,Development and external validation of a new prognostic model for metastatic clear cell renal cell carcinoma: a preregistered analysis using data from randomised clinical trials in the checkpoint inhibitor era
+41662856,PMID,KWF,2026,G10,W7128313440,"Long-term oncological outcomes following algorithm-based care versus usual care for the early recognition and management of complications after pancreatic resection: a post-hoc analysis of a nationwide, stepped-wedge cluster-randomised trial"
+41887239,PMID,KWF,2026,,W7140072528,"Transanal total mesorectal excision versus laparoscopic total mesorectal excision for mid and low rectal cancer (COLOR III): short-term outcomes of an international, multicentre, phase 3, randomised, controlled, non-inferiority trial"
+42202843,PMID,KWF,2026,G10,W7162488908,"Adjuvant chemoradiotherapy versus completion total mesorectal excision after local excision for early rectal cancer (TESAR): a multicentre, randomised, controlled, phase 3, non-inferiority trial"
 10.1017/s147895152610337x,DOI,KWF,2026,G19;G15;G20;G13,W7212083137,"Supportive care needs, perceived social support, and quality of life among family caregivers of patients with advanced cancer: A convergent mixed-methods study from Türkiye"
 10.1021/acs.jmedchem.6c00674,DOI,KWF,2026,G09,W7167036503,"One Face, Three Solutions: Structural Convergence in PD-L1 Inhibition across Antibodies, Macrocycles, and Small Molecules"
 10.1021/acschembio.6c00241,DOI,KWF,2026,,W7168391501,Craspase Protease Activation Is Sensitive to Oncogenic Single-Nucleotide RNA Mismatches

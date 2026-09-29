@@ -34,9 +34,14 @@ def overton_identifiers(table: pd.DataFrame) -> pd.DataFrame:
     OpenAlex has no ISBNs; articles with neither DOI nor PMID (mostly
     dissertations and conference papers) cannot be looked up and are left out.
     """
+    # Overton's search box reads brackets as query syntax, so a DOI such as
+    # 10.1016/s1470-2045(09)70353-5 breaks the whole search ("cannot parse response").
+    # For those, use the PubMed ID when there is one.
+    bracket_doi = table.doi.fillna("").str.contains(r"[()\[\]]")
+    use_doi = table.doi.notna() & ~(bracket_doi & table.pmid.notna())
     ids = table.assign(
-        identifier=table.doi.fillna(table.pmid),
-        identifier_type=table.doi.notna().map({True: "DOI", False: "PMID"}),
+        identifier=table.doi.where(use_doi, table.pmid),
+        identifier_type=use_doi.map({True: "DOI", False: "PMID"}),
     ).dropna(subset=["identifier"])
     return ids[["identifier", "identifier_type", "source", "year", "goals", "openalex_id", "title"]] \
         .drop_duplicates("identifier").reset_index(drop=True)
@@ -66,9 +71,13 @@ def write_overton(works: pd.DataFrame, work_goals: pd.DataFrame, out_dir: Path =
     for old in batch_dir.glob("*.txt"):
         old.unlink()
     batch_dir.mkdir(exist_ok=True)
+    brackets = ids.identifier.str.contains(r"[()\[\]]")
+    (batch_dir / "brackets_doi_try_separately.txt").write_text("\n".join(ids.identifier[brackets]) + "\n")
+    written["overton_batches/brackets_doi_try_separately.txt"] = int(brackets.sum())
+    (batch_dir / "test_20.txt").write_text("\n".join(ids.identifier[~brackets].head(20)) + "\n")
     for name, subset in subsets.items():
         stem = name.removeprefix("overton_upload_").removesuffix(".csv")
-        values = subset.identifier.tolist()
+        values = subset.identifier[~subset.identifier.str.contains(r"[()\[\]]")].tolist()
         chunks = [values[i:i + OVERTON_BATCH] for i in range(0, len(values), OVERTON_BATCH)]
         for n, chunk in enumerate(chunks, 1):
             (batch_dir / f"{stem}_{n:02d}_of_{len(chunks):02d}.txt").write_text("\n".join(chunk) + "\n")

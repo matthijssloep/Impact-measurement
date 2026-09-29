@@ -55,7 +55,8 @@ def step_openalex(start_year: int | None = None) -> None:
     by_number = fetch.fetch_grant_number_works(client, numbers, iknl_ids, start_year) if numbers else pd.DataFrame()
 
     # Links article -> KWF project (from award IDs and from full-text hits).
-    links = [fetch.match_awards_to_projects(pd.concat([iknl, funded], ignore_index=True), numbers)]
+    links = [fetch.match_awards_to_projects(pd.concat([iknl, funded], ignore_index=True), numbers,
+                                          funder_ids)]
     if not by_number.empty:
         links.append(by_number[["openalex_id", "kwf_project_number"]]
                      .rename(columns={"kwf_project_number": "project_number"})

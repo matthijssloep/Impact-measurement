@@ -250,6 +250,9 @@ def flatten_work(work: dict, iknl_ids: set[str] | None = None) -> dict:
         "funder_ids": sorted({f["funder_id"] for f in funding if f["funder_id"]}),
         "funder_names": sorted({f["funder_name"] for f in funding if f["funder_name"]}),
         "award_ids": sorted({f["award_id"] for f in funding if f["award_id"]}),
+        # "funder_id|award_id" so awards can be tied back to their funder
+        "funder_awards": sorted({f"{f['funder_id']}|{f['award_id']}" for f in funding
+                                 if f["funder_id"] and f["award_id"]}),
     }
 
 

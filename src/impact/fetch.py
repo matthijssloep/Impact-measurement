@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import json
 import logging
+import re
 
 import pandas as pd
 
@@ -114,14 +115,28 @@ def fetch_grant_number_works(client: OpenAlex, project_numbers: list[str], iknl_
     return out
 
 
-def match_awards_to_projects(works: pd.DataFrame, project_numbers: list[str]) -> pd.DataFrame:
-    """Link works to KWF projects when an award ID equals a project number."""
-    lookup = {normalize_award(n): n for n in project_numbers if normalize_award(n)}
+def match_awards_to_projects(works: pd.DataFrame, project_numbers: list[str],
+                             funder_ids: list[str]) -> pd.DataFrame:
+    """Link works to KWF projects via KWF award IDs.
+
+    A KWF award matches a project when, ignoring spaces and punctuation, it equals
+    the project number, or its trailing number equals it ("KWF 10895", "KWF-UVA 10895").
+    Only awards from the KWF funder IDs are used, so other funders' grant numbers
+    cannot match by accident.
+    """
+    exact = {normalize_award(n): n for n in project_numbers if normalize_award(n)}
+    by_number = {n.strip(): n for n in project_numbers if n and n.strip().isdigit()}
+    funders = set(funder_ids)
     rows = []
-    for rec in works[["openalex_id", "award_ids"]].itertuples(index=False):
-        for award in rec.award_ids:
-            key = normalize_award(award)
-            if key in lookup:
-                rows.append({"openalex_id": rec.openalex_id, "project_number": lookup[key],
+    for rec in works[["openalex_id", "funder_awards"]].itertuples(index=False):
+        for pair in rec.funder_awards:
+            funder, _, award = pair.partition("|")
+            if funder not in funders:
+                continue
+            project = exact.get(normalize_award(award))
+            if project is None and (m := re.search(r"(\d{5})\s*$", award)):
+                project = by_number.get(m.group(1))
+            if project:
+                rows.append({"openalex_id": rec.openalex_id, "project_number": project,
                              "evidence": "openalex_award_id"})
-    return pd.DataFrame(rows, columns=["openalex_id", "project_number", "evidence"])
+    return pd.DataFrame(rows, columns=["openalex_id", "project_number", "evidence"]).drop_duplicates()

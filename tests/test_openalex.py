@@ -79,3 +79,12 @@ def test_invalid_select_is_dropped(monkeypatch):
     works = list(client.iter_works("x:y", fields=["id", "title", "grants"]))
     assert works == [{"id": "W1"}]
     assert calls[-1] == "id,title"
+
+
+def test_match_awards_only_kwf():
+    import pandas as pd
+    from impact.fetch import match_awards_to_projects
+    works = pd.DataFrame({"openalex_id": ["W1", "W2", "W3"], "funder_awards": [
+        ["F1|KWF 10895"], ["F2|10895"], ["F1|KUN 2015-7970", "F1|11788"]]})
+    out = match_awards_to_projects(works, ["10895", "11788"], ["F1"])
+    assert sorted(zip(out.openalex_id, out.project_number)) == [("W1", "10895"), ("W3", "11788")]

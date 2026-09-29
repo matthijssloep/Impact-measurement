@@ -47,3 +47,11 @@ def test_agenda_goals_config():
     assert [g.id for g in goals] == [f"G{i:02d}" for i in range(1, 21)]
     assert all(g.title_en and g.title_nl and g.ambition and g.terms for g in goals)
     assert sum(g.featured for g in goals) == 6
+
+
+def test_classify_handles_array_and_missing_cells():
+    import numpy as np
+    items = pd.DataFrame({"id": ["a", "b"], "title": ["x", None],
+                          "tags": [np.array(["screening", "vroege opsporing"]), None]})
+    links = classify(items, GOALS, "id", "title", ["tags"])
+    assert links.id.tolist() == ["a"]

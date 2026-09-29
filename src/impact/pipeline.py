@@ -29,6 +29,10 @@ def _write(df: pd.DataFrame, name: str) -> None:
 def step_kwf() -> None:
     projects = kwf.add_iknl_flags(kwf.scrape_projects())
     _write(projects, "kwf_projects")
+    # Human-readable copy (GitHub renders CSV as a table).
+    config.EXPORT_DIR.mkdir(parents=True, exist_ok=True)
+    projects.assign(cancer_types=projects.cancer_types.map("; ".join)) \
+        .to_csv(config.EXPORT_DIR / "kwf_projects.csv", index=False)
 
 
 def step_openalex(start_year: int | None = None) -> None:

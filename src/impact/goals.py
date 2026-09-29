@@ -24,6 +24,7 @@ import unicodedata
 from dataclasses import dataclass, field
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 import yaml
 
@@ -92,14 +93,23 @@ def score_text(goal: Goal, title: str, body: str) -> tuple[float, list[str]]:
     return score, matched
 
 
+def as_text(value) -> str:
+    """Join list-like cells (Parquet lists come back as arrays); blank for missing."""
+    if value is None:
+        return ""
+    if isinstance(value, (list, tuple, np.ndarray)):
+        return " ".join(str(v) for v in value)
+    return "" if pd.isna(value) else str(value)
+
+
 def classify(items: pd.DataFrame, goals: list[Goal], id_col: str, title_col: str,
              body_cols: list[str], min_score: float = MIN_SCORE) -> pd.DataFrame:
     """Return one row per (item, goal) link with score, confidence and matched terms."""
     rows = []
     for rec in items.to_dict("records"):
-        body = " ".join(str(rec.get(c) or "") for c in body_cols)
+        body = " ".join(as_text(rec.get(c)) for c in body_cols)
         for goal in goals:
-            score, matched = score_text(goal, str(rec.get(title_col) or ""), body)
+            score, matched = score_text(goal, as_text(rec.get(title_col)), body)
             if score >= min_score:
                 rows.append({
                     id_col: rec[id_col], "goal_id": goal.id, "score": score,

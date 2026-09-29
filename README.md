@@ -48,6 +48,6 @@ them, so totals add up without double counting.
 - [x] OpenAlex client, IKNL / KWF queries, grant-number matching
 - [x] Keyword goal classifier, impact-per-goal metrics, Overton export
 - [x] Bilingual dashboard (tested locally on sample data)
-- [ ] KWF scraper (needs network access to `www.kwf.nl`)
+- [x] KWF scraper: 1,029 projects (start 2017+), €731M; `data/export/kwf_projects.csv`
 - [x] 20 goals + EN/NL keyword rules in `config/goals.yaml`
 - [ ] First real data run (needs `api.openalex.org`)

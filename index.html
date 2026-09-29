@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cancer Agenda impact</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@stlite/browser@1.9.2/build/stlite.css">
+  <style>
+    body { margin: 0; background: #ffffff; font-family: system-ui, sans-serif; }
+    #loading { padding: 2rem 1rem; color: #52514e; }
+  </style>
+</head>
+<body>
+  <div id="root"><p id="loading">Dashboard wordt geladen (±20 s bij eerste bezoek) · Loading dashboard (~20 s on first visit)…</p></div>
+  <script type="module">
+    import { mount } from "https://cdn.jsdelivr.net/npm/@stlite/browser@1.9.2/build/stlite.js";
+    mount(
+      {
+        requirements: ["plotly"],
+        entrypoint: "streamlit_app.py",
+        files: {
+  "streamlit_app.py": {
+    "url": "./streamlit_app.py"
+  },
+  "data/goals.csv": {
+    "url": "./data/goals.csv"
+  },
+  "data/impact_per_goal.csv": {
+    "url": "./data/impact_per_goal.csv"
+  },
+  "data/impact_per_goal_kwf.csv": {
+    "url": "./data/impact_per_goal_kwf.csv"
+  },
+  "data/iknl_kwf_partners.csv": {
+    "url": "./data/iknl_kwf_partners.csv"
+  },
+  "data/goal_year_trend.csv": {
+    "url": "./data/goal_year_trend.csv"
+  },
+  "data/project_goals.csv": {
+    "url": "./data/project_goals.csv"
+  },
+  "data/work_goals.csv": {
+    "url": "./data/work_goals.csv"
+  },
+  "data/kwf_projects.csv": {
+    "url": "./data/kwf_projects.csv"
+  },
+  "data/works.csv": {
+    "url": "./data/works.csv"
+  },
+  "data/work_projects.csv": {
+    "url": "./data/work_projects.csv"
+  }
+},
+      },
+      document.getElementById("root"),
+    );
+  </script>
+</body>
+</html>

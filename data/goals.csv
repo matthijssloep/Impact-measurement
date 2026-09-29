@@ -1,0 +1,21 @@
+goal_id,title_en,title_nl,theme,featured,ambition,n_terms
+G01,Smoking behaviour,Rookgedrag,prevention,True,"By 2032, the number of smokers is reduced to 5% of adults and 0% of young people and pregnant women",28
+G02,Alcohol consumption,Alcoholgebruik,prevention,False,"By 2032, pregnant women and under-18s do not drink alcohol; among adults, 65% do not drink alcohol or no more than one glass a day",12
+G03,UV radiation,UV-straling,prevention,False,"By 2032, the number of people applying safe sun behaviour advice will have increased by at least 15%",22
+G04,Infectious diseases,Infectieziekten,prevention,False,"By 2032, infections with the HPV virus, and other infectious diseases that can lead to cancer, are prevented as much as possible",21
+G05,Environmental and air pollution,Milieu- en luchtvervuiling,prevention,False,"By 2032, people are less exposed to environmental and air pollution",28
+G06,Nutrition and exercise,Voeding en bewegen,prevention,False,"By 2032, people eat healthier and exercise enough",30
+G07,Hereditary predisposition,Erfelijke aanleg,early_detection,False,"By 2032, people who may have a hereditary predisposition can make informed choices for hereditary testing",24
+G08,Early detection,Vroege opsporing,early_detection,True,"By 2032, disadvantages and barriers to participating in early cancer detection are reduced",32
+G09,Diagnostics,Diagnostiek,care,True,"By 2032, people with cancer will have a personalised diagnosis (more) quickly with minimal burden",40
+G10,Treatment,Behandeling,care,False,"By 2032, people with cancer will have access to the best possible personalised treatment with minimal burden",40
+G11,Innovations,Innovaties,care,False,"By 2032, innovative and effective diagnostic and treatment methods are more readily available",30
+G12,Rare cancers,Zeldzame kankers,care,True,"By 2032, survival and quality of life of people with or after a rare form of cancer has improved",41
+G13,Palliative care,Palliatieve zorg,care,False,"By 2032, people with incurable cancer will receive proactive palliative care and support based on their values, wishes and needs",27
+G14,Lifestyle support,Leefstijlondersteuning,care,False,"By 2032, people with or after cancer are supported to maintain or acquire a healthy(er) lifestyle",27
+G15,(Late) effects,(Late) gevolgen,quality_of_life,True,"By 2032, good care and support is available for people who live with or after cancer to prevent and reduce the impact of the (late) effects of cancer",43
+G16,Education and cancer,Onderwijs en kanker,quality_of_life,False,"By 2032, people living with or after cancer can be educated according to their own wishes, needs and coping ability",16
+G17,Work and cancer,Werk en kanker,quality_of_life,True,"By 2032, people living with or after cancer will be able to work according to their own wishes, needs and ability to cope",29
+G18,Financial implications,Financiële gevolgen,quality_of_life,False,"By 2032, people living with or after cancer experience as few negative financial consequences as possible",26
+G19,Loved ones and informal caregivers,Naasten en mantelzorgers,quality_of_life,False,"By 2032, care and support for loved ones and informal caregivers is available",25
+G20,Social-emotional support,Sociaal-emotionele steun,quality_of_life,False,"In 2032, people with or after cancer and their loved ones feel socially and emotionally supported by society",31

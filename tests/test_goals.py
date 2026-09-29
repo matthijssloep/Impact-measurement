@@ -39,3 +39,11 @@ def test_classify_multilabel_weights_sum_to_one():
     assert set(links.id) == {"a", "b"}
     assert links.groupby("id").weight.sum().round(6).eq(1).all()
     assert set(links[links.id == "a"].goal_id) == {"G01", "G02"}
+
+
+def test_agenda_goals_config():
+    from impact.goals import load_goals
+    goals = load_goals()
+    assert [g.id for g in goals] == [f"G{i:02d}" for i in range(1, 21)]
+    assert all(g.title_en and g.title_nl and g.ambition and g.terms for g in goals)
+    assert sum(g.featured for g in goals) == 6

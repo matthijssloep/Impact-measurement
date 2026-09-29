@@ -54,6 +54,9 @@ class Goal:
     id: str
     title_en: str
     title_nl: str = ""
+    theme: str = ""
+    featured: bool = False
+    ambition: str = ""
     terms: list[str] = field(default_factory=list)
     exclude: list[str] = field(default_factory=list)
 
@@ -69,7 +72,8 @@ def load_goals(path: Path = config.GOALS_FILE) -> list[Goal]:
         kw = g.get("keywords") or {}
         terms = list(kw.get("en") or []) + list(kw.get("nl") or [])
         goals.append(Goal(id=str(g["id"]), title_en=g.get("title_en", ""), title_nl=g.get("title_nl", ""),
-                          terms=terms, exclude=list(g.get("exclude") or [])))
+                          theme=g.get("theme", ""), featured=bool(g.get("featured")),
+                          ambition=g.get("ambition", ""), terms=terms, exclude=list(g.get("exclude") or [])))
     return goals
 
 
@@ -115,4 +119,5 @@ def classify(items: pd.DataFrame, goals: list[Goal], id_col: str, title_col: str
 
 def goals_frame(goals: list[Goal]) -> pd.DataFrame:
     return pd.DataFrame([{"goal_id": g.id, "title_en": g.title_en, "title_nl": g.title_nl,
+                          "theme": g.theme, "featured": g.featured, "ambition": g.ambition,
                           "n_terms": len(g.terms)} for g in goals])

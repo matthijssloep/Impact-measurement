@@ -49,5 +49,5 @@ them, so totals add up without double counting.
 - [x] Keyword goal classifier, impact-per-goal metrics, Overton export
 - [x] Bilingual dashboard (tested locally on sample data)
 - [ ] KWF scraper (needs network access to `www.kwf.nl`)
-- [ ] 20 goals + keyword rules in `config/goals.yaml` (needs the Cancer Agenda PDF)
+- [x] 20 goals + EN/NL keyword rules in `config/goals.yaml`
 - [ ] First real data run (needs `api.openalex.org`)

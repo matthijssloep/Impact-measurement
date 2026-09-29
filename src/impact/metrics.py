@@ -45,7 +45,8 @@ def impact_per_goal(goals: pd.DataFrame, projects: pd.DataFrame, project_goals: 
             "policy_citations": float((wg.policy_citations.fillna(0) * wg.weight).sum())
             if "policy_citations" in wg else np.nan,
         })
-    out = goals[["goal_id", "title_en", "title_nl"]].merge(pd.DataFrame(rows), on="goal_id")
+    cols = [c for c in ["goal_id", "title_en", "title_nl", "theme", "featured", "ambition"] if c in goals]
+    out = goals[cols].merge(pd.DataFrame(rows), on="goal_id")
     total_funding = out.funding_eur.sum()
     out["citations_per_meur"] = np.where(
         out.funding_eur > 0, out.citations / (out.funding_eur / 1e6), np.nan)

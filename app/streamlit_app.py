@@ -338,29 +338,143 @@ with tabs[1]:
     st.caption(FRACTIONAL_NOTE + " `*_any` columns count every linked item at full weight.")
 
 # ---------------------------------------------------------------- KWF × IKNL
+GROUP_COLOURS = {"IKNL only": VIRIDIS_BLUE, "IKNL + KWF": VIRIDIS_TEAL, "KWF only": VIRIDIS_GREEN}
+
 with tabs[2]:
-    st.info("This page is being redesigned: options for showing how KWF and IKNL interact are being prepared.")
-    if not works_all.empty:
-        w = works_all.assign(source=np.select(
+    if works_all.empty:
+        st.info("No article data yet.")
+    else:
+        wa = works_all.assign(group=np.select(
             [works_all.has_iknl_author & works_all.is_kwf, works_all.has_iknl_author],
             ["IKNL + KWF", "IKNL only"], "KWF only"))
-        per_year = w.groupby(["year", "source"], as_index=False).size()
-        order = ["IKNL only", "IKNL + KWF", "KWF only"]
-        fig = px.bar(per_year, x="year", y="size", color="source", category_orders={"source": order},
-                     color_discrete_map=dict(zip(order, [VIRIDIS_BLUE, VIRIDIS_TEAL, VIRIDIS_GREEN])),
-                     labels={"year": "Year", "size": "Articles"})
-        fig.update_traces(marker_line_width=0)
-        show(fig, "Articles per year by source")
+        iknl = wa[wa.has_iknl_author]
+        c = st.columns(4)
+        c[0].metric("IKNL articles", f"{len(iknl):,}")
+        c[1].metric("…with KWF funding", f"{int(iknl.is_kwf.sum()):,}")
+        c[2].metric("KWF projects with IKNL", f"{int(projects.iknl_involved.sum()) if 'iknl_involved' in projects else 0}")
+        c[3].metric("KWF funding to those projects",
+                    fmt_eur(projects.loc[projects.iknl_involved, 'amount_eur'].sum()) if 'iknl_involved' in projects else "–")
 
-    iknl_col = "iknl_involved" if "iknl_involved" in projects else "is_iknl"
-    if not projects.empty and iknl_col in projects and projects[iknl_col].any():
-        ip = projects[projects[iknl_col]].groupby("start_year", as_index=False).amount_eur.sum()
-        fig = px.bar(ip, x="start_year", y="amount_eur", labels={"start_year": "Year", "amount_eur": "€"})
-        fig.update_traces(marker_color=VIRIDIS_TEAL, marker_line_width=0)
-        show(fig, "KWF funding to projects led by or involving IKNL, per start year", 360)
+        # A · share of IKNL research that is KWF-funded
+        last_full_year = int(wa.year.max()) - 1
+        a = (iknl[iknl.year <= last_full_year].groupby("year")
+             .agg(n=("openalex_id", "size"), k=("is_kwf", "sum")).reset_index())
+        a["share"] = a.k / a.n * 100
+        fig = go.Figure()
+        fig.add_bar(x=a.year, y=a.k, name="KWF-funded", marker_color=VIRIDIS_TEAL,
+                    hovertemplate="%{x}: %{y} KWF-funded<extra></extra>")
+        fig.add_bar(x=a.year, y=a.n - a.k, name="Other funding", marker_color="#c9d3e6",
+                    text=[f"{v:.0f}%" for v in a.share], textposition="outside",
+                    textfont=dict(color=VIRIDIS_TEAL, size=12), customdata=a.share,
+                    hovertemplate="%{x}: %{y} other · %{customdata:.0f}% KWF-funded<extra></extra>")
+        fig.update_layout(barmode="stack", yaxis_title="IKNL articles", template="plotly_white")
+        show(fig, "A · How much of IKNL's research is KWF-funded?", 440)
+        st.caption(f"IKNL articles per year up to {last_full_year}, split by funding; label = share KWF-funded.")
 
-    if not works_all.empty:
-        both = works_all[works_all.has_iknl_author & works_all.is_kwf].sort_values("cited_by_count", ascending=False)
+        # B · Sankey: IKNL articles -> funding -> Agenda theme
+        ik_goals = work_goals[work_goals.openalex_id.isin(iknl.openalex_id)].merge(
+            iknl[["openalex_id", "is_kwf"]], on="openalex_id")
+        ik_goals = ik_goals.assign(mid=np.where(ik_goals.is_kwf, "KWF-funded", "Other funding"),
+                                   theme=ik_goals.goal_id.map(goal_theme))
+        src = f"IKNL articles ({len(iknl):,})"
+        mids = pd.Series(np.where(iknl.is_kwf, "KWF-funded", "Other funding"), index=iknl.openalex_id)
+        mc = mids.value_counts()
+        to_theme = ik_goals.groupby(["mid", "theme"], as_index=False).weight.sum()
+        nog = mids[~mids.index.isin(work_goals.openalex_id)].value_counts()
+        flows = pd.concat([
+            pd.DataFrame({"source": src, "target": mc.index, "value": mc.values,
+                          "colour": [VIRIDIS_TEAL if m == "KWF-funded" else "#9aa7c4" for m in mc.index]}),
+            pd.DataFrame({"source": to_theme.mid, "target": to_theme.theme.map(THEMES), "value": to_theme.weight,
+                          "colour": [VIRIDIS_TEAL if m == "KWF-funded" else "#9aa7c4" for m in to_theme.mid]}),
+            pd.DataFrame({"source": nog.index, "target": NO_GOAL, "value": nog.values, "colour": "#b8b8b8"}),
+        ])
+        colours = {THEMES[k]: v for k, v in THEME_COLOURS.items() if k}
+        colours.update({NO_GOAL: "#b8b8b8", src: VIRIDIS_BLUE, "KWF-funded": VIRIDIS_TEAL, "Other funding": "#9aa7c4"})
+        st.subheader("B · IKNL research: KWF-funded or not, and on which Agenda themes")
+        st.plotly_chart(sankey(flows, [[src], ["Other funding", "KWF-funded"], [*THEMES.values(), NO_GOAL]],
+                               colours, ",.0f").update_layout(height=520), use_container_width=True)
+        st.caption("IKNL articles since 2010; articles linked to several goals are split across them.")
+
+        # C · portfolio profile per goal
+        k = work_goals.merge(wa[["openalex_id", "has_iknl_author", "is_kwf"]], on="openalex_id")
+        prof = pd.DataFrame({
+            "IKNL": k[k.has_iknl_author].groupby("goal_id").weight.sum() / k[k.has_iknl_author].weight.sum() * 100,
+            "KWF": k[k.is_kwf].groupby("goal_id").weight.sum() / k[k.is_kwf].weight.sum() * 100,
+        }).fillna(0).reset_index()
+        prof["label"] = prof.goal_id.map(labels)
+        prof["n"] = prof.goal_id.str.extract(r"(\d+)", expand=False).astype(int)
+        prof = prof.sort_values("n", ascending=False)
+        fig = go.Figure()
+        fig.add_bar(y=prof.label, x=-prof.IKNL, orientation="h", name="IKNL articles", marker_color=VIRIDIS_BLUE,
+                    customdata=prof.IKNL, hovertemplate="%{y}: %{customdata:.1f}% of IKNL articles<extra></extra>")
+        fig.add_bar(y=prof.label, x=prof.KWF, orientation="h", name="KWF-funded articles", marker_color=VIRIDIS_GREEN,
+                    hovertemplate="%{y}: %{x:.1f}% of KWF-funded articles<extra></extra>")
+        lim = float(max(prof.IKNL.max(), prof.KWF.max()) * 1.1)
+        ticks = [v for v in range(-50, 51, 10) if abs(v) <= lim]
+        fig.update_layout(barmode="relative", template="plotly_white",
+                          xaxis=dict(range=[-lim, lim], tickvals=ticks, ticktext=[f"{abs(v)}%" for v in ticks],
+                                     title="Share of each portfolio"))
+        show(fig, "C · Different strengths: IKNL and KWF portfolios per goal", 700)
+        st.caption("Share of IKNL articles (left) and of KWF-funded articles (right) per NKC goal.")
+
+        # D · citation impact of joint work
+        cutoff = int(wa.year.max()) - 3  # recent articles have not had time to be cited
+        d = (wa[wa.year <= cutoff].groupby("group")
+             .agg(median_fwci=("fwci", "median"), top10=("top10pct", "mean"), n=("openalex_id", "size"))
+             .reindex(list(GROUP_COLOURS)).reset_index())
+        c1, c2 = st.columns(2)
+        with c1:
+            fig = go.Figure(go.Bar(x=d.group, y=d.median_fwci, marker_color=[GROUP_COLOURS[g] for g in d.group],
+                                   text=d.median_fwci.round(2), textposition="outside", customdata=d.n,
+                                   hovertemplate="%{x}: %{y:.2f} (n=%{customdata:,})<extra></extra>"))
+            fig.add_hline(y=1, line_dash="dot", line_color="#999")
+            fig.update_layout(template="plotly_white", yaxis_title="Median FWCI")
+            show(fig, "D · Citation impact of joint work", 400)
+        with c2:
+            fig = go.Figure(go.Bar(x=d.group, y=d.top10 * 100, marker_color=[GROUP_COLOURS[g] for g in d.group],
+                                   text=[f"{v:.0f}%" for v in d.top10 * 100], textposition="outside",
+                                   hovertemplate="%{x}: %{y:.0f}%<extra></extra>"))
+            fig.add_hline(y=10, line_dash="dot", line_color="#999")
+            fig.update_layout(template="plotly_white", yaxis_title="% in top 10% most cited")
+            show(fig, "\u00a0", 400)
+        st.caption(f"Articles 2010–{cutoff}. Dotted line = world average (FWCI 1.0; 10% in the top 10%).")
+
+        # E · partner institutions
+        partners = load("iknl_kwf_partners")
+        if not partners.empty:
+            top = partners.head(15).iloc[::-1]
+            fig = go.Figure(go.Bar(x=top.articles, y=top.institution, orientation="h",
+                                   marker=dict(color=top.articles, colorscale="Viridis"),
+                                   hovertemplate="%{y}: %{x} joint articles<extra></extra>"))
+            fig.update_layout(template="plotly_white", xaxis_title="IKNL articles with KWF funding")
+            show(fig, "E · Who IKNL works with on KWF-funded research", 560)
+            st.caption(f"Partner institutions on the {int(iknl.is_kwf.sum()):,} IKNL articles with KWF funding "
+                       "(top 15; IKNL itself excluded).")
+
+        # F · KWF projects with IKNL
+        if "iknl_involved" in projects and projects.iknl_involved.any() and "start_date" in projects:
+            q = projects[projects.iknl_involved].copy()
+            q["start"] = pd.to_datetime(q.start_date)
+            q["end"] = q.start + pd.to_timedelta(q.duration_months.fillna(48) * 30.44, unit="D")
+            n_art = (work_projects.dropna(subset=["project_id"]).groupby("project_id").size()
+                     if not work_projects.empty else pd.Series(dtype=int))
+            q["articles"] = q.project_id.astype(str).map(n_art.rename(index=str)).fillna(0).astype(int)
+            q["role"] = np.where(q.is_iknl, "IKNL leads", "IKNL in project team")
+            q["short"] = q.title.str.slice(0, 60) + np.where(q.title.str.len() > 60, "…", "")
+            q = q.sort_values(["role", "start"])
+            fig = px.timeline(q, x_start="start", x_end="end", y="short", color="role",
+                              color_discrete_map={"IKNL leads": "#440154", "IKNL in project team": VIRIDIS_TEAL},
+                              hover_data={"institution": True, "amount_eur": ":,.0f", "articles": True,
+                                          "short": False, "start": False, "end": False})
+            for r in q.itertuples():
+                fig.add_annotation(x=r.end, y=r.short, text=f" {fmt_eur(r.amount_eur)} · {r.articles} art.",
+                                   showarrow=False, xanchor="left", font=dict(size=10, color="#555"))
+            fig.update_yaxes(autorange="reversed", title="")
+            fig.update_layout(template="plotly_white", legend=dict(orientation="h", y=-0.08, title=""))
+            show(fig, "F · KWF projects with IKNL: timeline, budget and output", max(420, 26 * len(q) + 120))
+            st.caption("KWF projects led by or involving IKNL; label = budget · articles linked to the project.")
+
+        both = wa[wa.group == "IKNL + KWF"].sort_values("cited_by_count", ascending=False)
         st.subheader("IKNL articles with KWF funding")
         st.dataframe(both[["year", "title", "journal", "doi", "cited_by_count", "fwci", "kwf_evidence"]],
                      use_container_width=True, hide_index=True)

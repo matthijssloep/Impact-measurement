@@ -147,6 +147,17 @@ def step_metrics() -> None:
     _write(metrics.impact_per_goal(goals, projects, project_goals, kwf_works,
                                    work_goals[work_goals.openalex_id.isin(kwf_works.openalex_id)]),
            "impact_per_goal_kwf")
+    _write(iknl_kwf_partners(works), "iknl_kwf_partners")
+
+
+def iknl_kwf_partners(works: pd.DataFrame) -> pd.DataFrame:
+    """Institutions co-authoring the IKNL articles that have KWF funding (IKNL itself excluded)."""
+    joint = works[works.has_iknl_author & works.is_kwf].explode("institutions")
+    joint = joint[~joint.institutions.fillna("").str.contains("Comprehensive Cancer Organisation|IKNL",
+                                                             case=False)]
+    return (joint.dropna(subset=["institutions"]).groupby("institutions").openalex_id.nunique()
+            .rename("articles").reset_index().rename(columns={"institutions": "institution"})
+            .sort_values("articles", ascending=False).reset_index(drop=True))
     _write(metrics.goal_year_trend(work_goals, works, project_goals, projects), "goal_year_trend")
 
 
@@ -159,11 +170,13 @@ APP_TABLES = {
     "goals": None,
     "impact_per_goal": None,
     "impact_per_goal_kwf": None,
+    "iknl_kwf_partners": None,
     "goal_year_trend": None,
     "project_goals": ["project_id", "goal_id", "confidence", "weight", "is_primary"],
     "work_goals": ["openalex_id", "goal_id", "confidence", "weight", "is_primary", "goal_source"],
     "kwf_projects": ["project_id", "project_number", "title", "project_leader", "institution",
-                     "amount_eur", "start_year", "end_year", "status", "research_theme", "funding_partner",
+                     "amount_eur", "start_date", "start_year", "duration_months", "end_year", "status",
+                     "research_theme", "funding_partner",
                      "is_iknl", "iknl_involved", "url"],
     "works": ["openalex_id", "doi", "pmid", "title", "year", "journal", "cited_by_count", "fwci",
               "top10pct", "is_oa", "has_iknl_author", "is_kwf", "kwf_evidence"],

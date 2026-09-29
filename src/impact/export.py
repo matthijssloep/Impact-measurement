@@ -75,13 +75,18 @@ def write_overton(works: pd.DataFrame, work_goals: pd.DataFrame, out_dir: Path =
     (batch_dir / "brackets_doi_try_separately.txt").write_text("\n".join(ids.identifier[brackets]) + "\n")
     written["overton_batches/brackets_doi_try_separately.txt"] = int(brackets.sum())
     (batch_dir / "test_20.txt").write_text("\n".join(ids.identifier[~brackets].head(20)) + "\n")
+    # Overton's box takes DOIs *or* PubMed IDs: a list mixing both fails, so write them apart.
     for name, subset in subsets.items():
         stem = name.removeprefix("overton_upload_").removesuffix(".csv")
-        values = subset.identifier[~subset.identifier.str.contains(r"[()\[\]]")].tolist()
-        chunks = [values[i:i + OVERTON_BATCH] for i in range(0, len(values), OVERTON_BATCH)]
-        for n, chunk in enumerate(chunks, 1):
-            (batch_dir / f"{stem}_{n:02d}_of_{len(chunks):02d}.txt").write_text("\n".join(chunk) + "\n")
-        written[f"overton_batches/{stem}_*.txt"] = len(chunks)
+        clean = subset[~subset.identifier.str.contains(r"[()\[\]]")]
+        for kind, label in (("DOI", "dois"), ("PMID", "pmids")):
+            values = clean.identifier[clean.identifier_type == kind].tolist()
+            (batch_dir / f"{stem}_{label}_all.txt").write_text("\n".join(values) + "\n")
+            written[f"overton_batches/{stem}_{label}_all.txt"] = len(values)
+            if kind == "DOI":  # fallback: the same DOIs in parts of 1,000
+                chunks = [values[i:i + OVERTON_BATCH] for i in range(0, len(values), OVERTON_BATCH)]
+                for n, chunk in enumerate(chunks, 1):
+                    (batch_dir / f"{stem}_dois_{n:02d}_of_{len(chunks):02d}.txt").write_text("\n".join(chunk) + "\n")
 
     for col, name in (("doi", "dois.txt"), ("pmid", "pmids.txt")):
         values = sorted(table[col].dropna().unique())

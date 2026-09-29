@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cancer Agenda impact</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@stlite/browser@__STLITE_VERSION__/build/stlite.css">
+  <style>
+    body { margin: 0; background: #ffffff; font-family: system-ui, sans-serif; }
+    #loading { padding: 2rem 1rem; color: #52514e; }
+  </style>
+</head>
+<body>
+  <div id="root"><p id="loading">Dashboard wordt geladen (±20 s bij eerste bezoek) · Loading dashboard (~20 s on first visit)…</p></div>
+  <script type="module">
+    import { mount } from "https://cdn.jsdelivr.net/npm/@stlite/browser@__STLITE_VERSION__/build/stlite.js";
+    mount(
+      {
+        requirements: ["plotly"],
+        entrypoint: "streamlit_app.py",
+        files: __FILES__,
+      },
+      document.getElementById("root"),
+    );
+  </script>
+</body>
+</html>

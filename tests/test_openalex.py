@@ -1,0 +1,56 @@
+from impact.openalex import (flatten_work, funding_entries, normalize_award, normalize_doi,
+                             normalize_orcid, normalize_pmid, reconstruct_abstract)
+
+WORK = {
+    "id": "https://openalex.org/W1",
+    "doi": "https://doi.org/10.1000/ABC.1",
+    "ids": {"pmid": "https://pubmed.ncbi.nlm.nih.gov/12345"},
+    "title": "Survival after surgery",
+    "publication_year": 2020,
+    "abstract_inverted_index": {"Registry": [0], "based": [1], "study": [2]},
+    "authorships": [
+        {"author": {"display_name": "A", "orcid": "https://orcid.org/0000-0001-2345-678X"},
+         "institutions": [{"id": "https://openalex.org/I9", "display_name": "IKNL", "lineage": ["https://openalex.org/I9"]}]},
+        {"author": {"display_name": "B", "orcid": None},
+         "institutions": [{"id": "https://openalex.org/I1", "display_name": "UMC", "lineage": []}]},
+    ],
+    "grants": [{"funder": "https://openalex.org/F5", "funder_display_name": "KWF", "award_id": "UVA 2014-7000"}],
+    "citation_normalized_percentile": {"value": 0.95, "is_in_top_10_percent": True},
+    "open_access": {"is_oa": True},
+    "cited_by_count": 7,
+}
+
+
+def test_normalizers():
+    assert normalize_doi("https://doi.org/10.1/X") == "10.1/x"
+    assert normalize_doi("doi:10.1/x") == "10.1/x"
+    assert normalize_pmid("https://pubmed.ncbi.nlm.nih.gov/999") == "999"
+    assert normalize_orcid("https://orcid.org/0000-0001-2345-678x") == "0000-0001-2345-678X"
+    assert normalize_award("UVA 2014-7000") == normalize_award("uva2014 7000") == "UVA20147000"
+
+
+def test_reconstruct_abstract():
+    assert reconstruct_abstract({"b": [1], "a": [0], "c": [2]}) == "a b c"
+    assert reconstruct_abstract(None) == ""
+
+
+def test_funding_entries_handles_new_schema():
+    work = {"awards": [{"funder_id": "https://openalex.org/F5", "funder_award_id": "12345"}],
+            "funders": [{"id": "https://openalex.org/F5", "display_name": "KWF"}]}
+    entries = funding_entries(work)
+    assert {"funder_id": "F5", "funder_name": None, "award_id": "12345"} in entries
+    assert any(e["funder_name"] == "KWF" for e in entries)
+
+
+def test_flatten_work():
+    row = flatten_work(WORK, iknl_ids={"I9"})
+    assert row["openalex_id"] == "W1"
+    assert row["doi"] == "10.1000/abc.1"
+    assert row["pmid"] == "12345"
+    assert row["abstract"] == "Registry based study"
+    assert row["has_iknl_author"] is True
+    assert row["iknl_orcids"] == ["0000-0001-2345-678X"]
+    assert row["funder_ids"] == ["F5"]
+    assert row["award_ids"] == ["UVA 2014-7000"]
+    assert row["top10pct"] is True
+    assert flatten_work(WORK, iknl_ids={"I1234"})["has_iknl_author"] is False

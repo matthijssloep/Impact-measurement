@@ -1,0 +1,16 @@
+# Netherlands Cancer Agenda 2.1: the 20 goals and their keyword rules.
+#
+# TO DO: the goal texts must be copied from
+# https://nederlandskankercollectief.nl/app/uploads/2026/07/2026-0730-The-Netherlands-Cancer-Agenda-2.1.pdf
+# That domain is not reachable from the build environment yet, so the goals
+# are still empty. Schema (see src/impact/goals.py):
+#
+# goals:
+#   - id: G01
+#     title_en: "..."
+#     title_nl: "..."
+#     keywords:
+#       en: ["term", "multi word term", "re:regex\\w*"]
+#       nl: ["term"]
+#     exclude: []          # optional veto terms
+goals: []

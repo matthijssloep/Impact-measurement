@@ -142,6 +142,11 @@ def step_metrics() -> None:
     goals, projects, works = _read("goals"), _read("kwf_projects"), _read("works")
     project_goals, work_goals = _read("project_goals"), _read("work_goals")
     _write(metrics.impact_per_goal(goals, projects, project_goals, works, work_goals), "impact_per_goal")
+    # KWF view: the same measures, counting only KWF-funded articles.
+    kwf_works = works[works.is_kwf]
+    _write(metrics.impact_per_goal(goals, projects, project_goals, kwf_works,
+                                   work_goals[work_goals.openalex_id.isin(kwf_works.openalex_id)]),
+           "impact_per_goal_kwf")
     _write(metrics.goal_year_trend(work_goals, works, project_goals, projects), "goal_year_trend")
 
 
@@ -153,6 +158,7 @@ def step_export() -> None:
 APP_TABLES = {
     "goals": None,
     "impact_per_goal": None,
+    "impact_per_goal_kwf": None,
     "goal_year_trend": None,
     "project_goals": ["project_id", "goal_id", "confidence", "weight", "is_primary"],
     "work_goals": ["openalex_id", "goal_id", "confidence", "weight", "is_primary", "goal_source"],

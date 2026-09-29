@@ -37,6 +37,7 @@ them, so totals add up without double counting.
 
 ## Dashboard
 
+* English, KWF-focused: KWF funding → KWF-funded articles → NKC goals (Sankeys + rose chart).
 * Locally: `python scripts/run_pipeline.py site && streamlit run site/streamlit_app.py`
 * GitHub Pages: **https://matthijssloep.github.io/Impact-measurement/** (first load ~20 s: Python
   starts in the browser via [stlite](https://github.com/whitphx/stlite)).

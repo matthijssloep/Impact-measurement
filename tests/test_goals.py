@@ -55,3 +55,13 @@ def test_classify_handles_array_and_missing_cells():
                           "tags": [np.array(["screening", "vroege opsporing"]), None]})
     links = classify(items, GOALS, "id", "title", ["tags"])
     assert links.id.tolist() == ["a"]
+
+
+def test_overton_identifiers_prefer_doi_then_pmid():
+    from impact.export import overton_identifiers
+    table = pd.DataFrame({"doi": ["10.1/a", None, None], "pmid": ["1", "2", None],
+                          "source": ["IKNL", "KWF", "KWF"], "year": [2020] * 3, "goals": ["G01", "", ""],
+                          "openalex_id": ["W1", "W2", "W3"], "title": ["a", "b", "c"]})
+    ids = overton_identifiers(table)
+    assert ids.identifier.tolist() == ["10.1/a", "2"]
+    assert ids.identifier_type.tolist() == ["DOI", "PMID"]

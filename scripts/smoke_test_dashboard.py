@@ -4,7 +4,7 @@
 
 Waits for the in-browser Streamlit app (stlite) to boot, then checks that the
 title and headline numbers render, that every tab opens without a Python
-error, and that both languages work. Saves a screenshot per tab to out_dir.
+error, and that a CSV download works. Saves a screenshot per tab to out_dir.
 Exits non-zero on any failure.
 """
 
@@ -17,7 +17,7 @@ from pathlib import Path
 from playwright.sync_api import sync_playwright
 
 BOOT_TIMEOUT_MS = 240_000  # first load downloads Python (Pyodide) and packages
-TABS_NL = ["Overzicht", "Impact per doel", "KWF × IKNL", "Projecten", "Artikelen", "Methode"]
+TABS = ["Overview", "Impact per goal", "KWF × IKNL", "Projects", "Articles", "Method"]
 
 
 def main() -> int:
@@ -36,15 +36,15 @@ def main() -> int:
 
         page.goto(url, wait_until="domcontentloaded")
         # stlite renders the app into the same page; wait for the Streamlit title.
-        page.get_by_text("Impact van KWF-financiering").first.wait_for(timeout=BOOT_TIMEOUT_MS)
+        page.get_by_text("Impact of KWF funding").first.wait_for(timeout=BOOT_TIMEOUT_MS)
         page.wait_for_timeout(3000)
         print("App booted")
 
-        for text in ("KWF-financiering", "Artikelen", "IKNL-artikelen"):
+        for text in ("KWF funding", "KWF projects", "KWF-funded articles"):
             if not page.get_by_text(text).first.is_visible():
                 failures.append(f"missing headline '{text}'")
 
-        for i, name in enumerate(TABS_NL):
+        for i, name in enumerate(TABS):
             page.get_by_role("tab", name=name).click()
             page.wait_for_timeout(4000)
             errors = page.locator('[data-testid="stException"]')
@@ -56,7 +56,7 @@ def main() -> int:
                             full_page=True)
 
         # Downloads: the impact table CSV must actually download.
-        page.get_by_role("tab", name="Impact per doel").click()
+        page.get_by_role("tab", name="Impact per goal").click()
         page.wait_for_timeout(2000)
         try:
             button = page.get_by_role("button", name="Download CSV")
@@ -74,13 +74,6 @@ def main() -> int:
         except Exception as exc:  # noqa: BLE001
             failures.append(f"CSV download failed: {exc}")
 
-        page.get_by_text("English").first.click()
-        try:
-            page.get_by_text("Impact of KWF funding").first.wait_for(timeout=30_000)
-            print("English switch works")
-        except Exception:  # noqa: BLE001
-            failures.append("language switch to English did not render")
-        page.screenshot(path=str(out / "7_english.png"), full_page=True)
         browser.close()
 
     for e in console_errors[:10]:

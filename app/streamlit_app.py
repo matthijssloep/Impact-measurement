@@ -1,4 +1,4 @@
-"""KWF × IKNL impact dashboard, organised by the Netherlands Cancer Agenda goals.
+"""KWF impact dashboard, organised by the Netherlands Cancer Agenda (NKC) goals.
 
 Runs as a normal Streamlit app (`streamlit run app/streamlit_app.py`) and in the
 browser via stlite on GitHub Pages. Reads the CSV tables written by
@@ -20,7 +20,7 @@ import plotly.graph_objects as go
 import streamlit as st
 import streamlit.components.v1 as components
 
-st.set_page_config(page_title="Cancer Agenda impact", page_icon="📊", layout="wide")
+st.set_page_config(page_title="KWF impact on the Cancer Agenda", page_icon="📊", layout="wide")
 
 # ---------------------------------------------------------------- data
 HERE = Path(__file__).resolve().parent if "__file__" in globals() else Path.cwd()
@@ -35,92 +35,51 @@ def load(name: str) -> pd.DataFrame:
 
 
 # ---------------------------------------------------------------- text
-T = {
-    "en": {
-        "title": "Impact of KWF funding and IKNL research on the Netherlands Cancer Agenda",
-        "lang": "Language",
-        "no_data": "No data yet. Run `python scripts/run_pipeline.py` to build the tables.",
-        "tabs": ["Overview", "Impact per goal", "KWF × IKNL", "Projects", "Articles", "Method"],
-        "kpi_funding": "KWF funding", "kpi_projects": "KWF projects", "kpi_articles": "Articles",
-        "kpi_iknl": "IKNL articles", "kpi_iknl_kwf": "IKNL articles with KWF funding",
-        "metric": "Measure",
-        "m_funding_eur": "Funding (€, fractional)", "m_projects": "Projects (fractional)",
-        "m_articles": "Articles (fractional)", "m_citations": "Citations (fractional)",
-        "m_mean_fwci": "Mean field-weighted citation impact", "m_share_top10": "Share in top 10% cited",
-        "m_citations_per_meur": "Citations per € million", "m_policy_citations": "Policy citations (Overton)",
-        "m_articles_iknl": "IKNL articles", "m_articles_iknl_kwf": "IKNL articles with KWF funding",
-        "goal": "Goal", "year": "Year",
-        "funding_vs_output": "Funding versus citations per goal",
-        "trend": "Articles per goal per year",
-        "overlap": "Articles per year by source",
-        "src_iknl": "IKNL only", "src_kwf": "KWF only", "src_both": "IKNL + KWF",
-        "iknl_funding": "KWF funding to projects led by or involving IKNL, per start year",
-        "download": "Download CSV", "search": "Search title",
-        "filter_goal": "Goal", "all": "All",
-        "polar_projects": "KWF projects per Cancer Agenda goal", "polar_articles": "Articles per Cancer Agenda goal",
-        "m_projects_any": "Projects", "m_articles_any": "Articles",
-        "polar_note": "Bar length on a log scale (so small goals stay visible); colour and hover show the real number. A project or article can count towards several goals.",
-        "polar_ratio_note": "Averages and shares are shown as bars; a log rose chart only suits counts and amounts.",
-        "view": "View", "view_polar": "Rose", "view_bar": "Bars",
-        "fractional_note": "Items linked to several goals are split across them, so goal totals add up to the overall total.",
-        "method": """
-**Sources.** KWF research database (scraped), OpenAlex (articles), Netherlands Cancer Agenda 2.1 (20 goals).
-
-**IKNL articles**: at least one author affiliated with IKNL in OpenAlex.
-**KWF-funded articles**: KWF listed as funder in OpenAlex, or a KWF project number found in the full text next to "KWF" / "Dutch Cancer Society".
-
-**Goals** are assigned with transparent English and Dutch keyword rules (`config/goals.yaml`), matched in titles (weight 3) and abstracts/summaries (weight 1). An item can link to several goals. Articles with no keyword match inherit the goals of the KWF project they are linked to.
-
-**Impact** measures: articles, citations, field-weighted citation impact (FWCI, 1.0 = world average), share in the top 10% most cited, open access share, and (later) policy citations from Overton.
-""",
-    },
-    "nl": {
-        "title": "Impact van KWF-financiering en IKNL-onderzoek op de Nederlandse Kankeragenda",
-        "lang": "Taal",
-        "no_data": "Nog geen data. Draai `python scripts/run_pipeline.py` om de tabellen te bouwen.",
-        "tabs": ["Overzicht", "Impact per doel", "KWF × IKNL", "Projecten", "Artikelen", "Methode"],
-        "kpi_funding": "KWF-financiering", "kpi_projects": "KWF-projecten", "kpi_articles": "Artikelen",
-        "kpi_iknl": "IKNL-artikelen", "kpi_iknl_kwf": "IKNL-artikelen met KWF-geld",
-        "metric": "Maat",
-        "m_funding_eur": "Financiering (€, fractioneel)", "m_projects": "Projecten (fractioneel)",
-        "m_articles": "Artikelen (fractioneel)", "m_citations": "Citaties (fractioneel)",
-        "m_mean_fwci": "Gem. veldgewogen citatie-impact", "m_share_top10": "Aandeel in top 10% geciteerd",
-        "m_citations_per_meur": "Citaties per miljoen €", "m_policy_citations": "Beleidscitaties (Overton)",
-        "m_articles_iknl": "IKNL-artikelen", "m_articles_iknl_kwf": "IKNL-artikelen met KWF-geld",
-        "goal": "Doel", "year": "Jaar",
-        "funding_vs_output": "Financiering versus citaties per doel",
-        "trend": "Artikelen per doel per jaar",
-        "overlap": "Artikelen per jaar naar bron",
-        "src_iknl": "Alleen IKNL", "src_kwf": "Alleen KWF", "src_both": "IKNL + KWF",
-        "iknl_funding": "KWF-financiering aan projecten van of met IKNL, per startjaar",
-        "download": "Download CSV", "search": "Zoek in titel",
-        "filter_goal": "Doel", "all": "Alle",
-        "polar_projects": "KWF-projecten per doel van de Kankeragenda", "polar_articles": "Artikelen per doel van de Kankeragenda",
-        "m_projects_any": "Projecten", "m_articles_any": "Artikelen",
-        "polar_note": "Lengte op log-schaal (zodat kleine doelen zichtbaar blijven); kleur en hover tonen het echte aantal. Een project of artikel kan bij meerdere doelen tellen.",
-        "polar_ratio_note": "Gemiddelden en aandelen staan als staven; een log-roosdiagram past alleen bij aantallen en bedragen.",
-        "view": "Weergave", "view_polar": "Roos", "view_bar": "Staven",
-        "fractional_note": "Items die bij meerdere doelen horen worden over die doelen verdeeld, zodat de doeltotalen optellen tot het totaal.",
-        "method": """
-**Bronnen.** KWF-onderzoeksdatabase (gescraped), OpenAlex (artikelen), Nederlandse Kankeragenda 2.1 (20 doelen).
-
-**IKNL-artikelen**: minstens één auteur met een IKNL-affiliatie in OpenAlex.
-**KWF-gefinancierde artikelen**: KWF staat als financier in OpenAlex, of een KWF-projectnummer staat in de volledige tekst naast "KWF" / "Dutch Cancer Society".
-
-**Doelen** worden toegekend met transparante Engelse en Nederlandse trefwoordregels (`config/goals.yaml`), in titels (gewicht 3) en samenvattingen (gewicht 1). Een item kan bij meerdere doelen horen. Artikelen zonder trefwoordmatch erven de doelen van het gekoppelde KWF-project.
-
-**Impact**: artikelen, citaties, veldgewogen citatie-impact (FWCI, 1,0 = wereldgemiddelde), aandeel in de top 10% meest geciteerd, open access, en (later) beleidscitaties uit Overton.
-""",
-    },
+TITLE = "Impact of KWF funding on the Netherlands Cancer Agenda"
+TABS = ["Overview", "Impact per goal", "KWF × IKNL", "Projects", "Articles", "Method"]
+MEASURES = {
+    "funding_eur": "KWF funding (€)",
+    "projects": "KWF projects",
+    "articles": "KWF-funded articles",
+    "citations": "Citations to KWF-funded articles",
+    "mean_fwci": "Mean field-weighted citation impact",
+    "share_top10": "Share in the top 10% most cited",
+    "citations_per_meur": "Citations per € million",
+    "policy_citations": "Policy citations (Overton)",
 }
+THEMES = {
+    "prevention": "Preventing cancer",
+    "early_detection": "Early detection",
+    "care": "Diagnostics, treatment & care",
+    "quality_of_life": "Quality of life",
+}
+NO_GOAL = "No NKC goal (e.g. fundamental research)"
+FRACTIONAL_NOTE = ("Projects and articles linked to several goals are split across them, "
+                   "so goal totals add up to the overall total.")
+POLAR_NOTE = ("Bar length on a log scale, so small goals stay visible; colour and hover show the real value.")
+METHOD = """
+**Sources.** KWF research database (all projects starting 2017 or later, scraped), OpenAlex (articles since 2010),
+Netherlands Cancer Agenda 2.1 by the Nederlands Kanker Collectief (20 goals).
 
-lang = st.sidebar.radio("Language / Taal", ["nl", "en"], format_func=lambda x: {"nl": "Nederlands", "en": "English"}[x],
-                        horizontal=True)
-t = T[lang]
+**KWF-funded articles**: OpenAlex lists KWF Kankerbestrijding as a funder, or a KWF project number appears in the
+full text next to "KWF" / "Dutch Cancer Society" (matches published before the project started are dropped).
+
+**Goals** are assigned with transparent English and Dutch keyword rules (`config/goals.yaml`), matched in titles
+(weight 3) and abstracts/summaries (weight 1). A project or article can link to several goals; totals split it
+across them. Articles without a keyword match inherit the goals of the KWF project they are linked to.
+
+**Impact measures**: funding, projects, articles, citations, field-weighted citation impact (FWCI, 1.0 = world
+average), share in the top 10% most cited, and (once added) policy citations from Overton.
+
+**Known limitations**: the grant-number search covered 248 of 1,029 projects so far; mean FWCI is sensitive to a
+few very highly cited papers; citations per € million compares articles since 2010 with funding since 2017.
+"""
 
 # ---------------------------------------------------------------- chart style
 # Viridis throughout, matching the original notebook charts.
 VIRIDIS_BLUE, VIRIDIS_TEAL, VIRIDIS_GREEN = "#3b528b", "#21918c", "#5ec962"
+THEME_COLOURS = {"prevention": "#440154", "early_detection": "#3b528b", "care": "#21918c",
+                 "quality_of_life": "#5ec962", None: "#b8b8b8"}
 
 
 def style(fig: go.Figure, height: int = 420) -> go.Figure:
@@ -160,8 +119,7 @@ def polar(d: pd.DataFrame, value: str, value_label: str, fmt: str = ",.0f") -> g
         polar=dict(
             radialaxis=dict(showticklabels=True, ticks="", showline=False, gridcolor="lightgray",
                             tickvals=[np.log10(v + 1) for v in ticks],
-                            ticktext=[f"{v:,.0f}".replace(",", "." if lang == "nl" else ",") for v in ticks],
-                            tickfont=dict(size=10)),
+                            ticktext=[f"{v:,.0f}" for v in ticks], tickfont=dict(size=10)),
             angularaxis=dict(tickfont=dict(size=11), direction="clockwise", rotation=90),
         ),
         coloraxis_colorbar=dict(title=dict(text=value_label, side="top"), outlinewidth=0, ticks="",
@@ -178,6 +136,55 @@ def show_polar(fig: go.Figure, title: str | None = None, height: int = 700) -> N
     st.plotly_chart(fig.update_layout(height=height), use_container_width=True)
 
 
+def hex_rgba(colour: str, alpha: float) -> str:
+    c = colour.lstrip("#")
+    return f"rgba({int(c[0:2], 16)},{int(c[2:4], 16)},{int(c[4:6], 16)},{alpha})"
+
+
+def sankey(flows: pd.DataFrame, columns: list[list[str]], node_colours: dict[str, str],
+           value_fmt: str) -> go.Figure:
+    """flows: columns source, target, value, colour (link colour).
+
+    `columns` gives the nodes of each column, top to bottom; nodes are placed
+    explicitly so the order is stable (Agenda order) and nothing spills out.
+    """
+    flows = flows[flows.value > 0]
+    inflow = flows.groupby("target").value.sum()
+    outflow = flows.groupby("source").value.sum()
+    size = {n: max(inflow.get(n, 0), outflow.get(n, 0)) for col in columns for n in col}
+    nodes, xs, ys = [], [], []
+    for i, col in enumerate(columns):
+        col = [n for n in col if size.get(n, 0) > 0]
+        total = sum(size[n] for n in col)
+        gap = 0.02 if len(col) < 8 else 0.004
+        # Each node gets at least a minimum slot so small goals' labels do not overlap;
+        # the rest of the height is shared in proportion to value.
+        min_slot = 0.034 if len(col) >= 8 else 0.0
+        raw = {n: size[n] / total for n in col}
+        slots = {n: max(raw[n], min_slot) for n in col}
+        scale = (1 - gap * (len(col) - 1)) / sum(slots.values())
+        y = 0.0
+        for n in col:
+            h = slots[n] * scale
+            nodes.append(n)
+            xs.append(min(max(i / (len(columns) - 1), 0.001), 0.999))
+            ys.append(min(max(y + h / 2, 0.001), 0.999))
+            y += h + gap
+    index = {n: i for i, n in enumerate(nodes)}
+    flows = flows[flows.source.isin(index) & flows.target.isin(index)]
+    fig = go.Figure(go.Sankey(
+        arrangement="fixed",
+        node=dict(label=nodes, x=xs, y=ys, pad=6, thickness=16, line=dict(color="white", width=0.5),
+                  color=[node_colours.get(n, "#8c8c8c") for n in nodes],
+                  hovertemplate=f"%{{label}}<br>%{{value:{value_fmt}}}<extra></extra>"),
+        link=dict(source=[index[s] for s in flows.source], target=[index[t] for t in flows.target],
+                  value=flows.value.tolist(), color=[hex_rgba(c, 0.35) for c in flows.colour],
+                  hovertemplate=f"%{{source.label}} → %{{target.label}}<br>%{{value:{value_fmt}}}<extra></extra>"),
+    ))
+    fig.update_layout(font=dict(size=12), margin=dict(l=8, r=8, t=8, b=8))
+    return fig
+
+
 # In the browser build (stlite on GitHub Pages) st.download_button cannot fetch its file,
 # so there the CSV is handed to the browser directly as a Blob link.
 IN_BROWSER = sys.platform == "emscripten" or os.environ.get("IMPACT_HTML_DOWNLOADS") == "1"
@@ -186,13 +193,13 @@ IN_BROWSER = sys.platform == "emscripten" or os.environ.get("IMPACT_HTML_DOWNLOA
 def download_csv(df: pd.DataFrame, filename: str) -> None:
     data = df.to_csv(index=False)
     if not IN_BROWSER:
-        st.download_button(t["download"], data, filename, "text/csv", key=f"dl_{filename}")
+        st.download_button("Download CSV", data, filename, "text/csv", key=f"dl_{filename}")
         return
     b64 = base64.b64encode(data.encode("utf-8")).decode("ascii")
     components.html(f"""
 <a id="dl" href="#" style="display:inline-block;padding:6px 14px;border:1px solid rgba(49,51,63,.2);
    border-radius:8px;font:14px 'Source Sans Pro',sans-serif;color:#31333f;text-decoration:none;">
-   ⬇ {t["download"]}</a>
+   ⬇ Download CSV</a>
 <script>
   const bin = atob({json.dumps(b64)});
   const bytes = new Uint8Array(bin.length);
@@ -211,118 +218,160 @@ def fmt_eur(x: float) -> str:
 
 # ---------------------------------------------------------------- load
 goals = load("goals")
-impact = load("impact_per_goal")
-trend = load("goal_year_trend")
+impact = load("impact_per_goal_kwf")
+if impact.empty:  # older data builds
+    impact = load("impact_per_goal")
 projects = load("kwf_projects")
-works = load("works")
+works_all = load("works")
 work_goals = load("work_goals")
 project_goals = load("project_goals")
+work_projects = load("work_projects")
 
-st.title(t["title"])
+st.title(TITLE)
 
 if impact.empty:
-    st.info(t["no_data"])
+    st.info("No data yet. Run `python scripts/run_pipeline.py` to build the tables.")
     st.stop()
 
-goal_title = "title_nl" if lang == "nl" else "title_en"
-impact["label"] = impact.goal_id + " · " + impact[goal_title].fillna(impact.title_en).fillna("")
-labels = dict(zip(impact.goal_id, impact.label))
-impact["goal_num"] = impact.goal_id.str.extract(r"(\d+)", expand=False).astype(int)
-impact["theta"] = impact.goal_num.astype(str) + ". " + impact[goal_title].fillna(impact.title_en)
+works = works_all[works_all.is_kwf] if not works_all.empty else works_all
+kwf_goals = work_goals[work_goals.openalex_id.isin(works.openalex_id)] if not work_goals.empty else work_goals
 
-tabs = st.tabs(t["tabs"])
+impact["goal_num"] = impact.goal_id.str.extract(r"(\d+)", expand=False).astype(int)
+impact["label"] = impact.goal_num.astype(str) + ". " + impact.title_en
+impact["theta"] = impact.label
+labels = dict(zip(impact.goal_id, impact.label))
+goal_theme = dict(zip(goals.goal_id, goals.theme)) if "theme" in goals else {}
+
+tabs = st.tabs(TABS)
 
 # ---------------------------------------------------------------- overview
 with tabs[0]:
-    c = st.columns(5)
-    c[0].metric(t["kpi_funding"], fmt_eur(projects.amount_eur.sum()) if not projects.empty else "–")
-    c[1].metric(t["kpi_projects"], f"{len(projects):,}")
-    c[2].metric(t["kpi_articles"], f"{len(works):,}")
+    c = st.columns(4)
+    c[0].metric("KWF funding", fmt_eur(projects.amount_eur.sum()) if not projects.empty else "–")
+    c[1].metric("KWF projects", f"{len(projects):,}")
+    c[2].metric("KWF-funded articles", f"{len(works):,}")
+    c[3].metric("Citations to these articles", f"{int(works.cited_by_count.sum()):,}" if not works.empty else "–")
+
+    theme_order = [*THEMES.values(), NO_GOAL]
+    goal_order = [labels[g] for g in impact.sort_values("goal_num").goal_id] + [NO_GOAL]
+    node_colours = {THEMES[k]: v for k, v in THEME_COLOURS.items() if k}
+    node_colours[NO_GOAL] = THEME_COLOURS[None]
+    node_colours.update({labels[g]: THEME_COLOURS.get(goal_theme.get(g)) for g in labels})
+
+    # 1. KWF funding: funding stream -> NKC theme -> goal (€, split across goals)
+    if not projects.empty:
+        p = projects.assign(stream=projects.funding_partner.fillna("KWF (no partner listed)"))
+        pg = project_goals.merge(p[["project_id", "stream", "amount_eur"]], on="project_id")
+        pg = pg.assign(eur=pg.amount_eur.fillna(0) * pg.weight, theme=pg.goal_id.map(goal_theme))
+        unlinked = p[~p.project_id.isin(project_goals.project_id)]
+        total = f"KWF funding {fmt_eur(p.amount_eur.sum())}"
+        streams = p.groupby("stream").amount_eur.sum().sort_values(ascending=False)
+        flows = [pd.DataFrame({"source": total, "target": streams.index, "value": streams.values,
+                               "colour": VIRIDIS_BLUE})]
+        to_theme = pg.groupby(["stream", "theme"], as_index=False).eur.sum()
+        flows.append(pd.DataFrame({"source": to_theme.stream, "target": to_theme.theme.map(THEMES),
+                                   "value": to_theme.eur, "colour": to_theme.theme.map(THEME_COLOURS)}))
+        nog = unlinked.groupby("stream").amount_eur.sum()
+        flows.append(pd.DataFrame({"source": nog.index, "target": NO_GOAL, "value": nog.values,
+                                   "colour": THEME_COLOURS[None]}))
+        to_goal = pg.groupby(["theme", "goal_id"], as_index=False).eur.sum()
+        flows.append(pd.DataFrame({"source": to_goal.theme.map(THEMES), "target": to_goal.goal_id.map(labels),
+                                   "value": to_goal.eur, "colour": to_goal.theme.map(THEME_COLOURS)}))
+        st.subheader("1 · Where KWF funding goes")
+        st.caption("KWF funding by funding stream, through the Cancer Agenda themes to the 20 NKC goals (€).")
+        columns = [[total], list(streams.index), theme_order[:-1] + [NO_GOAL], goal_order[:-1]]
+        st.plotly_chart(sankey(pd.concat(flows), columns, node_colours, ",.0f").update_layout(height=760),
+                        use_container_width=True)
+
+    # 2. KWF-funded articles: route -> NKC theme -> goal (article counts, split across goals)
     if not works.empty:
-        c[3].metric(t["kpi_iknl"], f"{int(works.has_iknl_author.sum()):,}")
-        c[4].metric(t["kpi_iknl_kwf"], f"{int((works.has_iknl_author & works.is_kwf).sum()):,}")
+        linked = set(work_projects.dropna(subset=["project_id"]).openalex_id) if not work_projects.empty else set()
+        routes = pd.Series(np.where(works.openalex_id.isin(linked), "From a KWF database project",
+                                    "KWF-acknowledged (no project match)"), index=works.openalex_id)
+        wg = kwf_goals.assign(route=kwf_goals.openalex_id.map(routes), theme=kwf_goals.goal_id.map(goal_theme))
+        total = f"KWF-funded articles ({len(works):,})"
+        rc = routes.value_counts()
+        flows = [pd.DataFrame({"source": total, "target": rc.index, "value": rc.values, "colour": VIRIDIS_BLUE})]
+        to_theme = wg.groupby(["route", "theme"], as_index=False).weight.sum()
+        flows.append(pd.DataFrame({"source": to_theme.route, "target": to_theme.theme.map(THEMES),
+                                   "value": to_theme.weight, "colour": to_theme.theme.map(THEME_COLOURS)}))
+        nog = routes[~routes.index.isin(kwf_goals.openalex_id)].value_counts()
+        flows.append(pd.DataFrame({"source": nog.index, "target": NO_GOAL, "value": nog.values,
+                                   "colour": THEME_COLOURS[None]}))
+        to_goal = wg.groupby(["theme", "goal_id"], as_index=False).weight.sum()
+        flows.append(pd.DataFrame({"source": to_goal.theme.map(THEMES), "target": to_goal.goal_id.map(labels),
+                                   "value": to_goal.weight, "colour": to_goal.theme.map(THEME_COLOURS)}))
+        st.subheader("2 · What KWF funding produced: articles")
+        st.caption("KWF-funded articles since 2010, by how they are linked to KWF, through the themes to the NKC goals.")
+        columns = [[total], list(rc.index), theme_order, goal_order[:-1]]
+        st.plotly_chart(sankey(pd.concat(flows), columns, node_colours, ",.0f").update_layout(height=760),
+                        use_container_width=True)
 
-    show_polar(polar(impact, "projects_any", t["m_projects_any"]), t["polar_projects"])
-    show_polar(polar(impact, "articles_any", t["m_articles_any"]), t["polar_articles"])
-    st.caption(t["polar_note"])
-
-# ---------------------------------------------------------------- impact per goal
-with tabs[1]:
-    metric_cols = [m for m in ["funding_eur", "articles", "citations", "mean_fwci", "share_top10",
-                               "citations_per_meur", "articles_iknl", "articles_iknl_kwf",
-                               "projects", "policy_citations"]
-                   if m in impact and impact[m].notna().any()]
+    # 3. Impact per NKC goal (rose chart)
+    st.subheader("3 · Impact per NKC goal")
+    options = [m for m in MEASURES if m in impact and impact[m].notna().any()]
     c1, c2 = st.columns([3, 1])
-    metric = c1.selectbox(t["metric"], metric_cols, format_func=lambda m: t[f"m_{m}"])
-    view = c2.radio(t["view"], ["polar", "bar"], horizontal=True,
-                    format_func=lambda v: t[f"view_{v}"])
-    ratio = metric in ("mean_fwci", "share_top10")
-    if view == "polar" and not ratio:
-        show_polar(polar(impact, metric, t[f"m_{metric}"]))
-        st.caption(t["polar_note"])
+    metric = c1.selectbox("Measure", options, format_func=MEASURES.get)
+    view = c2.radio("View", ["Rose", "Bars"], horizontal=True)
+    if view == "Rose" and metric not in ("mean_fwci", "share_top10"):
+        show_polar(polar(impact, metric, MEASURES[metric]))
+        st.caption(POLAR_NOTE)
     else:
         d = impact.sort_values(metric, ascending=True)
         fig = px.bar(d, x=metric, y="label", orientation="h", color=metric, color_continuous_scale="Viridis",
-                     template="plotly_white", labels={metric: t[f"m_{metric}"], "label": ""})
+                     template="plotly_white", labels={metric: MEASURES[metric], "label": ""})
         fig.update_traces(marker_line_width=0, hovertemplate="%{y}<br>%{x:,.2f}<extra></extra>")
         show(fig, height=max(420, 28 * len(d)))
-        if view == "polar":
-            st.caption(t["polar_ratio_note"])
-    st.caption(t["fractional_note"])
+        if view == "Rose":
+            st.caption("Averages and shares are shown as bars; a log rose chart only suits counts and amounts.")
+    st.caption(FRACTIONAL_NOTE)
 
-    d = impact.sort_values("citations", ascending=True)
-    fig = px.scatter(d, x="funding_eur", y="citations", hover_name="label", text="goal_id", log_x=True, log_y=True,
-                     color="articles_any", color_continuous_scale="Viridis", template="plotly_white",
-                     labels={"funding_eur": t["m_funding_eur"], "citations": t["m_citations"],
-                             "articles_any": t["m_articles_any"]})
-    fig.update_traces(marker=dict(size=12, line=dict(width=1, color="white")), textposition="top center")
-    show(fig, t["funding_vs_output"], 520)
-
-    if not trend.empty:
-        h = trend.pivot_table(index="goal_id", columns="year", values="articles", aggfunc="sum").fillna(0)
-        h.index = [labels.get(g, g) for g in h.index]
-        fig = px.imshow(h, aspect="auto", color_continuous_scale="Viridis",
-                        labels=dict(x=t["year"], y="", color=t["kpi_articles"]))
-        show(fig, t["trend"], max(420, 26 * len(h)))
-
-    table = impact.drop(columns=["label"]).copy()
+# ---------------------------------------------------------------- impact per goal (table)
+with tabs[1]:
+    st.subheader("Impact per NKC goal (KWF-funded work)")
+    cols = ["goal_id", "title_en", "theme", "featured", "ambition", "funding_eur", "funding_share", "projects",
+            "projects_any", "articles", "articles_any", "citations", "mean_fwci", "share_top10", "share_oa",
+            "citations_per_meur", "policy_citations"]
+    table = impact[[c for c in cols if c in impact]].copy()
     st.dataframe(table, use_container_width=True, hide_index=True)
-    download_csv(table, "impact_per_goal.csv")
+    download_csv(table, "impact_per_goal_kwf.csv")
+    st.caption(FRACTIONAL_NOTE + " `*_any` columns count every linked item at full weight.")
 
 # ---------------------------------------------------------------- KWF × IKNL
 with tabs[2]:
-    if not works.empty:
-        w = works.assign(source=works.apply(
-            lambda r: t["src_both"] if r.has_iknl_author and r.is_kwf
-            else (t["src_iknl"] if r.has_iknl_author else t["src_kwf"]), axis=1))
+    st.info("This page is being redesigned: options for showing how KWF and IKNL interact are being prepared.")
+    if not works_all.empty:
+        w = works_all.assign(source=np.select(
+            [works_all.has_iknl_author & works_all.is_kwf, works_all.has_iknl_author],
+            ["IKNL + KWF", "IKNL only"], "KWF only"))
         per_year = w.groupby(["year", "source"], as_index=False).size()
-        order = [t["src_iknl"], t["src_both"], t["src_kwf"]]
+        order = ["IKNL only", "IKNL + KWF", "KWF only"]
         fig = px.bar(per_year, x="year", y="size", color="source", category_orders={"source": order},
                      color_discrete_map=dict(zip(order, [VIRIDIS_BLUE, VIRIDIS_TEAL, VIRIDIS_GREEN])),
-                     labels={"year": t["year"], "size": t["kpi_articles"]})
+                     labels={"year": "Year", "size": "Articles"})
         fig.update_traces(marker_line_width=0)
-        show(fig, t["overlap"])
+        show(fig, "Articles per year by source")
 
     iknl_col = "iknl_involved" if "iknl_involved" in projects else "is_iknl"
-    if not projects.empty and projects[iknl_col].any():
+    if not projects.empty and iknl_col in projects and projects[iknl_col].any():
         ip = projects[projects[iknl_col]].groupby("start_year", as_index=False).amount_eur.sum()
-        fig = px.bar(ip, x="start_year", y="amount_eur", labels={"start_year": t["year"], "amount_eur": "€"})
+        fig = px.bar(ip, x="start_year", y="amount_eur", labels={"start_year": "Year", "amount_eur": "€"})
         fig.update_traces(marker_color=VIRIDIS_TEAL, marker_line_width=0)
-        show(fig, t["iknl_funding"], 360)
+        show(fig, "KWF funding to projects led by or involving IKNL, per start year", 360)
 
-    if not works.empty:
-        both = works[works.has_iknl_author & works.is_kwf].sort_values("cited_by_count", ascending=False)
-        st.subheader(t["src_both"])
+    if not works_all.empty:
+        both = works_all[works_all.has_iknl_author & works_all.is_kwf].sort_values("cited_by_count", ascending=False)
+        st.subheader("IKNL articles with KWF funding")
         st.dataframe(both[["year", "title", "journal", "doi", "cited_by_count", "fwci", "kwf_evidence"]],
                      use_container_width=True, hide_index=True)
 
 
 # ---------------------------------------------------------------- explorers
 def goal_filter(df: pd.DataFrame, links: pd.DataFrame, id_col: str, key: str) -> pd.DataFrame:
-    choice = st.selectbox(t["filter_goal"], [t["all"], *impact.goal_id], key=key,
+    choice = st.selectbox("NKC goal", ["All", *impact.sort_values("goal_num").goal_id], key=key,
                           format_func=lambda g: labels.get(g, g))
-    query = st.text_input(t["search"], key=f"{key}_q")
-    if choice != t["all"] and not links.empty:
+    query = st.text_input("Search title", key=f"{key}_q")
+    if choice != "All" and not links.empty:
         df = df[df[id_col].isin(links.loc[links.goal_id == choice, id_col])]
     if query:
         df = df[df.title.fillna("").str.contains(query, case=False, regex=False)]
@@ -331,16 +380,19 @@ def goal_filter(df: pd.DataFrame, links: pd.DataFrame, id_col: str, key: str) ->
 
 with tabs[3]:
     if not projects.empty:
-        d = goal_filter(projects, project_goals, "project_id", "proj")
+        d = goal_filter(projects.drop(columns=["is_iknl", "iknl_involved"], errors="ignore"),
+                        project_goals, "project_id", "proj")
         st.dataframe(d, use_container_width=True, hide_index=True,
                      column_config={"url": st.column_config.LinkColumn("url")})
         download_csv(d, "kwf_projects.csv")
 
 with tabs[4]:
     if not works.empty:
-        d = goal_filter(works, work_goals, "openalex_id", "art")
+        d = goal_filter(works.drop(columns=["has_iknl_author", "is_kwf"], errors="ignore"),
+                        kwf_goals, "openalex_id", "art")
+        st.caption(f"{len(d):,} KWF-funded articles")
         st.dataframe(d, use_container_width=True, hide_index=True)
-        download_csv(d, "articles.csv")
+        download_csv(d, "kwf_articles.csv")
 
 with tabs[5]:
-    st.markdown(t["method"])
+    st.markdown(METHOD)

@@ -31,6 +31,8 @@ def impact_per_goal(goals: pd.DataFrame, projects: pd.DataFrame, project_goals: 
             "goal_id": g.goal_id,
             "funding_eur": float((pg.amount_eur.fillna(0) * pg.weight).sum()),
             "funding_eur_iknl": float((pg.amount_eur.fillna(0) * pg.weight)[pg.is_iknl].sum()),
+            "funding_eur_iknl_involved": float((pg.amount_eur.fillna(0) * pg.weight)[
+                pg.get("iknl_involved", pg.is_iknl)].sum()),
             "projects": float(pg.weight.sum()),
             "projects_any": int(len(pg)),
             "articles": float(wg.weight.sum()),

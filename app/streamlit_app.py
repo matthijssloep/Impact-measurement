@@ -48,7 +48,7 @@ T = {
         "trend": "Articles per goal per year",
         "overlap": "Articles per year by source",
         "src_iknl": "IKNL only", "src_kwf": "KWF only", "src_both": "IKNL + KWF",
-        "iknl_funding": "KWF funding to IKNL projects per start year",
+        "iknl_funding": "KWF funding to projects led by or involving IKNL, per start year",
         "download": "Download CSV", "search": "Search title",
         "filter_goal": "Goal", "all": "All",
         "fractional_note": "Items linked to several goals are split across them, so goal totals add up to the overall total.",
@@ -81,7 +81,7 @@ T = {
         "trend": "Artikelen per doel per jaar",
         "overlap": "Artikelen per jaar naar bron",
         "src_iknl": "Alleen IKNL", "src_kwf": "Alleen KWF", "src_both": "IKNL + KWF",
-        "iknl_funding": "KWF-financiering aan IKNL-projecten per startjaar",
+        "iknl_funding": "KWF-financiering aan projecten van of met IKNL, per startjaar",
         "download": "Download CSV", "search": "Zoek in titel",
         "filter_goal": "Doel", "all": "Alle",
         "fractional_note": "Items die bij meerdere doelen horen worden over die doelen verdeeld, zodat de doeltotalen optellen tot het totaal.",
@@ -209,8 +209,9 @@ with tabs[2]:
         fig.update_traces(marker_line_width=0)
         show(fig, t["overlap"])
 
-    if not projects.empty and projects.is_iknl.any():
-        ip = projects[projects.is_iknl].groupby("start_year", as_index=False).amount_eur.sum()
+    iknl_col = "iknl_involved" if "iknl_involved" in projects else "is_iknl"
+    if not projects.empty and projects[iknl_col].any():
+        ip = projects[projects[iknl_col]].groupby("start_year", as_index=False).amount_eur.sum()
         fig = px.bar(ip, x="start_year", y="amount_eur", labels={"start_year": t["year"], "amount_eur": "€"})
         fig.update_traces(marker_color=BLUE, marker_line_width=0)
         show(fig, t["iknl_funding"], 360)

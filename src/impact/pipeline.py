@@ -27,8 +27,7 @@ def _write(df: pd.DataFrame, name: str) -> None:
 
 
 def step_kwf() -> None:
-    projects = kwf.scrape_projects()
-    projects["is_iknl"] = projects.institution.map(kwf.is_iknl_institution)
+    projects = kwf.add_iknl_flags(kwf.scrape_projects())
     _write(projects, "kwf_projects")
 
 
@@ -83,7 +82,7 @@ def step_classify() -> None:
 
     projects = _read("kwf_projects")
     project_goals = goals_mod.classify(projects, goal_list, "project_id", "title",
-                                       ["title_en", "summary", "summary_en", "research_areas", "cancer_types"])
+                                       ["summary", "research_theme", "cancer_types"])
     _write(project_goals, "project_goals")
 
     works = _read("works")
@@ -124,7 +123,8 @@ APP_TABLES = {
     "project_goals": ["project_id", "goal_id", "confidence", "weight", "is_primary"],
     "work_goals": ["openalex_id", "goal_id", "confidence", "weight", "is_primary", "goal_source"],
     "kwf_projects": ["project_id", "project_number", "title", "project_leader", "institution",
-                     "amount_eur", "start_year", "end_year", "status", "funding_scheme", "is_iknl", "url"],
+                     "amount_eur", "start_year", "end_year", "status", "research_theme", "funding_partner",
+                     "is_iknl", "iknl_involved", "url"],
     "works": ["openalex_id", "doi", "pmid", "title", "year", "journal", "cited_by_count", "fwci",
               "top10pct", "is_oa", "has_iknl_author", "is_kwf", "kwf_evidence"],
     "work_projects": ["openalex_id", "project_id", "evidence"],

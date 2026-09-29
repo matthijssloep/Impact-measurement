@@ -50,4 +50,9 @@ them, so totals add up without double counting.
 - [x] Bilingual dashboard (tested locally on sample data)
 - [x] KWF scraper: 1,029 projects (start 2017+), €731M; `data/export/kwf_projects.csv`
 - [x] 20 goals + EN/NL keyword rules in `config/goals.yaml`
-- [ ] First real data run (needs `api.openalex.org`)
+- [x] First real data run (29 Sep 2026): 12,404 articles (3,749 IKNL, 9,074 KWF-funded, 419 both),
+      4,336 article→project links to 584 KWF projects; Overton lists in `data/export/`
+- [ ] Grant-number full-text search: 248 of 1,029 project numbers done (OpenAlex daily budget);
+      rerun `python scripts/run_pipeline.py openalex classify metrics export site` to resume
+- [ ] Known limitations: mean FWCI is skewed by outliers (use median); citations per €M
+      compares articles since 2010 with KWF funding since 2017; 4,735 articles match no goal

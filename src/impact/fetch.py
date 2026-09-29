@@ -17,7 +17,7 @@ import re
 import pandas as pd
 
 from . import config
-from .openalex import OpenAlex, OpenAlexError, normalize_award, short_id, works_frame
+from .openalex import OpenAlex, OpenAlexBudgetError, OpenAlexError, normalize_award, short_id, works_frame
 
 log = logging.getLogger(__name__)
 
@@ -90,29 +90,39 @@ def fetch_kwf_funded_works(client: OpenAlex, funder_ids: list[str], iknl_ids: li
 
 
 def fetch_grant_number_works(client: OpenAlex, project_numbers: list[str], iknl_ids: list[str],
-                             start_year: int) -> pd.DataFrame:
+                             start_year: int, already_searched: set[str] | None = None
+                             ) -> tuple[pd.DataFrame, set[str]]:
     """Route (b): full-text search for each KWF project number plus a KWF phrase.
 
-    Returns one row per (work, project number) hit.
+    Skips numbers in `already_searched` and stops cleanly when the OpenAlex budget
+    runs out, so a later run can resume. Returns (hits, numbers searched now):
+    one row per (work, project number) hit.
     """
-    frames = []
-    for number in sorted({n for n in project_numbers if n}):
+    already_searched = already_searched or set()
+    todo = sorted({n for n in project_numbers if n} - already_searched)
+    log.info("Grant-number search: %d to do, %d done earlier", len(todo), len(already_searched))
+    frames, searched = [], set()
+    for i, number in enumerate(todo, 1):
         hits = []
-        for phrase in ("KWF", "Dutch Cancer Society"):
-            flt = f'fulltext.search:"{number}",fulltext.search:"{phrase}",{_date_filter(start_year)}'
-            try:
+        try:
+            for phrase in ("KWF", "Dutch Cancer Society"):
+                flt = f'fulltext.search:"{number}",fulltext.search:"{phrase}",{_date_filter(start_year)}'
                 hits.extend(client.iter_works(flt))
-            except OpenAlexError as exc:
-                log.warning("Full-text search failed for %s: %s", number, exc)
+        except OpenAlexBudgetError as exc:
+            log.warning("Stopping grant-number search after %d numbers: %s", len(searched), exc)
+            break
+        except OpenAlexError as exc:
+            log.warning("Full-text search failed for %s: %s", number, exc)
+            continue
+        searched.add(number)
         if hits:
             df = works_frame(hits, set(iknl_ids))
             df["kwf_project_number"] = number
             frames.append(df)
-    if not frames:
-        return pd.DataFrame()
-    out = pd.concat(frames, ignore_index=True)
-    out["kwf_evidence"] = "grant_number_fulltext"
-    return out
+        if i % 100 == 0:
+            log.info("  %d/%d grant numbers", i, len(todo))
+    out = pd.concat(frames, ignore_index=True) if frames else pd.DataFrame()
+    return out, searched
 
 
 def match_awards_to_projects(works: pd.DataFrame, project_numbers: list[str],

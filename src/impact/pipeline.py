@@ -52,11 +52,41 @@ def step_openalex(start_year: int | None = None) -> None:
 
     iknl = fetch.fetch_iknl_works(client, iknl_ids, start_year)
     funded = fetch.fetch_kwf_funded_works(client, funder_ids, iknl_ids, start_year)
-    by_number = fetch.fetch_grant_number_works(client, numbers, iknl_ids, start_year) if numbers else pd.DataFrame()
+    # Grant-number search is resumable: earlier hits and searched numbers are kept.
+    cache_path, done_path = P / "grant_search_hits.parquet", P / "grant_search_done.json"
+    previous = pd.read_parquet(cache_path) if cache_path.exists() else pd.DataFrame()
+    done = set(json.loads(done_path.read_text())) if done_path.exists() else set()
+    new_hits, searched = fetch.fetch_grant_number_works(client, numbers, iknl_ids, start_year, done)
+    by_number = pd.concat([previous, new_hits], ignore_index=True)
+    if not by_number.empty:
+        by_number = by_number.drop_duplicates(["openalex_id", "kwf_project_number"])
+        _write(by_number, "grant_search_hits")
+    done_path.write_text(json.dumps(sorted(done | searched)))
+    remaining = len(set(numbers) - done - searched)
+    if remaining:
+        log.warning("Grant-number search incomplete: %d project numbers left; rerun `openalex` later", remaining)
 
-    # Links article -> KWF project (from award IDs and from full-text hits).
-    links = [fetch.match_awards_to_projects(pd.concat([iknl, funded], ignore_index=True), numbers,
-                                          funder_ids)]
+    works, work_projects = assemble_works(iknl, funded, by_number, projects, funder_ids)
+    _write(works, "works")
+    _write(work_projects, "work_projects")
+
+
+def assemble_works(iknl: pd.DataFrame, funded: pd.DataFrame, by_number: pd.DataFrame,
+                   projects: pd.DataFrame, funder_ids: list[str]) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Combine the three OpenAlex pulls into one works table plus article -> project links.
+
+    Full-text grant-number hits published before the project's start year are
+    dropped: a number that appears before the grant existed is a coincidence.
+    """
+    numbers = projects.project_number.dropna().tolist()
+    if not by_number.empty:
+        start = by_number.kwf_project_number.map(projects.set_index("project_number").start_year)
+        keep = start.isna() | (by_number.year >= start)
+        log.info("Grant-number hits: dropping %d of %d published before the project started",
+                 int((~keep).sum()), len(by_number))
+        by_number = by_number[keep.astype(bool)]
+
+    links = [fetch.match_awards_to_projects(pd.concat([iknl, funded], ignore_index=True), numbers, funder_ids)]
     if not by_number.empty:
         links.append(by_number[["openalex_id", "kwf_project_number"]]
                      .rename(columns={"kwf_project_number": "project_number"})
@@ -75,8 +105,7 @@ def step_openalex(start_year: int | None = None) -> None:
                       ignore_index=True).drop_duplicates("openalex_id")
     works["kwf_evidence"] = works.openalex_id.map(evidence).fillna("")
     works["is_kwf"] = works.kwf_evidence != ""
-    _write(works.reset_index(drop=True), "works")
-    _write(work_projects, "work_projects")
+    return works.reset_index(drop=True), work_projects
 
 
 def step_classify() -> None:

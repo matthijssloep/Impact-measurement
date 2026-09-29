@@ -55,6 +55,25 @@ def main() -> int:
             page.screenshot(path=str(out / f"{i + 1}_{name.replace(' ', '_').replace('×', 'x')}.png"),
                             full_page=True)
 
+        # Downloads: the impact table CSV must actually download.
+        page.get_by_role("tab", name="Impact per doel").click()
+        page.wait_for_timeout(2000)
+        try:
+            button = page.get_by_role("button", name="Download CSV")
+            if button.count():  # normal Streamlit server
+                target = button.first
+            else:  # browser build: link inside the component iframe
+                target = page.frame_locator("iframe").first.get_by_text("Download CSV")
+            with page.expect_download(timeout=30_000) as info:
+                target.click()
+            download = info.value
+            size = Path(download.path()).stat().st_size
+            print(f"download: {download.suggested_filename} ({size:,} bytes)")
+            if size < 100:
+                failures.append(f"download {download.suggested_filename} is empty")
+        except Exception as exc:  # noqa: BLE001
+            failures.append(f"CSV download failed: {exc}")
+
         page.get_by_text("English").first.click()
         try:
             page.get_by_text("Impact of KWF funding").first.wait_for(timeout=30_000)
@@ -64,9 +83,10 @@ def main() -> int:
         page.screenshot(path=str(out / "7_english.png"), full_page=True)
         browser.close()
 
-    python_errors = [e for e in console_errors if "Traceback" in e or "Error" in e]
-    for e in python_errors[:10]:
+    for e in console_errors[:10]:
         print("console:", e[:300])
+    # Streamlit reports broken widgets (e.g. download buttons) as "Client Error".
+    failures += [f"browser: {e[:200]}" for e in console_errors if "Client Error" in e or "Traceback" in e]
     if failures:
         print("FAILED:\n  " + "\n  ".join(failures))
         return 1

@@ -7,6 +7,10 @@ browser via stlite on GitHub Pages. Reads the CSV tables written by
 
 from __future__ import annotations
 
+import base64
+import json
+import os
+import sys
 from pathlib import Path
 
 import numpy as np
@@ -14,6 +18,7 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
+import streamlit.components.v1 as components
 
 st.set_page_config(page_title="Cancer Agenda impact", page_icon="📊", layout="wide")
 
@@ -173,6 +178,31 @@ def show_polar(fig: go.Figure, title: str | None = None, height: int = 700) -> N
     st.plotly_chart(fig.update_layout(height=height), use_container_width=True)
 
 
+# In the browser build (stlite on GitHub Pages) st.download_button cannot fetch its file,
+# so there the CSV is handed to the browser directly as a Blob link.
+IN_BROWSER = sys.platform == "emscripten" or os.environ.get("IMPACT_HTML_DOWNLOADS") == "1"
+
+
+def download_csv(df: pd.DataFrame, filename: str) -> None:
+    data = df.to_csv(index=False)
+    if not IN_BROWSER:
+        st.download_button(t["download"], data, filename, "text/csv", key=f"dl_{filename}")
+        return
+    b64 = base64.b64encode(data.encode("utf-8")).decode("ascii")
+    components.html(f"""
+<a id="dl" href="#" style="display:inline-block;padding:6px 14px;border:1px solid rgba(49,51,63,.2);
+   border-radius:8px;font:14px 'Source Sans Pro',sans-serif;color:#31333f;text-decoration:none;">
+   ⬇ {t["download"]}</a>
+<script>
+  const bin = atob({json.dumps(b64)});
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  const a = document.getElementById("dl");
+  a.href = URL.createObjectURL(new Blob([bytes], {{type: "text/csv;charset=utf-8"}}));
+  a.download = {json.dumps(filename)};
+</script>""", height=48)
+
+
 def fmt_eur(x: float) -> str:
     if pd.isna(x):
         return "–"
@@ -257,7 +287,7 @@ with tabs[1]:
 
     table = impact.drop(columns=["label"]).copy()
     st.dataframe(table, use_container_width=True, hide_index=True)
-    st.download_button(t["download"], table.to_csv(index=False), "impact_per_goal.csv", "text/csv")
+    download_csv(table, "impact_per_goal.csv")
 
 # ---------------------------------------------------------------- KWF × IKNL
 with tabs[2]:
@@ -304,13 +334,13 @@ with tabs[3]:
         d = goal_filter(projects, project_goals, "project_id", "proj")
         st.dataframe(d, use_container_width=True, hide_index=True,
                      column_config={"url": st.column_config.LinkColumn("url")})
-        st.download_button(t["download"], d.to_csv(index=False), "kwf_projects.csv", "text/csv")
+        download_csv(d, "kwf_projects.csv")
 
 with tabs[4]:
     if not works.empty:
         d = goal_filter(works, work_goals, "openalex_id", "art")
         st.dataframe(d, use_container_width=True, hide_index=True)
-        st.download_button(t["download"], d.to_csv(index=False), "articles.csv", "text/csv")
+        download_csv(d, "articles.csv")
 
 with tabs[5]:
     st.markdown(t["method"])

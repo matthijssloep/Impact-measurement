@@ -9,6 +9,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
@@ -51,6 +52,11 @@ T = {
         "iknl_funding": "KWF funding to projects led by or involving IKNL, per start year",
         "download": "Download CSV", "search": "Search title",
         "filter_goal": "Goal", "all": "All",
+        "polar_projects": "KWF projects per Cancer Agenda goal", "polar_articles": "Articles per Cancer Agenda goal",
+        "m_projects_any": "Projects", "m_articles_any": "Articles",
+        "polar_note": "Bar length on a log scale (so small goals stay visible); colour and hover show the real number. A project or article can count towards several goals.",
+        "polar_ratio_note": "Averages and shares are shown as bars; a log rose chart only suits counts and amounts.",
+        "view": "View", "view_polar": "Rose", "view_bar": "Bars",
         "fractional_note": "Items linked to several goals are split across them, so goal totals add up to the overall total.",
         "method": """
 **Sources.** KWF research database (scraped), OpenAlex (articles), Netherlands Cancer Agenda 2.1 (20 goals).
@@ -84,6 +90,11 @@ T = {
         "iknl_funding": "KWF-financiering aan projecten van of met IKNL, per startjaar",
         "download": "Download CSV", "search": "Zoek in titel",
         "filter_goal": "Doel", "all": "Alle",
+        "polar_projects": "KWF-projecten per doel van de Kankeragenda", "polar_articles": "Artikelen per doel van de Kankeragenda",
+        "m_projects_any": "Projecten", "m_articles_any": "Artikelen",
+        "polar_note": "Lengte op log-schaal (zodat kleine doelen zichtbaar blijven); kleur en hover tonen het echte aantal. Een project of artikel kan bij meerdere doelen tellen.",
+        "polar_ratio_note": "Gemiddelden en aandelen staan als staven; een log-roosdiagram past alleen bij aantallen en bedragen.",
+        "view": "Weergave", "view_polar": "Roos", "view_bar": "Staven",
         "fractional_note": "Items die bij meerdere doelen horen worden over die doelen verdeeld, zodat de doeltotalen optellen tot het totaal.",
         "method": """
 **Bronnen.** KWF-onderzoeksdatabase (gescraped), OpenAlex (artikelen), Nederlandse Kankeragenda 2.1 (20 doelen).
@@ -103,8 +114,8 @@ lang = st.sidebar.radio("Language / Taal", ["nl", "en"], format_func=lambda x: {
 t = T[lang]
 
 # ---------------------------------------------------------------- chart style
-BLUE, ORANGE, AQUA = "#2a78d6", "#eb6834", "#1baf7a"
-SEQ = ["#cde2fb", "#9ec5f4", "#6da7ec", "#3987e5", "#256abf", "#184f95", "#0d366b"]
+# Viridis throughout, matching the original notebook charts.
+VIRIDIS_BLUE, VIRIDIS_TEAL, VIRIDIS_GREEN = "#3b528b", "#21918c", "#5ec962"
 
 
 def style(fig: go.Figure, height: int = 420) -> go.Figure:
@@ -123,6 +134,43 @@ def show(fig: go.Figure, title: str | None = None, height: int = 420) -> None:
     if title:
         st.subheader(title)
     st.plotly_chart(style(fig, height), use_container_width=True)
+
+
+def polar(d: pd.DataFrame, value: str, value_label: str, fmt: str = ",.0f") -> go.Figure:
+    """Rose chart of one measure per goal, in the style of the original notebook:
+    radius on a log10(n + 1) scale so small goals stay visible, colour on the
+    real value (Viridis), goals clockwise 1 -> 20. Axis ticks and hover show real values."""
+    d = d.sort_values("goal_num").assign(r=lambda x: np.log10(x[value].fillna(0).clip(lower=0) + 1))
+    fig = px.bar_polar(d, r="r", theta="theta", color=value, color_continuous_scale="Viridis",
+                       template="plotly_white", custom_data=["label", value],
+                       labels={value: value_label})
+    fig.update_traces(hovertemplate=f"%{{customdata[0]}}<br>{value_label}: %{{customdata[1]:{fmt}}}<extra></extra>",
+                      marker_line_color="white", marker_line_width=1)
+    top = float(d.r.max() or 1)
+    ticks = [v for v in (1, 10, 100, 1_000, 10_000, 100_000, 1_000_000, 10_000_000, 100_000_000)
+             if np.log10(v + 1) <= top * 1.05]
+    if len(ticks) > 5:  # every other power of ten, so the money scale stays readable
+        ticks = ticks[::2]
+    fig.update_layout(
+        polar=dict(
+            radialaxis=dict(showticklabels=True, ticks="", showline=False, gridcolor="lightgray",
+                            tickvals=[np.log10(v + 1) for v in ticks],
+                            ticktext=[f"{v:,.0f}".replace(",", "." if lang == "nl" else ",") for v in ticks],
+                            tickfont=dict(size=10)),
+            angularaxis=dict(tickfont=dict(size=11), direction="clockwise", rotation=90),
+        ),
+        coloraxis_colorbar=dict(title=dict(text=value_label, side="top"), outlinewidth=0, ticks="",
+                                orientation="h", x=0.5, xanchor="center", y=-0.08, yanchor="top",
+                                len=0.6, thickness=14),
+        margin=dict(l=60, r=60, t=40, b=90),
+    )
+    return fig
+
+
+def show_polar(fig: go.Figure, title: str | None = None, height: int = 700) -> None:
+    if title:
+        st.subheader(title)
+    st.plotly_chart(fig.update_layout(height=height), use_container_width=True)
 
 
 def fmt_eur(x: float) -> str:
@@ -149,6 +197,8 @@ if impact.empty:
 goal_title = "title_nl" if lang == "nl" else "title_en"
 impact["label"] = impact.goal_id + " · " + impact[goal_title].fillna(impact.title_en).fillna("")
 labels = dict(zip(impact.goal_id, impact.label))
+impact["goal_num"] = impact.goal_id.str.extract(r"(\d+)", expand=False).astype(int)
+impact["theta"] = impact.goal_num.astype(str) + ". " + impact[goal_title].fillna(impact.title_en)
 
 tabs = st.tabs(t["tabs"])
 
@@ -162,13 +212,9 @@ with tabs[0]:
         c[3].metric(t["kpi_iknl"], f"{int(works.has_iknl_author.sum()):,}")
         c[4].metric(t["kpi_iknl_kwf"], f"{int((works.has_iknl_author & works.is_kwf).sum()):,}")
 
-    d = impact.sort_values("citations", ascending=True)
-    fig = px.scatter(d, x="funding_eur", y="citations", hover_name="label", text="goal_id",
-                     labels={"funding_eur": t["m_funding_eur"], "citations": t["m_citations"]})
-    fig.update_traces(marker=dict(size=11, color=BLUE, line=dict(width=2, color="white")),
-                      textposition="top center")
-    show(fig, t["funding_vs_output"], 480)
-    st.caption(t["fractional_note"])
+    show_polar(polar(impact, "projects_any", t["m_projects_any"]), t["polar_projects"])
+    show_polar(polar(impact, "articles_any", t["m_articles_any"]), t["polar_articles"])
+    st.caption(t["polar_note"])
 
 # ---------------------------------------------------------------- impact per goal
 with tabs[1]:
@@ -176,18 +222,36 @@ with tabs[1]:
                                "citations_per_meur", "articles_iknl", "articles_iknl_kwf",
                                "projects", "policy_citations"]
                    if m in impact and impact[m].notna().any()]
-    metric = st.selectbox(t["metric"], metric_cols, format_func=lambda m: t[f"m_{m}"])
-    d = impact.sort_values(metric, ascending=True)
-    fig = px.bar(d, x=metric, y="label", orientation="h", labels={metric: t[f"m_{metric}"], "label": ""})
-    fig.update_traces(marker_color=BLUE, marker_line_width=0,
-                      hovertemplate="%{y}<br>%{x:,.2f}<extra></extra>")
-    show(fig, height=max(420, 28 * len(d)))
+    c1, c2 = st.columns([3, 1])
+    metric = c1.selectbox(t["metric"], metric_cols, format_func=lambda m: t[f"m_{m}"])
+    view = c2.radio(t["view"], ["polar", "bar"], horizontal=True,
+                    format_func=lambda v: t[f"view_{v}"])
+    ratio = metric in ("mean_fwci", "share_top10")
+    if view == "polar" and not ratio:
+        show_polar(polar(impact, metric, t[f"m_{metric}"]))
+        st.caption(t["polar_note"])
+    else:
+        d = impact.sort_values(metric, ascending=True)
+        fig = px.bar(d, x=metric, y="label", orientation="h", color=metric, color_continuous_scale="Viridis",
+                     template="plotly_white", labels={metric: t[f"m_{metric}"], "label": ""})
+        fig.update_traces(marker_line_width=0, hovertemplate="%{y}<br>%{x:,.2f}<extra></extra>")
+        show(fig, height=max(420, 28 * len(d)))
+        if view == "polar":
+            st.caption(t["polar_ratio_note"])
     st.caption(t["fractional_note"])
+
+    d = impact.sort_values("citations", ascending=True)
+    fig = px.scatter(d, x="funding_eur", y="citations", hover_name="label", text="goal_id", log_x=True, log_y=True,
+                     color="articles_any", color_continuous_scale="Viridis", template="plotly_white",
+                     labels={"funding_eur": t["m_funding_eur"], "citations": t["m_citations"],
+                             "articles_any": t["m_articles_any"]})
+    fig.update_traces(marker=dict(size=12, line=dict(width=1, color="white")), textposition="top center")
+    show(fig, t["funding_vs_output"], 520)
 
     if not trend.empty:
         h = trend.pivot_table(index="goal_id", columns="year", values="articles", aggfunc="sum").fillna(0)
         h.index = [labels.get(g, g) for g in h.index]
-        fig = px.imshow(h, aspect="auto", color_continuous_scale=SEQ,
+        fig = px.imshow(h, aspect="auto", color_continuous_scale="Viridis",
                         labels=dict(x=t["year"], y="", color=t["kpi_articles"]))
         show(fig, t["trend"], max(420, 26 * len(h)))
 
@@ -204,7 +268,7 @@ with tabs[2]:
         per_year = w.groupby(["year", "source"], as_index=False).size()
         order = [t["src_iknl"], t["src_both"], t["src_kwf"]]
         fig = px.bar(per_year, x="year", y="size", color="source", category_orders={"source": order},
-                     color_discrete_map=dict(zip(order, [BLUE, ORANGE, AQUA])),
+                     color_discrete_map=dict(zip(order, [VIRIDIS_BLUE, VIRIDIS_TEAL, VIRIDIS_GREEN])),
                      labels={"year": t["year"], "size": t["kpi_articles"]})
         fig.update_traces(marker_line_width=0)
         show(fig, t["overlap"])
@@ -213,7 +277,7 @@ with tabs[2]:
     if not projects.empty and projects[iknl_col].any():
         ip = projects[projects[iknl_col]].groupby("start_year", as_index=False).amount_eur.sum()
         fig = px.bar(ip, x="start_year", y="amount_eur", labels={"start_year": t["year"], "amount_eur": "€"})
-        fig.update_traces(marker_color=BLUE, marker_line_width=0)
+        fig.update_traces(marker_color=VIRIDIS_TEAL, marker_line_width=0)
         show(fig, t["iknl_funding"], 360)
 
     if not works.empty:

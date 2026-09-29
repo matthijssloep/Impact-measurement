@@ -34,6 +34,23 @@ class OpenAlexError(RuntimeError):
     pass
 
 
+class OpenAlexBudgetError(OpenAlexError):
+    """Daily budget used up; retrying will not help until it resets."""
+
+
+class InvalidSelectError(OpenAlexError):
+    def __init__(self, message: str, valid: set[str]):
+        super().__init__(message)
+        self.valid = valid
+
+
+def valid_select_fields(message: str) -> set[str]:
+    m = re.search(r"Valid fields for select are:\s*(.+)", message)
+    if not m:
+        return set()
+    return {f.strip(" .") for f in m.group(1).split(",") if f.strip(" .")}
+
+
 class OpenAlex:
     def __init__(self, mailto: str | None = None, api_key: str | None = None,
                  session: requests.Session | None = None, pause: float = 0.12,
@@ -48,14 +65,21 @@ class OpenAlex:
         params = dict(params or {})
         if self.mailto:
             params["mailto"] = self.mailto
-        if self.api_key:
-            params["api_key"] = self.api_key
+        # Key goes in a header so it never appears in URLs, logs or error messages.
+        headers = {"Authorization": f"Bearer {self.api_key}"} if self.api_key else {}
         url = f"{BASE_URL}/{path.lstrip('/')}"
         for attempt in range(self.max_retries):
-            resp = self.session.get(url, params=params, timeout=60)
+            resp = self.session.get(url, params=params, headers=headers, timeout=60)
             if resp.status_code == 200:
                 time.sleep(self.pause)
                 return resp.json()
+            if resp.status_code == 429 and "budget" in resp.text.lower():
+                raise OpenAlexBudgetError(
+                    "OpenAlex daily budget used up. Set OPENALEX_API_KEY (free key: "
+                    "https://help.openalex.org/api/authentication/) or wait for the midnight UTC reset.")
+            if resp.status_code == 400 and "valid select field" in resp.text:
+                message = resp.json().get("message", resp.text)
+                raise InvalidSelectError(message, valid_select_fields(message))
             if resp.status_code in (429, 500, 502, 503, 504):
                 wait = 2 ** attempt
                 log.warning("OpenAlex %s -> %s, retrying in %ss", url, resp.status_code, wait)
@@ -79,9 +103,22 @@ class OpenAlex:
 
     def iter_works(self, filters: dict[str, str] | str, search: str | None = None,
                    fields: Iterable[str] = WORK_FIELDS) -> Iterator[dict]:
+        fields = list(fields)
         params: dict[str, Any] = {"filter": build_filter(filters), "select": ",".join(fields)}
         if search:
             params["search"] = search
+        try:
+            first = self.get("works", {**params, "per-page": 1})
+        except InvalidSelectError as exc:
+            # OpenAlex renames fields over time: keep the ones it still accepts.
+            if not exc.valid:
+                raise
+            dropped = [f for f in fields if f not in exc.valid]
+            log.warning("OpenAlex no longer accepts select fields %s; dropping them", dropped)
+            params["select"] = ",".join(f for f in fields if f in exc.valid)
+            WORK_FIELDS[:] = [f for f in WORK_FIELDS if f in exc.valid]
+        else:
+            del first
         yield from self.iter_results("works", params)
 
 

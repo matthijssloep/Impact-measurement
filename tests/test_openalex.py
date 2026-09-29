@@ -54,3 +54,28 @@ def test_flatten_work():
     assert row["award_ids"] == ["UVA 2014-7000"]
     assert row["top10pct"] is True
     assert flatten_work(WORK, iknl_ids={"I1234"})["has_iknl_author"] is False
+
+
+def test_valid_select_fields_parsed_from_error():
+    from impact.openalex import valid_select_fields
+    msg = ("grants is not a valid select field. Valid fields for select are: id, doi, title, "
+           "funders, awards.")
+    assert valid_select_fields(msg) == {"id", "doi", "title", "funders", "awards"}
+
+
+def test_invalid_select_is_dropped(monkeypatch):
+    from impact import openalex as oa
+    client = oa.OpenAlex(mailto="", api_key="", pause=0)
+    calls = []
+
+    def fake_get(path, params):
+        calls.append(params["select"])
+        if "grants" in params["select"]:
+            raise oa.InvalidSelectError("x", {"id", "title"})
+        return {"results": [{"id": "W1"}], "meta": {"next_cursor": None}}
+
+    monkeypatch.setattr(client, "get", fake_get)
+    monkeypatch.setattr(oa, "WORK_FIELDS", ["id", "title", "grants"])
+    works = list(client.iter_works("x:y", fields=["id", "title", "grants"]))
+    assert works == [{"id": "W1"}]
+    assert calls[-1] == "id,title"

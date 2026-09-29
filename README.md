@@ -38,10 +38,11 @@ them, so totals add up without double counting.
 ## Dashboard
 
 * Locally: `python scripts/run_pipeline.py site && streamlit run site/streamlit_app.py`
-* GitHub Pages: `.github/workflows/pages.yml` builds `site/` from the committed
-  Parquet files on every push to `main` and runs the same app in the browser
-  with [stlite](https://github.com/whitphx/stlite). Enable it once under
-  *Settings → Pages → Source: GitHub Actions*.
+* GitHub Pages: **https://matthijssloep.github.io/Impact-measurement/** (first load ~20 s: Python
+  starts in the browser via [stlite](https://github.com/whitphx/stlite)).
+  `.github/workflows/pages.yml` rebuilds `site/` from the committed Parquet files on every push to
+  `main`, publishes it to the `gh-pages` branch, then opens the live page in a browser
+  (`scripts/smoke_test_dashboard.py`) and uploads screenshots as the `dashboard-screenshots` artifact.
 
 ## Status
 

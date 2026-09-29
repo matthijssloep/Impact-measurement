@@ -1,15 +1,17 @@
 name: Deploy dashboard to GitHub Pages
 
+# Builds site/ from the committed Parquet tables and publishes it to the
+# gh-pages branch (Pages source: "Deploy from a branch", gh-pages / root).
+# Then opens the live dashboard in a browser to check that it works.
+
 on:
   push:
     branches: [main]
-    paths: ["site/**", "app/**", "data/processed/**", "src/**", ".github/workflows/pages.yml"]
+    paths: ["app/**", "data/processed/**", "src/**", "scripts/**", "requirements.txt", ".github/workflows/pages.yml"]
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
   group: pages
@@ -18,20 +20,49 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
       - run: pip install -r requirements.txt
-      - name: Build site from the committed Parquet tables
-        run: python scripts/run_pipeline.py site
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
+      - name: Build site
+        run: |
+          python scripts/run_pipeline.py site
+          touch site/.nojekyll
+          echo "$GITHUB_SHA" > site/version.txt
+      - name: Publish to gh-pages
+        run: |
+          cd site
+          git init -q -b gh-pages
+          git add -A
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -q -m "Publish dashboard from ${GITHUB_SHA::7}"
+          git push -q --force "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" gh-pages
+
+  smoke-test:
+    needs: deploy
+    runs-on: ubuntu-latest
+    env:
+      URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
-          path: site
-      - id: deployment
-        uses: actions/deploy-pages@v4
+          python-version: "3.11"
+      - run: pip install playwright && python -m playwright install --with-deps chromium
+      - name: Wait for GitHub Pages to serve this commit
+        run: |
+          for i in $(seq 1 60); do
+            served=$(curl -fsS "${URL}version.txt?nocache=$RANDOM" || true)
+            if [ "$served" = "$GITHUB_SHA" ]; then echo "Live: $served"; exit 0; fi
+            sleep 10
+          done
+          echo "Pages did not serve $GITHUB_SHA within 10 minutes (serving: ${served:-nothing})"; exit 1
+      - name: Open the dashboard in a browser
+        run: python scripts/smoke_test_dashboard.py "$URL" smoke-screenshots
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: dashboard-screenshots
+          path: smoke-screenshots

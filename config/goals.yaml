@@ -1,0 +1,271 @@
+# Netherlands Cancer Agenda 2.1 (Nederlands Kanker Collectief, July 2026): the 20 goals.
+# Source: https://nederlandskankercollectief.nl/app/uploads/2026/07/2026-0730-The-Netherlands-Cancer-Agenda-2.1.pdf
+#
+# `ambition` is the goal's 2032 statement from the agenda. Dutch titles are our own translation.
+# `featured` marks the agenda's featured goals, which have a published action plan.
+#
+# Keyword rules (see src/impact/goals.py):
+#   * matched case- and accent-insensitively on word boundaries; "re:" prefix = regular expression
+#   * a hit in a title scores 3, in an abstract/summary 1; an item needs a score of 2 or more
+#     (one title hit, or two different terms in the body)
+#   * keep terms specific: generic words ("cancer", "patients", "survival") would link everything
+#   * `exclude`: any hit vetoes the goal for that item
+
+goals:
+  # ---------------------------------------------------------------- Preventing cancer
+  - id: G01
+    theme: prevention
+    featured: true
+    title_en: Smoking behaviour
+    title_nl: Rookgedrag
+    ambition: By 2032, the number of smokers is reduced to 5% of adults and 0% of young people and pregnant women
+    keywords:
+      en: [smoking, smoker, smokers, tobacco, cigarette, cigarettes, e-cigarette, vaping, vape, nicotine,
+           smoking cessation, quit smoking, "re:\\bsmoke[- ]?free\\b", secondhand smoke, passive smoking]
+      nl: [roken, rookgedrag, rokers, tabak, sigaret, sigaretten, e-sigaret, vapen, nicotine, stoppen met roken,
+           rookvrij, rookvrije generatie, meeroken]
+
+  - id: G02
+    theme: prevention
+    title_en: Alcohol consumption
+    title_nl: Alcoholgebruik
+    ambition: By 2032, pregnant women and under-18s do not drink alcohol; among adults, 65% do not drink alcohol or no more than one glass a day
+    keywords:
+      en: [alcohol, alcohol consumption, alcohol use, drinking, binge drinking, ethanol, alcoholic beverages]
+      nl: [alcohol, alcoholgebruik, alcoholconsumptie, drankgebruik, binge drinken]
+    exclude: [alcohol-based, ethanol ablation, alcohol septal, drinking water]
+
+  - id: G03
+    theme: prevention
+    title_en: UV radiation
+    title_nl: UV-straling
+    ambition: By 2032, the number of people applying safe sun behaviour advice will have increased by at least 15%
+    keywords:
+      en: [ultraviolet, uv radiation, uv exposure, sun exposure, sunburn, sunscreen, sun protection, sunbed, sunbeds,
+           tanning, solar radiation, sun behaviour, sun behavior]
+      nl: [uv-straling, zonkracht, zonnebrand, zonnebrandcreme, zonbescherming, zonnebank, zonnebanken, zongedrag,
+           verbranden door de zon]
+
+  - id: G04
+    theme: prevention
+    title_en: Infectious diseases
+    title_nl: Infectieziekten
+    ambition: By 2032, infections with the HPV virus, and other infectious diseases that can lead to cancer, are prevented as much as possible
+    keywords:
+      en: [hpv, human papillomavirus, papillomavirus, hpv vaccination, hpv vaccine, helicobacter, h. pylori,
+           hepatitis b, hepatitis c, hbv, hcv, epstein-barr, ebv, hiv, oncogenic virus, oncovirus]
+      nl: [hpv-vaccinatie, humaan papillomavirus, baarmoederhalskankervaccin, hepatitis, infectieziekten]
+
+  - id: G05
+    theme: prevention
+    title_en: Environmental and air pollution
+    title_nl: Milieu- en luchtvervuiling
+    ambition: By 2032, people are less exposed to environmental and air pollution
+    keywords:
+      en: [air pollution, air quality, particulate matter, "re:\\bpm ?2\\.5\\b", "re:\\bpm ?10\\b", nitrogen dioxide,
+           environmental exposure, occupational exposure, radon, asbestos, pesticide, pesticides, pfas,
+           carcinogen, carcinogens, carcinogenic, diesel exhaust, pollution]
+      nl: [luchtvervuiling, luchtkwaliteit, fijnstof, stikstofdioxide, milieuvervuiling,
+           beroepsmatige blootstelling, asbest, bestrijdingsmiddelen, kankerverwekkend, kankerverwekkende stoffen]
+
+  - id: G06
+    theme: prevention
+    title_en: Nutrition and exercise
+    title_nl: Voeding en bewegen
+    ambition: By 2032, people eat healthier and exercise enough
+    keywords:
+      en: [diet, dietary, nutrition, nutritional, obesity, overweight, physical activity,
+           exercise, sedentary, red meat, processed meat, fruit and vegetables, fibre intake, fiber intake,
+           energy balance, weight gain]
+      nl: [voeding, voedingspatroon, dieet, overgewicht, obesitas, lichamelijke activiteit, bewegen, beweging,
+           sedentair gedrag, zitgedrag, rood vlees, bewerkt vlees, groente en fruit, gezond eten]
+
+  # ---------------------------------------------------------------- Early detection
+  - id: G07
+    theme: early_detection
+    title_en: Hereditary predisposition
+    title_nl: Erfelijke aanleg
+    ambition: By 2032, people who may have a hereditary predisposition can make informed choices for hereditary testing
+    keywords:
+      en: [hereditary, heritable, germline, familial cancer, family history, genetic counselling, genetic counseling,
+           genetic testing, predisposition, brca, brca1, brca2, lynch syndrome, mismatch repair deficiency carriers,
+           cascade testing]
+      nl: [erfelijk, erfelijkheid, erfelijke aanleg, erfelijkheidsonderzoek, erfelijkheidsadvies, familiaire kanker,
+           kiembaan, dragerschap, lynch-syndroom]
+
+  - id: G08
+    theme: early_detection
+    featured: true
+    title_en: Early detection
+    title_nl: Vroege opsporing
+    ambition: By 2032, disadvantages and barriers to participating in early cancer detection are reduced
+    keywords:
+      en: [screening, population screening, screening programme, screening program, early detection,
+           early diagnosis, mammography, mammographic, colonoscopy, fecal immunochemical test, faecal immunochemical test,
+           "re:\\bfit\\b[- ]positive", cervical screening, pap smear, screen-detected, interval cancer, interval cancers,
+           overdiagnosis, lung cancer screening, screening participation]
+      nl: [bevolkingsonderzoek, bevolkingsonderzoeken, screening, vroege opsporing, vroegopsporing, vroegdiagnostiek,
+           mammografie, darmonderzoek, ontlastingstest, uitstrijkje, zelfafnameset, intervalkanker]
+
+  # ---------------------------------------------------------------- Diagnostics, treatment, follow-up & palliative care
+  - id: G09
+    theme: care
+    featured: true
+    title_en: Diagnostics
+    title_nl: Diagnostiek
+    ambition: By 2032, people with cancer will have a personalised diagnosis (more) quickly with minimal burden
+    keywords:
+      en: [diagnostics, diagnostic accuracy, diagnostic performance, diagnostic pathway, time to diagnosis,
+           diagnostic interval, diagnostic delay, staging, imaging, pet-ct, pet/ct, mri, biopsy, pathology,
+           histopathology, molecular diagnostics, molecular testing, next-generation sequencing, ngs,
+           whole genome sequencing, liquid biopsy, circulating tumor dna, ctdna, biomarker, biomarkers,
+           radiology]
+      nl: [diagnostiek, diagnostisch, doorlooptijd, doorlooptijden, stadiering, beeldvorming, biopt,
+           pathologie, moleculaire diagnostiek, moleculaire testen, wgs, vloeibare biopsie, biomarker, biomarkers]
+
+  - id: G10
+    theme: care
+    title_en: Treatment
+    title_nl: Behandeling
+    ambition: By 2032, people with cancer will have access to the best possible personalised treatment with minimal burden
+    keywords:
+      en: [surgery, surgical, resection, chemotherapy, radiotherapy, radiation therapy,
+           chemoradiotherapy, immunotherapy, checkpoint inhibitor, targeted therapy, hormonal therapy, endocrine therapy,
+           adjuvant, neoadjuvant, systemic therapy, treatment outcomes, treatment variation, hospital variation,
+           practice variation, guideline adherence, de-escalation,
+           personalised treatment, personalized treatment, precision oncology, organ preservation]
+      nl: [chirurgie, operatie, resectie, chemotherapie, radiotherapie,
+           bestraling, immunotherapie, doelgerichte therapie, hormoontherapie, praktijkvariatie, ziekenhuisvariatie,
+           richtlijn, richtlijnen, gepersonaliseerde behandeling, zorg op maat]
+
+  - id: G11
+    theme: care
+    title_en: Innovations
+    title_nl: Innovaties
+    ambition: By 2032, innovative and effective diagnostic and treatment methods are more readily available
+    keywords:
+      en: [innovation, innovations, innovative, market access, reimbursement, health technology assessment, hta,
+           cost-effectiveness, cost effectiveness, expensive drugs, drug access, drug repurposing, off-label,
+           early access, conditional reimbursement,
+           budget impact, pricing]
+      nl: [innovatie, innovaties, innovatief, markttoegang, vergoeding, voorwaardelijke toelating, kosteneffectiviteit,
+           dure geneesmiddelen, doelmatigheid, zorgverzekeraars, pakketbeheer,
+           drug rediscovery, off-label]
+
+  - id: G12
+    theme: care
+    featured: true
+    title_en: Rare cancers
+    title_nl: Zeldzame kankers
+    ambition: By 2032, survival and quality of life of people with or after a rare form of cancer has improved
+    keywords:
+      en: [rare cancer, rare cancers, rare tumour, rare tumor, rare tumours, rare tumors, sarcoma, sarcomas,
+           mesothelioma, neuroendocrine, cholangiocarcinoma, biliary tract, small bowel, anal cancer,
+           penile cancer, vulvar cancer, thymoma, uveal melanoma, cancer of unknown primary, unknown primary,
+           gastrointestinal stromal, gist, adrenocortical, merkel cell]
+      nl: [zeldzame kanker, zeldzame kankers, zeldzame tumor, zeldzame tumoren, zeldzame vormen van kanker,
+           sarcoom, sarcomen, mesothelioom, neuro-endocriene, galwegkanker, dunnedarmkanker, anuskanker,
+           peniskanker, vulvakanker, onbekende primaire tumor, expertisecentrum, expertisecentra]
+
+  - id: G13
+    theme: care
+    title_en: Palliative care
+    title_nl: Palliatieve zorg
+    ambition: By 2032, people with incurable cancer will receive proactive palliative care and support based on their values, wishes and needs
+    keywords:
+      en: [palliative, palliative care, end of life, end-of-life, advance care planning, hospice, terminal,
+           incurable, last months of life, last year of life, place of death, euthanasia, best supportive care,
+           aggressive care near death, symptom burden]
+      nl: [palliatief, palliatieve, palliatieve zorg, levenseinde, laatste levensfase, proactieve zorgplanning,
+           hospice, ongeneeslijk, ongeneeslijke, euthanasie, plaats van overlijden, terminale]
+
+  - id: G14
+    theme: care
+    title_en: Lifestyle support
+    title_nl: Leefstijlondersteuning
+    ambition: By 2032, people with or after cancer are supported to maintain or acquire a healthy(er) lifestyle
+    keywords:
+      en: [lifestyle, lifestyle intervention, lifestyle support, lifestyle advice, prehabilitation, exercise intervention,
+           exercise programme, exercise program, physical fitness, dietary advice, dietitian, weight management,
+           healthy lifestyle, lifestyle after cancer, lifestyle during treatment, smoking cessation after diagnosis]
+      nl: [leefstijl, leefstijlinterventie, leefstijladvies, leefstijlondersteuning, prehabilitatie, gezonde leefstijl,
+           beweegprogramma, beweeginterventie, voedingsadvies, diëtist, dietist]
+
+  # ---------------------------------------------------------------- Quality of life
+  - id: G15
+    theme: quality_of_life
+    featured: true
+    title_en: (Late) effects
+    title_nl: (Late) gevolgen
+    ambition: By 2032, good care and support is available for people who live with or after cancer to prevent and reduce the impact of the (late) effects of cancer
+    keywords:
+      en: [late effects, long-term effects, late toxicity, long-term toxicity, side effects, adverse effects,
+           survivorship, survivors, cancer survivors, survivorship care, follow-up care, aftercare, quality of life,
+           health-related quality of life, hrqol, patient-reported outcomes, patient reported outcomes, proms,
+           fatigue, cancer-related fatigue, neuropathy, cardiotoxicity, cognitive impairment, fear of recurrence,
+           fear of cancer recurrence, psychological distress, sexual dysfunction, cancer rehabilitation]
+      nl: [late effecten, late gevolgen, langetermijngevolgen, bijwerkingen, overlevers, nazorg, kwaliteit van leven,
+           patiëntgerapporteerde uitkomsten, patientgerapporteerde uitkomsten, vermoeidheid, neuropathie,
+           angst voor terugkeer, revalidatie, oncologische revalidatie, profiles registry]
+
+  - id: G16
+    theme: quality_of_life
+    title_en: Education and cancer
+    title_nl: Onderwijs en kanker
+    ambition: By 2032, people living with or after cancer can be educated according to their own wishes, needs and coping ability
+    keywords:
+      en: [school, schooling, education, educational attainment, educational achievement, academic performance,
+           school performance, school absence, reskilling, vocational training]
+      nl: [onderwijs, school, scholing, schoolprestaties, schoolverzuim, omscholing]
+    exclude: [medical education, patient education, education level, educational level, level of education, opleidingsniveau]
+
+  - id: G17
+    theme: quality_of_life
+    featured: true
+    title_en: Work and cancer
+    title_nl: Werk en kanker
+    ambition: By 2032, people living with or after cancer will be able to work according to their own wishes, needs and ability to cope
+    keywords:
+      en: [return to work, work participation, employment, unemployment, sick leave, sickness absence, work ability,
+           work disability, occupational, workplace, employer, employers, job loss, productivity loss, labour market,
+           labor market, reintegration]
+      nl: [terugkeer naar werk, arbeidsparticipatie, re-integratie, reintegratie, ziekteverzuim, verzuim,
+           werkgever, werkgevers, arbeidsongeschiktheid, arbeidsmarkt, baanverlies, werkhervatting]
+    exclude: [occupational exposure]
+
+  - id: G18
+    theme: quality_of_life
+    title_en: Financial implications
+    title_nl: Financiële gevolgen
+    ambition: By 2032, people living with or after cancer experience as few negative financial consequences as possible
+    keywords:
+      en: [financial toxicity, financial burden, financial hardship, financial consequences, financial difficulties,
+           out-of-pocket, out of pocket costs, loss of income, income loss, insurance, mortgage, debt, debts,
+           socioeconomic consequences, poverty]
+      nl: [financiële gevolgen, financiele gevolgen, financiële problemen, financiele problemen, inkomensverlies,
+           eigen risico, eigen bijdrage, verzekering, hypotheek, schulden, armoede]
+
+  - id: G19
+    theme: quality_of_life
+    title_en: Loved ones and informal caregivers
+    title_nl: Naasten en mantelzorgers
+    ambition: By 2032, care and support for loved ones and informal caregivers is available
+    keywords:
+      en: [caregiver, caregivers, informal care, informal caregiver, informal caregivers, family caregivers,
+           carer, carers, partners of, bereavement, bereaved, grief, children of parents with cancer,
+           caregiver burden, loved ones]
+      nl: [mantelzorg, mantelzorger, mantelzorgers, naasten, naaste, partners van, nabestaanden, rouw,
+           kinderen van ouders met kanker, overbelasting]
+
+  - id: G20
+    theme: quality_of_life
+    title_en: Social-emotional support
+    title_nl: Sociaal-emotionele steun
+    ambition: In 2032, people with or after cancer and their loved ones feel socially and emotionally supported by society
+    keywords:
+      en: [social support, emotional support, psychosocial, psychosocial support, psychosocial care, peer support,
+           loneliness, social isolation, stigma, taboo, talking about cancer, social network, psycho-oncology,
+           psychooncology, communication about cancer, public awareness]
+      nl: [sociale steun, emotionele steun, psychosociaal, psychosociale, psychosociale zorg, lotgenoten,
+           lotgenotencontact, eenzaamheid, sociaal isolement, stigma, taboe, praten over kanker, inloophuis,
+           inloophuizen, psycho-oncologie]

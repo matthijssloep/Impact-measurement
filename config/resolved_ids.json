@@ -1,0 +1,19 @@
+{
+  "pinned": true,
+  "iknl_institutions": [
+    {
+      "id": "I4210142067",
+      "name": "Netherlands Comprehensive Cancer Organisation",
+      "ror": "https://ror.org/03g5hcd33",
+      "works_count": 4435
+    }
+  ],
+  "kwf_funders": [
+    {
+      "id": "F4320322777",
+      "name": "KWF Kankerbestrijding",
+      "ror": null,
+      "works_count": 11516
+    }
+  ]
+}

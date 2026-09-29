@@ -8,6 +8,8 @@ import pandas as pd
 
 from . import config
 
+OVERTON_BATCH = 1000  # identifiers per paste (also Overton's trial-account limit)
+
 
 def source_label(row) -> str:
     if row.has_iknl_author and row.is_kwf:
@@ -58,6 +60,19 @@ def write_overton(works: pd.DataFrame, work_goals: pd.DataFrame, out_dir: Path =
     for name, subset in subsets.items():
         subset[["identifier"]].to_csv(out_dir / name, index=False)
         written[name] = len(subset)
+    # Overton's paste box chokes on very long lists ("cannot parse response"), so also
+    # write plain-text batches: one identifier per line, no header, ready to copy.
+    batch_dir = out_dir / "overton_batches"
+    for old in batch_dir.glob("*.txt"):
+        old.unlink()
+    batch_dir.mkdir(exist_ok=True)
+    for name, subset in subsets.items():
+        stem = name.removeprefix("overton_upload_").removesuffix(".csv")
+        values = subset.identifier.tolist()
+        chunks = [values[i:i + OVERTON_BATCH] for i in range(0, len(values), OVERTON_BATCH)]
+        for n, chunk in enumerate(chunks, 1):
+            (batch_dir / f"{stem}_{n:02d}_of_{len(chunks):02d}.txt").write_text("\n".join(chunk) + "\n")
+        written[f"overton_batches/{stem}_*.txt"] = len(chunks)
 
     for col, name in (("doi", "dois.txt"), ("pmid", "pmids.txt")):
         values = sorted(table[col].dropna().unique())

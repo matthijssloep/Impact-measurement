@@ -46,6 +46,8 @@ def impact_per_goal(goals: pd.DataFrame, projects: pd.DataFrame, project_goals: 
             "share_oa": _wavg(wg.is_oa.astype(float), wg.weight),
             "policy_citations": float((wg.policy_citations.fillna(0) * wg.weight).sum())
             if "policy_citations" in wg else np.nan,
+            "share_policy": _wavg((wg.policy_citations.fillna(0) > 0).astype(float), wg.weight)
+            if "policy_citations" in wg else np.nan,
         })
     cols = [c for c in ["goal_id", "title_en", "title_nl", "theme", "featured", "ambition"] if c in goals]
     out = goals[cols].merge(pd.DataFrame(rows), on="goal_id")

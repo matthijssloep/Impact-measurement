@@ -9,7 +9,7 @@ import shutil
 import pandas as pd
 
 from . import config, export, fetch, goals as goals_mod, kwf, metrics
-from .openalex import OpenAlex
+from .openalex import OpenAlex, normalize_doi
 
 log = logging.getLogger(__name__)
 P = config.PROCESSED_DIR
@@ -193,7 +193,7 @@ APP_TABLES = {
                      "research_theme", "funding_partner",
                      "is_iknl", "iknl_involved", "url"],
     "works": ["openalex_id", "doi", "pmid", "title", "year", "journal", "cited_by_count", "fwci",
-              "top10pct", "is_oa", "has_iknl_author", "is_kwf", "kwf_evidence"],
+              "top10pct", "is_oa", "has_iknl_author", "is_kwf", "kwf_evidence", "policy_citations"],
     "work_projects": ["openalex_id", "project_id", "evidence"],
 }
 
@@ -220,9 +220,33 @@ def step_site() -> None:
     (config.SITE_DIR / "index.html").write_text(html)
 
 
+def step_overton() -> None:
+    """Add policy citations from Overton exports (data/overton/*.csv) to works.
+
+    Exports come from Overton's "Find your research via its DOI" search and list
+    only the articles cited in at least one policy document; every other article
+    that was searched gets 0.
+    """
+    files = sorted((config.DATA_DIR / "overton").glob("*.csv"))
+    works = _read("works")
+    if not files:
+        log.warning("No Overton exports in data/overton; skipping")
+        return
+    o = pd.concat([pd.read_csv(f, encoding="utf-8-sig", dtype=str) for f in files], ignore_index=True)
+    o["doi"] = o.DOI.map(normalize_doi)
+    o["pc"] = pd.to_numeric(o["Policy citation count"], errors="coerce")
+    pc = o.dropna(subset=["doi"]).groupby("doi").pc.max()
+    works["policy_citations"] = works.doi.map(pc).fillna(0).astype(int)
+    log.info("Overton: %d of %d works cited in policy (%d policy citations); %d exported DOIs not in works",
+             int((works.policy_citations > 0).sum()), len(works), int(works.policy_citations.sum()),
+             len(set(pc.index) - set(works.doi.dropna())))
+    _write(works, "works")
+
+
 STEPS = {
     "kwf": step_kwf,
     "openalex": step_openalex,
+    "overton": step_overton,
     "classify": step_classify,
     "metrics": step_metrics,
     "export": step_export,

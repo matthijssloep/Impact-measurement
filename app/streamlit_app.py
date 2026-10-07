@@ -46,7 +46,9 @@ MEASURES = {
     "share_top10": "Share in the top 10% most cited",
     "citations_per_meur": "Citations per € million",
     "policy_citations": "Policy citations (Overton)",
+    "share_policy": "Share cited in policy (Overton)",
 }
+RATIOS = ("mean_fwci", "share_top10", "share_policy")  # shown as bars, never as a log rose
 THEMES = {
     "prevention": "Preventing cancer",
     "early_detection": "Early detection",
@@ -68,11 +70,17 @@ full text next to "KWF" / "Dutch Cancer Society" (matches published before the p
 (weight 3) and abstracts/summaries (weight 1). A project or article can link to several goals; totals split it
 across them. Articles without a keyword match inherit the goals of the KWF project they are linked to.
 
+A grant-number match only counts when at least one author is at a Dutch institution.
+
 **Impact measures**: funding, projects, articles, citations, field-weighted citation impact (FWCI, 1.0 = world
-average), share in the top 10% most cited, and (once added) policy citations from Overton.
+average), share in the top 10% most cited, and policy citations from **Overton** (number of policy documents —
+guidelines, government and IGO reports, think-tank papers — citing an article; exported October 2026 via
+"Find your research via its DOI"). Policy uptake takes years, so shares are shown for articles published at least
+four years before the export.
 
 **Known limitations**: the grant-number search covered 248 of 1,029 projects so far; mean FWCI is sensitive to a
-few very highly cited papers; citations per € million compares articles since 2010 with funding since 2017.
+few very highly cited papers; citations per € million compares articles since 2010 with funding since 2017;
+Overton covers policy documents it indexes, so national documents that are not online are missed.
 """
 
 # ---------------------------------------------------------------- chart style
@@ -307,13 +315,59 @@ with tabs[0]:
         st.plotly_chart(sankey(pd.concat(flows), columns, node_colours, ",.0f").update_layout(height=760),
                         use_container_width=True)
 
-    # 3. Impact per NKC goal (rose chart)
-    st.subheader("3 · Impact per NKC goal")
+    has_policy = "policy_citations" in works and not works.empty
+    policy_cutoff = int(works.year.max()) - 4 if has_policy else None  # policy uptake takes years
+    if has_policy:
+        # 3. KWF-funded articles -> theme -> cited in policy or not
+        pol = pd.Series(np.where(works.policy_citations > 0, "Cited in policy", "Not (yet) cited in policy"),
+                        index=works.openalex_id)
+        wg = kwf_goals.assign(theme=kwf_goals.goal_id.map(goal_theme).map(THEMES),
+                              out=kwf_goals.openalex_id.map(pol))
+        total = f"KWF-funded articles ({len(works):,})"
+        order = {t: i for i, t in enumerate(theme_order)}
+        by_theme = wg.groupby("theme").weight.sum().sort_index(key=lambda i: i.map(order))
+        nog = pol[~pol.index.isin(kwf_goals.openalex_id)]
+        to_out = (wg.groupby(["theme", "out"], as_index=False).weight.sum()
+                  .sort_values(["theme", "out"], ascending=[True, True],
+                               key=lambda c: c.map(order) if c.name == "theme" else c))
+        nog_out = nog.value_counts()
+        policy_colour = {"Not (yet) cited in policy": "#d9d9d9", "Cited in policy": "#fde725"}
+        flows = pd.concat([
+            pd.DataFrame({"source": to_out.theme, "target": to_out.out, "value": to_out.weight,
+                          "colour": ["#e3c800" if o == "Cited in policy" else node_colours.get(t, "#999")
+                                     for t, o in zip(to_out.theme, to_out.out)]}),
+            pd.DataFrame({"source": NO_GOAL, "target": nog_out.index, "value": nog_out.values,
+                          "colour": ["#e3c800" if o == "Cited in policy" else THEME_COLOURS[None]
+                                     for o in nog_out.index]}),
+        ])
+        st.subheader("3 · From research to policy")
+        n_pol = int((works.policy_citations > 0).sum())
+        st.caption(f"The {len(works):,} KWF-funded articles by Agenda theme, and whether policy documents cite them: "
+                   f"{n_pol:,} articles are cited {int(works.policy_citations.sum()):,} times in policy (Overton).")
+        st.plotly_chart(sankey(flows, [theme_order, list(policy_colour)],
+                               {**node_colours, **policy_colour}, ",.0f")
+                        .update_layout(height=560), use_container_width=True)
+
+        # 4. Impact ladder
+        kk = works[works.year <= policy_cutoff]
+        steps = [("KWF-funded articles", len(kk)),
+                 ("Cited by other research", int((kk.cited_by_count > 0).sum())),
+                 ("Top 10% most cited in their field", int(kk.top10pct.sum())),
+                 ("Cited in policy", int((kk.policy_citations > 0).sum())),
+                 ("Cited in 3 or more policy documents", int((kk.policy_citations >= 3).sum()))]
+        fig = go.Figure(go.Funnel(y=[a for a, _ in steps], x=[b for _, b in steps], textinfo="value+percent initial",
+                                  marker=dict(color=["#3b528b", "#2c728e", "#21918c", "#5ec962", "#fde725"])))
+        fig.update_layout(template="plotly_white")
+        show(fig, "4 · Impact ladder: from publication to policy", 420)
+        st.caption(f"KWF-funded articles 2010–{policy_cutoff}; each step is a subset of the one above.")
+
+    # 5. Impact per NKC goal (rose chart)
+    st.subheader("5 · Impact per NKC goal")
     options = [m for m in MEASURES if m in impact and impact[m].notna().any()]
     c1, c2 = st.columns([3, 1])
     metric = c1.selectbox("Measure", options, format_func=MEASURES.get)
     view = c2.radio("View", ["Rose", "Bars"], horizontal=True)
-    if view == "Rose" and metric not in ("mean_fwci", "share_top10"):
+    if view == "Rose" and metric not in RATIOS:
         show_polar(polar(impact, metric, MEASURES[metric]))
         st.caption(POLAR_NOTE)
     else:
@@ -326,12 +380,79 @@ with tabs[0]:
             st.caption("Averages and shares are shown as bars; a log rose chart only suits counts and amounts.")
     st.caption(FRACTIONAL_NOTE)
 
+    if has_policy:
+        # 6. Most policy-cited KWF research
+        top = works.nlargest(12, "policy_citations").iloc[::-1]
+        top = top.assign(short=top.title.str.slice(0, 80) + np.where(top.title.str.len() > 80, "…", ""))
+        fig = go.Figure(go.Bar(x=top.policy_citations, y=top.short, orientation="h", text=top.policy_citations,
+                               textposition="outside", marker=dict(color=top.policy_citations, colorscale="Viridis"),
+                               customdata=top[["journal", "year", "doi"]],
+                               hovertemplate="%{y}<br>%{customdata[0]} (%{customdata[1]})<br>doi: %{customdata[2]}"
+                                             "<br>%{x} policy documents<extra></extra>"))
+        fig.update_layout(template="plotly_white", xaxis_title="Policy documents citing the article")
+        show(fig, "6 · KWF-funded research most cited in policy", 520)
+
 # ---------------------------------------------------------------- impact per goal (table)
 with tabs[1]:
+    if has_policy:
+        old = works[works.year <= policy_cutoff]
+        y = kwf_goals.merge(old[["openalex_id", "policy_citations", "fwci"]], on="openalex_id")
+        y["in_policy"] = (y.policy_citations > 0).astype(float)
+        avg = float((old.policy_citations > 0).mean() * 100)
+        per_goal = (y.groupby("goal_id")
+                    .apply(lambda d: pd.Series({"share": np.average(d.in_policy, weights=d.weight) * 100,
+                                                "n": d.weight.sum(), "pc": (d.policy_citations * d.weight).sum(),
+                                                "fwci": d.fwci.median()}), include_groups=False)
+                    .reset_index())
+        per_goal = per_goal[per_goal.n >= 5]
+        per_goal["label"] = per_goal.goal_id.map(labels)
+        per_goal["theme"] = per_goal.goal_id.map(goal_theme).map(THEMES)
+        theme_colours = {THEMES[k]: v for k, v in THEME_COLOURS.items() if k}
+
+        # Policy uptake per goal
+        d = per_goal.assign(num=per_goal.goal_id.str.extract(r"(\d+)", expand=False).astype(int)).sort_values(
+            "num", ascending=False)
+        fig = px.bar(d, x="share", y="label", orientation="h", color="theme", color_discrete_map=theme_colours,
+                     custom_data=["n", "pc"], template="plotly_white",
+                     labels={"share": "% of KWF-funded articles cited in policy", "label": "", "theme": ""})
+        fig.update_traces(hovertemplate="%{y}: %{x:.0f}% (n=%{customdata[0]:.0f}; "
+                                        "%{customdata[1]:.0f} policy citations)<extra></extra>")
+        fig.add_vline(x=avg, line_dash="dot", line_color="#666", annotation_text=f"KWF average {avg:.0f}%",
+                      annotation_position="top")
+        fig.update_layout(legend=dict(orientation="h", yanchor="top", y=-0.1, x=0))
+        show(fig, "Which goals reach policy?", 700)
+        st.caption(f"Share of KWF-funded articles (2010–{policy_cutoff}) cited in at least one policy document; "
+                   "goals with fewer than 5 articles left out.")
+
+        # Academic vs policy impact
+        fig = px.scatter(per_goal, x="fwci", y="share", size="n", color="theme", color_discrete_map=theme_colours,
+                         text=per_goal.goal_id.str.extract(r"(\d+)", expand=False).astype(int).astype(str),
+                         hover_name="label", size_max=45, template="plotly_white",
+                         labels={"fwci": "Academic impact: median FWCI", "share": "Policy uptake: % cited in policy",
+                                 "theme": "", "n": "Articles"})
+        fig.update_traces(textposition="middle center", textfont=dict(color="white", size=11),
+                          marker=dict(line=dict(width=1, color="white"), sizemin=18))
+        fig.update_layout(legend=dict(orientation="h", yanchor="top", y=-0.15, x=0))
+        fig.add_vline(x=1, line_dash="dot", line_color="#999")
+        fig.add_hline(y=avg, line_dash="dot", line_color="#999")
+        show(fig, "Academic impact versus policy impact per goal", 560)
+        st.caption("Bubble = NKC goal (number), size = number of KWF-funded articles. Dotted lines: world-average "
+                   "FWCI (1.0) and the KWF average policy uptake.")
+
+        # Uptake takes time
+        t = (works[works.year < works.year.max()].groupby("year").policy_citations
+             .apply(lambda s: (s > 0).mean() * 100).reset_index(name="share"))
+        fig = px.line(t, x="year", y="share", markers=True, template="plotly_white",
+                      labels={"share": "% cited in policy", "year": "Publication year"})
+        fig.update_traces(line=dict(width=2, color=VIRIDIS_TEAL), marker=dict(size=8))
+        show(fig, "Policy uptake takes time", 380)
+        st.caption("Share of KWF-funded articles cited in policy, by publication year: recent work has not had "
+                   "time to be picked up yet.")
+
     st.subheader("Impact per NKC goal (KWF-funded work)")
     cols = ["goal_id", "title_en", "theme", "featured", "ambition", "funding_eur", "funding_share", "projects",
             "projects_any", "articles", "articles_any", "citations", "mean_fwci", "share_top10", "share_oa",
-            "citations_per_meur", "policy_citations"]
+            "citations_per_meur", "policy_citations", "share_policy"]
     table = impact[[c for c in cols if c in impact]].copy()
     st.dataframe(table, use_container_width=True, hide_index=True)
     download_csv(table, "impact_per_goal_kwf.csv")
@@ -422,7 +543,7 @@ with tabs[2]:
         d = (wa[wa.year <= cutoff].groupby("group")
              .agg(median_fwci=("fwci", "median"), top10=("top10pct", "mean"), n=("openalex_id", "size"))
              .reindex(list(GROUP_COLOURS)).reset_index())
-        c1, c2 = st.columns(2)
+        c1, c2, c3 = st.columns(3)
         with c1:
             fig = go.Figure(go.Bar(x=d.group, y=d.median_fwci, marker_color=[GROUP_COLOURS[g] for g in d.group],
                                    text=d.median_fwci.round(2), textposition="outside", customdata=d.n,
@@ -437,7 +558,18 @@ with tabs[2]:
             fig.add_hline(y=10, line_dash="dot", line_color="#999")
             fig.update_layout(template="plotly_white", yaxis_title="% in top 10% most cited")
             show(fig, "\u00a0", 400)
-        st.caption(f"Articles 2010–{cutoff}. Dotted line = world average (FWCI 1.0; 10% in the top 10%).")
+        with c3:
+            if "policy_citations" in wa:
+                pol_cut = int(wa.year.max()) - 4
+                pp = (wa[wa.year <= pol_cut].groupby("group").policy_citations
+                      .apply(lambda s: (s > 0).mean() * 100).reindex(list(GROUP_COLOURS)))
+                fig = go.Figure(go.Bar(x=pp.index, y=pp.values, marker_color=[GROUP_COLOURS[g] for g in pp.index],
+                                       text=[f"{v:.0f}%" for v in pp.values], textposition="outside",
+                                       hovertemplate="%{x}: %{y:.0f}% cited in policy<extra></extra>"))
+                fig.update_layout(template="plotly_white", yaxis_title="% cited in policy (Overton)")
+                show(fig, "\u00a0", 400)
+        st.caption(f"Articles 2010–{cutoff} (policy: 2010–{int(wa.year.max()) - 4}). Dotted line = world average "
+                   "(FWCI 1.0; 10% in the top 10%).")
 
         # E · partner institutions
         partners = load("iknl_kwf_partners")

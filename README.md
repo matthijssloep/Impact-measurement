@@ -30,6 +30,7 @@ python scripts/run_pipeline.py kwf openalex classify metrics export site
 | `classify` | `goals`, `project_goals`, `work_goals` |
 | `metrics` | `impact_per_goal`, `goal_year_trend` |
 | `export` | `data/export/overton_works.csv`, `dois.txt`, `pmids.txt`, `iknl_orcids.txt` |
+| `overton` | adds `policy_citations` to `works` from Overton exports in `data/overton/*.csv` |
 | `site` | `site/` (app + CSV tables + `index.html`) for GitHub Pages |
 
 Goal totals are **fractional**: an item linked to several goals is split across
@@ -56,6 +57,9 @@ them, so totals add up without double counting.
       (3,749 IKNL, 8,898 KWF-funded, 419 both); Overton lists in `data/export/`
 - [x] Grant-number full-text matches kept only with a Dutch-affiliated author and published
       from the project's start year (removed false matches such as groundwater studies)
+- [x] Overton policy citations (export Oct 2026, `data/overton/`): 1,787 articles cited in policy
+      (4,598 citations); dashboard shows research → policy Sankey, impact ladder, policy uptake per goal,
+      academic vs policy impact, uptake over time and most policy-cited KWF research
 - [ ] Grant-number full-text search: 248 of 1,029 project numbers done (OpenAlex daily budget);
       rerun `python scripts/run_pipeline.py openalex classify metrics export site` to resume
 - [ ] Known limitations: mean FWCI is skewed by outliers (use median); citations per €M

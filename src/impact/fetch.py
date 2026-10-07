@@ -150,3 +150,18 @@ def match_awards_to_projects(works: pd.DataFrame, project_numbers: list[str],
                 rows.append({"openalex_id": rec.openalex_id, "project_number": project,
                              "evidence": "openalex_award_id"})
     return pd.DataFrame(rows, columns=["openalex_id", "project_number", "evidence"]).drop_duplicates()
+
+
+def fetch_countries(client: OpenAlex, openalex_ids: list[str]) -> dict[str, list[str]]:
+    """Affiliation country codes per work, for works stored before countries were kept."""
+    out: dict[str, list[str]] = {}
+    ids = sorted(set(openalex_ids))
+    for i in range(0, len(ids), 50):
+        flt = f"openalex_id:{'|'.join(ids[i:i + 50])}"
+        for w in client.iter_works(flt, fields=["id", "authorships"]):
+            codes = {c for a in w.get("authorships") or [] for c in a.get("countries") or [] if c}
+            codes |= {inst.get("country_code") for a in w.get("authorships") or []
+                      for inst in a.get("institutions") or [] if inst.get("country_code")}
+            out[short_id(w["id"])] = sorted(codes)
+    return out
+

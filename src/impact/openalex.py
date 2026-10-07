@@ -200,7 +200,7 @@ def funding_entries(work: dict) -> list[dict[str, str | None]]:
 def flatten_work(work: dict, iknl_ids: set[str] | None = None) -> dict:
     iknl_ids = iknl_ids or set()
     authorships = work.get("authorships") or []
-    authors, orcids, iknl_orcids, institutions = [], [], [], set()
+    authors, orcids, iknl_orcids, institutions, countries = [], [], [], set(), set()
     has_iknl = False
     for a in authorships:
         author = a.get("author") or {}
@@ -209,8 +209,11 @@ def flatten_work(work: dict, iknl_ids: set[str] | None = None) -> dict:
         if orcid:
             orcids.append(orcid)
         inst_ids = set()
+        countries.update(c for c in a.get("countries") or [] if c)
         for inst in a.get("institutions") or []:
             institutions.add(inst.get("display_name"))
+            if inst.get("country_code"):
+                countries.add(inst["country_code"])
             inst_ids.add(short_id(inst.get("id")))
             inst_ids.update(short_id(x) for x in inst.get("lineage") or [])
         if inst_ids & iknl_ids:
@@ -246,6 +249,7 @@ def flatten_work(work: dict, iknl_ids: set[str] | None = None) -> dict:
         "orcids": sorted(set(orcids)),
         "iknl_orcids": sorted(set(iknl_orcids)),
         "institutions": sorted(x for x in institutions if x),
+        "countries": sorted(countries),  # ISO codes of author affiliations
         "has_iknl_author": has_iknl,
         "funder_ids": sorted({f["funder_id"] for f in funding if f["funder_id"]}),
         "funder_names": sorted({f["funder_name"] for f in funding if f["funder_name"]}),

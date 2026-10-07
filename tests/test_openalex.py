@@ -88,3 +88,16 @@ def test_match_awards_only_kwf():
         ["F1|KWF 10895"], ["F2|10895"], ["F1|KUN 2015-7970", "F1|11788"]]})
     out = match_awards_to_projects(works, ["10895", "11788"], ["F1"])
     assert sorted(zip(out.openalex_id, out.project_number)) == [("W1", "10895"), ("W3", "11788")]
+
+
+def test_grant_number_hits_need_dutch_author_and_timing():
+    import pandas as pd
+    from impact.pipeline import assemble_works
+    projects = pd.DataFrame({"project_id": [1], "project_number": ["10004"], "start_year": [2018]})
+    base = {"has_iknl_author": False, "funder_awards": [[]] * 3, "year": [2019, 2019, 2015]}
+    hits = pd.DataFrame({"openalex_id": ["W1", "W2", "W3"], "kwf_project_number": ["10004"] * 3,
+                         "countries": [["NL", "BE"], ["EG"], ["NL"]], **base})
+    empty = pd.DataFrame(columns=["openalex_id", "funder_awards", "has_iknl_author", "year"])
+    works, links = assemble_works(empty, empty, hits, projects, ["F1"])
+    assert works.openalex_id.tolist() == ["W1"]          # W2: no Dutch author, W3: before project start
+    assert links.project_number.tolist() == ["10004"]

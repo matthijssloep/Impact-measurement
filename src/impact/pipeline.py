@@ -58,6 +58,12 @@ def step_openalex(start_year: int | None = None) -> None:
     done = set(json.loads(done_path.read_text())) if done_path.exists() else set()
     new_hits, searched = fetch.fetch_grant_number_works(client, numbers, iknl_ids, start_year, done)
     by_number = pd.concat([previous, new_hits], ignore_index=True)
+    if not by_number.empty:  # hits cached before countries were stored
+        missing = by_number.get("countries", pd.Series(index=by_number.index, dtype=object)).isna()
+        if missing.any():
+            found = fetch.fetch_countries(client, by_number.openalex_id[missing].tolist())
+            by_number.loc[missing, "countries"] = by_number.openalex_id[missing].map(
+                lambda i: found.get(i, []))
     if not by_number.empty:
         by_number = by_number.drop_duplicates(["openalex_id", "kwf_project_number"])
         _write(by_number, "grant_search_hits")
@@ -75,10 +81,18 @@ def assemble_works(iknl: pd.DataFrame, funded: pd.DataFrame, by_number: pd.DataF
                    projects: pd.DataFrame, funder_ids: list[str]) -> tuple[pd.DataFrame, pd.DataFrame]:
     """Combine the three OpenAlex pulls into one works table plus article -> project links.
 
-    Full-text grant-number hits published before the project's start year are
-    dropped: a number that appears before the grant existed is a coincidence.
+    Full-text grant-number hits are only kept when they are plausible:
+    * at least one author at a Dutch institution (KWF funds research in the
+      Netherlands; without this, any paper with a 5-digit number and "KWF"
+      somewhere in its text matched, e.g. groundwater studies), and
+    * published in or after the project's start year.
     """
     numbers = projects.project_number.dropna().tolist()
+    if not by_number.empty and "countries" in by_number:
+        dutch = by_number.countries.map(lambda c: "NL" in list(c) if c is not None else False)
+        log.info("Grant-number hits: dropping %d of %d without a Dutch author",
+                 int((~dutch).sum()), len(by_number))
+        by_number = by_number[dutch.astype(bool)]
     if not by_number.empty:
         start = by_number.kwf_project_number.map(projects.set_index("project_number").start_year)
         keep = start.isna() | (by_number.year >= start)

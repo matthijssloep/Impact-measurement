@@ -75,6 +75,15 @@ def write_overton(works: pd.DataFrame, work_goals: pd.DataFrame, out_dir: Path =
     (batch_dir / "brackets_doi_try_separately.txt").write_text("\n".join(ids.identifier[brackets]) + "\n")
     written["overton_batches/brackets_doi_try_separately.txt"] = int(brackets.sum())
     (batch_dir / "test_20.txt").write_text("\n".join(ids.identifier[~brackets].head(20)) + "\n")
+    # Sanity check for Overton: 25 highly cited KWF articles in major clinical journals,
+    # which are very likely cited in guidelines or policy. Zero matches here means the
+    # list was not read as intended.
+    kwf_doi = table[table.source.str.contains("KWF") & table.doi.notna() & ~table.doi.str.contains(r"[()\[\]]")]
+    journals = r"New England|Lancet|JAMA|Journal of Clinical Oncology|BMJ|Annals of Oncology|European Journal of Cancer"
+    likely = (kwf_doi.merge(works[["openalex_id", "journal", "cited_by_count"]], on="openalex_id")
+              .loc[lambda d: d.journal.fillna("").str.contains(journals, case=False)]
+              .nlargest(25, "cited_by_count").doi)
+    (batch_dir / "test_likely_policy_cited_25.txt").write_text("\n".join(likely) + "\n")
     # Overton's box takes DOIs *or* PubMed IDs: a list mixing both fails, so write them apart.
     for name, subset in subsets.items():
         stem = name.removeprefix("overton_upload_").removesuffix(".csv")
